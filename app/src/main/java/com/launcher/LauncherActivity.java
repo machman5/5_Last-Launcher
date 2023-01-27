@@ -101,6 +101,12 @@ import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 
 import com.launcher.utils.Constants;
 
+//TODO ic launcher
+//TODO firebase
+
+//done
+//package name
+
 public class LauncherActivity extends Activity implements View.OnClickListener,
         View.OnLongClickListener,
         Gestures.OnSwipeListener {

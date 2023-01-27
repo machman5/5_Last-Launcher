@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.roy93group.quicklauncher"
         minSdkVersion 14
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 20230127
         versionName "2023.01.27"
         buildConfigField "boolean", "enableColorSniffer", "false"

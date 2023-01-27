@@ -59,7 +59,7 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
-    namespace 'io.github.subhamtyagi.lastlauncher'
+    namespace 'com'
 }
 
 dependencies {

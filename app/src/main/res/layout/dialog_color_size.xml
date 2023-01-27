@@ -22,7 +22,7 @@
     android:orientation="vertical">
 
 
-    <io.github.subhamtyagi.lastlauncher.views.colorseekbar.ColorSeekBar
+    <com.launcher.views.colorseekbar.ColorSeekBar
         android:id="@+id/colorSlider1"
         app:colorSeeds="@array/material_colors1"
         android:layout_width="match_parent"

@@ -101,26 +101,6 @@ import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 
 import com.launcher.utils.Constants;
 
-/**
- * --------------------------------------------------------------------------
- * People can criticise me all the time they want,
- * by this is what I am and I won't change the way I live for them.
- * I live the way I want to flow.
- * -------------------------------------------------------------------------
- * -
- * If we don’t transform the world, who will? If not now, when?
- * If you have something to give, give it now
- * -
- * Do your little bit of good where you are;
- * it’s those little bits of good put together that overwhelm the world."
- * -
- * Don’t just think, do it. Now it is you turn,  do it now, go fast and open pull request
- * -
- * ----------------------------------------------------------------------------
- * This Activity extends the api 14 Activity Class not latest AppCompatActivity
- * Reason: Small apk size
- */
-@SuppressLint("NonConstantResourceId")
 public class LauncherActivity extends Activity implements View.OnClickListener,
         View.OnLongClickListener,
         Gestures.OnSwipeListener {

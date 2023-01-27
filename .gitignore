@@ -96,7 +96,6 @@ fastlane/readme.md
 *.hprof
 *.alloc
 
-#todo file
 todo.txt
 
 

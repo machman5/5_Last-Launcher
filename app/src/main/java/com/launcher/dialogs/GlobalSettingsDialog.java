@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.BuildConfig;
 import com.R;
 import com.launcher.LauncherActivity;
+
 import com.launcher.model.Apps;
 import com.launcher.utils.Constants;
 import com.launcher.utils.DbUtils;

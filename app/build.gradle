@@ -1,29 +1,27 @@
 apply plugin: 'com.android.application'
 
-
 android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "io.github.subhamtyagi.lastlauncher"
+        applicationId "com.roy93group.quicklauncher"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 19
-        versionName "0.19"
-        //resConfigs "en", "de"
+        versionCode 20230127
+        versionName "2023.01.27"
         buildConfigField "boolean", "enableColorSniffer", "false"
     }
     buildTypes {
         debug {
             def workingBranch = getGitWorkingBranch()
             def normalizedWorkingBranch = workingBranch.replaceFirst("^[^A-Za-z]+", "").replaceAll("[^0-9A-Za-z]+", "")
-            if (normalizedWorkingBranch.isEmpty() || workingBranch == "master" ) {
+            if (normalizedWorkingBranch.isEmpty() || workingBranch == "master") {
                 applicationIdSuffix ".debug"
-                resValue "string", "app_name", "Last Launcher Dev"
+                resValue "string", "app_name", "Quick Launcher Dev"
             } else {
-                archivesBaseName = 'Last_Launcher_' + normalizedWorkingBranch
+                archivesBaseName = 'Quick_Launcher_' + normalizedWorkingBranch
                 applicationIdSuffix ".debug." + normalizedWorkingBranch
-                resValue "string", "app_name", "Last Launcher-" + workingBranch
+                resValue "string", "app_name", "Quick Launcher-" + workingBranch
             }
 
             debuggable true
@@ -31,7 +29,6 @@ android {
             versionNameSuffix "-debug"
             minifyEnabled false
             shrinkResources false
-
         }
         release {
             debuggable false
@@ -39,7 +36,7 @@ android {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
-            resValue "string", "app_name", "Last Launcher"
+            resValue "string", "app_name", "Quick Launcher"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -49,12 +46,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-
     applicationVariants.all { variant ->
         variant.outputs.all {
             def date = new Date()
             def formattedDate = date.format('yyyyMMddHHmmss')
-            outputFileName = "Last-Launcher-${variant.name}-${variant.versionName}-${formattedDate}.apk"
+            outputFileName = "Quick-Launcher-${variant.name}-${variant.versionName}-${formattedDate}.apk"
         }
     }
     packagingOptions {
@@ -69,13 +65,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':flowlayout:layouts')
-
-    //https://github.com/promeG/TinyPinyin
-    implementation 'com.github.promeg:tinypinyin:2.0.3' // Core lib of TinyPinyin, it is only 80KB.
-
+    implementation 'com.github.promeg:tinypinyin:2.0.3'
     testImplementation 'junit:junit:4.13.2'
-
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }
 
 static String getGitWorkingBranch() {

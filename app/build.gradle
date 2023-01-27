@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 33
@@ -66,8 +67,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':flowlayout:layouts')
     implementation 'com.github.promeg:tinypinyin:2.0.3'
-    testImplementation 'junit:junit:4.13.2'
+//    testImplementation 'junit:junit:4.13.2'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+    api 'org.jetbrains.kotlin:kotlin-stdlib:1.8.0'
 }
 
 static String getGitWorkingBranch() {

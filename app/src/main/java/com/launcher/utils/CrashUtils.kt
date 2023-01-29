@@ -1,124 +1,108 @@
-/*
- * Last Launcher
- * Copyright (C) 2019,2020 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package com.launcher.utils
 
-package com.launcher.utils;
-
-import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import android.content.Context
+import android.text.TextUtils
+import android.util.Log
+import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 //ONLY included in DEBUG BUILD:
-public class CrashUtils implements Thread.UncaughtExceptionHandler {
+class CrashUtils(
+    context: Context,
+    crashReportSavePath: String
+) : Thread.UncaughtExceptionHandler {
 
-    private static final String EXCEPTION_SUFFIX = "_exception";
-    private static final String CRASH_SUFFIX = "_crash";
-    private static final String FILE_EXTENSION = ".txt";
-    private static final String CRASH_REPORT_DIR = "crashReports";
-
-    private static final String TAG = "CrashUtils";
-
-
-    private final Thread.UncaughtExceptionHandler exceptionHandler;
-
-    private final Context applicationContext;
-    private final String crashReportPath;
-
-    public CrashUtils(Context context, String crashReportSavePath) {
-        this.exceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
-        applicationContext = context;
-        crashReportPath = crashReportSavePath;
-        if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof CrashUtils)) {
-            Thread.setDefaultUncaughtExceptionHandler(this);
+    companion object {
+        private const val EXCEPTION_SUFFIX = "_exception"
+        private const val CRASH_SUFFIX = "_crash"
+        private const val FILE_EXTENSION = ".txt"
+        private const val CRASH_REPORT_DIR = "crashReports"
+        private const val TAG = "CrashUtils"
+        private fun getStackTrace(e: Throwable): String {
+            val result: Writer = StringWriter()
+            val printWriter = PrintWriter(result)
+            e.printStackTrace(printWriter)
+            val crashLog = result.toString()
+            printWriter.close()
+            return crashLog
         }
     }
 
-    private static String getStackTrace(Throwable e) {
-        final Writer result = new StringWriter();
-        final PrintWriter printWriter = new PrintWriter(result);
-        e.printStackTrace(printWriter);
-        String crashLog = result.toString();
-        printWriter.close();
-        return crashLog;
+    private val exceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
+    private val applicationContext: Context = context
+    private val crashReportPath = crashReportSavePath
+
+    init {
+        if (Thread.getDefaultUncaughtExceptionHandler() !is CrashUtils) {
+            Thread.setDefaultUncaughtExceptionHandler(this)
+        }
     }
 
-    @Override
-    public void uncaughtException(Thread thread, Throwable throwable) {
-        saveCrashReport(throwable);
-        exceptionHandler.uncaughtException(thread, throwable);
+    override fun uncaughtException(
+        thread: Thread,
+        throwable: Throwable
+    ) {
+        saveCrashReport(throwable)
+        exceptionHandler?.uncaughtException(thread, throwable)
     }
 
-    private void saveCrashReport(final Throwable throwable) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String filename = dateFormat.format(new Date()) + CRASH_SUFFIX + FILE_EXTENSION;
-        writeToFile(crashReportPath, filename, getStackTrace(throwable));
-
+    private fun saveCrashReport(throwable: Throwable) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val filename = dateFormat.format(Date()) + CRASH_SUFFIX + FILE_EXTENSION
+        writeToFile(crashReportPath, filename, getStackTrace(throwable))
     }
 
-    private void writeToFile(String crashReportPath, String filename, String crashLog) {
-
+    private fun writeToFile(
+        crashReportPath: String,
+        filename: String,
+        crashLog: String
+    ) {
+        var crashReportPath = crashReportPath
         if (TextUtils.isEmpty(crashReportPath)) {
-            crashReportPath = getDefaultPath();
+            crashReportPath = defaultPath
         }
-
-        File crashDir = new File(crashReportPath);
-        if (!crashDir.exists() || !crashDir.isDirectory()) {
-            crashReportPath = getDefaultPath();
-            Log.e(TAG, "Path provided doesn't exists : " + crashDir + "\nSaving crash report at : " + getDefaultPath());
+        val crashDir = File(crashReportPath)
+        if (!crashDir.exists() || !crashDir.isDirectory) {
+            crashReportPath = defaultPath
+            Log.e(
+                TAG, """
+     Path provided doesn't exists : $crashDir
+     Saving crash report at : $defaultPath
+     """.trimIndent()
+            )
         }
-
-        BufferedWriter bufferedWriter;
+        val bufferedWriter: BufferedWriter
         try {
-            bufferedWriter = new BufferedWriter(new FileWriter(
-                    crashReportPath + File.separator + filename));
-
-            bufferedWriter.write(crashLog);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            Log.d(TAG, "crash report saved in : " + crashReportPath);
-        } catch (Exception e) {
-            e.printStackTrace();
+            bufferedWriter = BufferedWriter(
+                FileWriter(
+                    crashReportPath + File.separator + filename
+                )
+            )
+            bufferedWriter.write(crashLog)
+            bufferedWriter.flush()
+            bufferedWriter.close()
+            Log.d(TAG, "crash report saved in : $crashReportPath")
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    private String getDefaultPath() {
-        String defaultPath = applicationContext.getExternalFilesDir(null).getAbsolutePath()
-                + File.separator + CRASH_REPORT_DIR;
-        File file = new File(defaultPath);
-        file.mkdirs();
-        return defaultPath;
-    }
+    private val defaultPath: String
+        get() {
+            val defaultPath = (applicationContext.getExternalFilesDir(null)!!.absolutePath
+                    + File.separator + CRASH_REPORT_DIR)
+            val file = File(defaultPath)
+            file.mkdirs()
+            return defaultPath
+        }
 
-    public void logException(final Exception exception) {
-        new Thread(() -> {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            final String filename = dateFormat.format(new Date()) + EXCEPTION_SUFFIX + FILE_EXTENSION;
-            writeToFile(crashReportPath, filename, getStackTrace(exception));
-        }).start();
+    @Suppress("unused")
+    fun logException(exception: Exception) {
+        Thread {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val filename = dateFormat.format(Date()) + EXCEPTION_SUFFIX + FILE_EXTENSION
+            writeToFile(crashReportPath, filename, getStackTrace(exception))
+        }.start()
     }
-
 }

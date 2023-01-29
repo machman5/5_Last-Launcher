@@ -1,71 +1,50 @@
-/*
- * Last Launcher
- * Copyright (C) 2019,2020 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package com.launcher.utils
 
-package com.launcher.utils;
-
-import android.content.Context;
-import android.content.Intent;
-
-import java.util.ArrayList;
-
-import com.launcher.model.Shortcut;
+import android.content.Context
+import android.content.Intent
+import com.launcher.model.Shortcut
 
 /**
  * This class manages Shortcut installed by user
  * most of the methods are now wrapper to Database
  */
-public class ShortcutUtils {
+class ShortcutUtils(context: Context?) {
+    private var db: Database? = null
 
-    private Database db;
-
-    public ShortcutUtils(Context context) {
+    init {
         if (null == db) {
-            synchronized (ShortcutUtils.class) {
+            synchronized(ShortcutUtils::class.java) {
                 if (null == db) {
-                    db = new Database(context);
+                    db = Database(context)
                 }
             }
         }
     }
 
-    public void close() {
-        db.close();
+    fun close() {
+        db?.close()
     }
 
-    private void checkDB() throws Throwable {
+    @Throws(Throwable::class)
+    @Suppress("unused")
+    private fun checkDB() {
         if (db == null) {
-            throw new Throwable("Db is null");
+            throw Throwable("Db is null")
         }
     }
 
-    public ArrayList<Shortcut> getAllShortcuts() {
-        return db.getAllShortcuts();
-    }
+    val allShortcuts: ArrayList<Shortcut>
+        get() {
+            return db?.allShortcuts ?: ArrayList()
+        }
 
     /**
      * Add new shortcut
      *
      * @param shortcut instance of shortcut to be added
      */
-
-    public void addShortcut(Shortcut shortcut) {
-
-        db.insertShortcut(shortcut.getName(), shortcut.getUri());
+    fun addShortcut(shortcut: Shortcut) {
+        db?.insertShortcut(shortcut.name, shortcut.uri)
     }
 
     /**
@@ -73,12 +52,9 @@ public class ShortcutUtils {
      *
      * @param shortcut to be removed
      */
-
-
-    public void removeShortcut(Shortcut shortcut) {
-        db.deleteShortcuts(shortcut.getName());
+    fun removeShortcut(shortcut: Shortcut) {
+        db?.deleteShortcuts(shortcut.name)
     }
-
 
     /**
      * return true if shortcut is already install
@@ -86,30 +62,23 @@ public class ShortcutUtils {
      * @param name uri of shortcut
      * @return true if already installed
      */
-    public boolean isShortcutAlreadyAvailable(String name) {
-        return db.shortcutsExists(name);
+    fun isShortcutAlreadyAvailable(name: String): Boolean {
+        return db?.shortcutsExists(name) ?: false
     }
 
-
-    /**
-     * number of shortcut installed
-     *
-     * @return number of shortcut installed in this launcher
-     */
-    public int getShortcutCounts() {
-        return db.getShortcutsCounts();
+    fun getShortcutCounts(): Int {
+        return db?.shortcutsCounts ?: 0
     }
 
-    public boolean isShortcutToApp(String uri) {
+    fun isShortcutToApp(uri: String?): Boolean {
         try {
-            Intent intent = Intent.parseUri(uri, 0);
-            if (intent.getCategories() != null && intent.getCategories().contains(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(intent.getAction())) {
-                return true;
+            val intent = Intent.parseUri(uri, 0)
+            if (intent.categories != null && intent.categories.contains(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN == intent.action) {
+                return true
             }
-        } catch (Exception e) {
-            return false;
+        } catch (e: Exception) {
+            return false
         }
-        return false;
+        return false
     }
-
 }

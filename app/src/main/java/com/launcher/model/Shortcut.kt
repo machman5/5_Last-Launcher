@@ -1,33 +1,15 @@
-package com.launcher.model;
+package com.launcher.model
 
-public class Shortcut {
+class Shortcut {
+    var name: String = ""
+    var uri: String = ""
 
-    private String name;
-    private String uri;
-
-    public Shortcut() {
-
+    constructor()
+    constructor(
+        name: String,
+        uris: String
+    ) {
+        this.name = name
+        uri = uris
     }
-
-    public Shortcut(String name, String uris) {
-        this.name = name;
-        this.uri = uris;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
 }

@@ -1,219 +1,155 @@
-/*
- * Last Launcher
- * Copyright (C) 2019 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package com.launcher.model
 
-package com.launcher.model;
-
-import android.view.View;
-
-import com.launcher.utils.DbUtils;
-import com.launcher.utils.Utils;
-import com.launcher.views.textview.AppTextView;
-
+import android.view.View
+import com.launcher.utils.DbUtils
+import com.launcher.utils.DbUtils.freezeAppSize
+import com.launcher.utils.DbUtils.hideApp
+import com.launcher.utils.DbUtils.putAppSize
+import com.launcher.utils.DbUtils.setCategories
+import com.launcher.utils.DbUtils.setOpeningCounts
+import com.launcher.utils.Utils.Companion.hash
+import com.launcher.views.textview.AppTextView
 
 // a model class that hold everything related to an app
-public class Apps {
-
+class Apps(// tell whether this is a shortcut or not if this is shortcut then activity field wll holds the Uri not an activity
+    val isShortcut: Boolean,
+    activity: String, // app name to shown on screen
+    private var appName: String, // a text view or a subclass of TextView
+    val textView: AppTextView, // app text color
+    private var color: Int, // app text size
+    private var size: Int,
+    isAppHidden: Boolean,
+    isSizeFrozen: Boolean,
+    openingCounts: Int, // last updated date and time
+    var updateTime: Int
+) {
     // App activity name format package.name/package.name.ClassName
     // For eg. com.example.app_name/com.example.app_name.MainActivity
     // For eg  io.github.subhamtyagi.lastlauncher/io.github.subhamtyagi.lastlauncher.LauncherActivity
     // if this is a shortcut then this field represent a unique URI string
-    final private String activity;
-    // a text view or a subclass of TextView
-    private final AppTextView textView;
-    // tell whether this is a shortcut or not if this is shortcut then activity field wll holds the Uri not an activity
-    private final boolean isShortcut;
-    // app name to shown on screen
-    private String appName;
-    // app text color
-    private int color;
-    // app text size
-    private int size;
+    var activityName: String? = null
+
     // is app text size frozen
-    private boolean isSizeFrozen;
+    var isSizeFrozen = false
+        private set
+
     // is app hidden from home screen
-    private boolean isAppHidden;
+    var isHidden = false
+        private set
+
     //store how many time this app is opened by user
     // save this to DB. So launcher can sort the app based on this
     // in theory this is a tracking count which store how many time user opened this apps
     // Only locally and privately saved to user device
     // and btw this launcher doesn't have INTERNET PERMISSION
-    private int openingCounts;
+    var openingCounts: Int
+        private set
+
     // This field is use for grouping the app: not in use
-    private String groupPrefix;
-    // app belongs to this categories,,: not in use
-    private String categories;
-    // last updated date and time
-    private int updateTime;
-
-    private int recentUsedWeight;
-
-
-    /**
-     * @param isShortcut    tell whether this shortcut or not
-     * @param activity      activity path if this is shortcut then it will hold a unique strings
-     * @param appName       App name
-     * @param tv            a text view corresponding to App
-     * @param color         Text color
-     * @param size          Text Size
-     * @param isAppHidden   boolean to tell 'is app hide
-     * @param isSizeFrozen  is app size to freeze
-     * @param openingCounts how many time apps was opened before this addition
-     * @param updateTime    update time of this app since epoch (use for sorting)
-     */
-    public Apps(boolean isShortcut, String activity, String appName, AppTextView tv, int color, int size, boolean isAppHidden, boolean isSizeFrozen, int openingCounts, int updateTime) {
-
-        this.isShortcut = isShortcut;
-        this.textView = tv;
-        this.appName = appName;
-
-        this.color = color;
-        this.size = size;
-        this.updateTime = updateTime;
-
-        if (isShortcut) {
-            this.activity = String.valueOf(Utils.hash(activity));
-            textView.setUri(activity);
-            // textView.setUniqueCode(this.activity);
-        } else {
-            this.activity = activity;
-            //textView.setUniqueCode(String.valueOf(Utils.hash(activity)));
+    @Suppress("unused")
+    var groupPrefix: String? = null
+        set(groupPrefix) {
+            field = groupPrefix
+            activityName?.let {
+                setCategories(activityName = it, categories = groupPrefix)
+            }
         }
 
-        textView.setText(this.appName);
-        textView.setTag(this.activity);
-        textView.setShortcut(this.isShortcut);
+    // app belongs to this categories,,: not in use
+    @Suppress("unused")
+    var categories: String? = null
+        set(categories) {
+            field = categories
+            activityName?.let {
+                setCategories(activityName = it, categories = categories)
+            }
+        }
+    var recentUsedWeight = 0
+
+    /**
+     * isShortcut    tell whether this shortcut or not
+     * activity      activity path if this is shortcut then it will hold a unique strings
+     * appName       App name
+     * tv            a text view corresponding to App
+     * color         Text color
+     * size          Text Size
+     * isAppHidden   boolean to tell 'is app hide
+     * isSizeFrozen  is app size to freeze
+     * openingCounts how many time apps was opened before this addition
+     * updateTime    update time of this app since epoch (use for sorting)
+     */
+    init {
+        if (isShortcut) {
+            activityName = hash(activity).toString()
+            textView.uri = activity
+            // textView.setUniqueCode(this.activity);
+        } else {
+            activityName = activity
+            //textView.setUniqueCode(String.valueOf(Utils.hash(activity)));
+        }
+        textView.text = appName
+        textView.tag = activityName
+        textView.isShortcut = isShortcut
 
         // if color is not -1 then set this to color
         // else not set the color default theme text color will handle the color
-        if (color != DbUtils.NULL_TEXT_COLOR)
-            textView.setTextColor(color);
-
-        this.openingCounts = openingCounts;
-
-        setSize(size);
-        setAppHidden(isAppHidden);
-        setFreeze(isSizeFrozen);
-
+        if (color != DbUtils.NULL_TEXT_COLOR) textView.setTextColor(color)
+        this.openingCounts = openingCounts
+        setSize(size)
+        setAppHidden(isAppHidden)
+        setFreeze(isSizeFrozen)
     }
 
-    public boolean isShortcut() {
-        return isShortcut;
+    fun setAppHidden(appHidden: Boolean) {
+        isHidden = appHidden
+        textView.visibility = if (appHidden) View.GONE else View.VISIBLE
+        activityName?.let {
+            hideApp(activityName = it, value = appHidden)
+        }
     }
 
-    public boolean isSizeFrozen() {
-        return isSizeFrozen;
+    fun getSize(): Int {
+        return size
     }
 
-    public boolean isHidden() {
-        return isAppHidden;
+    fun setSize(size: Int) {
+        this.size = size
+        textView.textSize = size.toFloat()
+        activityName?.let {
+            putAppSize(activityName = it, size = size)
+        }
     }
 
-    public void setAppHidden(boolean appHidden) {
-        this.isAppHidden = appHidden;
-        textView.setVisibility(appHidden ? View.GONE : View.VISIBLE);
-        DbUtils.hideApp(activity, appHidden);
+    fun setFreeze(freezeSize: Boolean) {
+        isSizeFrozen = freezeSize
+        activityName?.let {
+            freezeAppSize(activityName = it, value = freezeSize)
+        }
     }
 
-    public int getSize() {
-        return size;
+    fun getAppName(): String {
+        return appName
     }
 
-    public void setSize(int size) {
-        this.size = size;
-        textView.setTextSize(size);
-        DbUtils.putAppSize(activity, size);
+    fun setAppName(appName: String) {
+        this.appName = appName
+        textView.text = appName
     }
 
-    public void setFreeze(boolean freezeSize) {
-        this.isSizeFrozen = freezeSize;
-        DbUtils.freezeAppSize(activity, freezeSize);
+    fun getColor(): Int {
+        return color
     }
 
-
-    public String getActivityName() {
-        return activity;
+    @Suppress("unused")
+    fun setColor(color: Int) {
+        this.color = color
+        if (color != DbUtils.NULL_TEXT_COLOR) textView.setTextColor(color)
     }
 
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppName(String appName) {
-        this.appName = appName;
-        textView.setText(appName);
-    }
-
-    public AppTextView getTextView() {
-        return textView;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-        if (color != DbUtils.NULL_TEXT_COLOR)
-            textView.setTextColor(color);
-    }
-
-
-    public int getOpeningCounts() {
-        return openingCounts;
-    }
-
-
-    public void increaseOpeningCounts() {
-        this.openingCounts++;
-        DbUtils.setOpeningCounts(this.activity, openingCounts);
-    }
-
-    public String getGroupPrefix() {
-        return groupPrefix;
-    }
-
-    public void setGroupPrefix(String groupPrefix) {
-        this.groupPrefix = groupPrefix;
-        DbUtils.setCategories(this.activity, groupPrefix);
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String categories) {
-        this.categories = categories;
-        DbUtils.setCategories(this.activity, categories);
-    }
-
-    public int getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(int updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public int getRecentUsedWeight() {
-        return recentUsedWeight;
-    }
-
-    public void setRecentUsedWeight(int recentUsedWeight) {
-        this.recentUsedWeight = recentUsedWeight;
+    fun increaseOpeningCounts() {
+        openingCounts++
+        activityName?.let {
+            setOpeningCounts(activityName = it, count = openingCounts)
+        }
     }
 }

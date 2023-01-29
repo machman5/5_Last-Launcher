@@ -1,29 +1,39 @@
-/*
- * PinYinSearchUtils.java
- * Copyright (C) 2022 Ye Canming <2603119857@qq.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package com.launcher.utils;
+package com.launcher.utils
 
-import com.github.promeg.pinyinhelper.Pinyin;
-import com.github.promeg.pinyinhelper.PinyinMapDict;
+import com.github.promeg.pinyinhelper.Pinyin
+import com.github.promeg.pinyinhelper.PinyinMapDict
 
-import java.util.HashMap;
-import java.util.Map;
+object PinYinSearchUtils {
 
-public class PinYinSearchUtils {
+    init {
+        // Add custom dictionary for last launcher scenario,
+        // which means we manually put some words used frequently in Chinese Apps' names to correct PinYin-s.
+        Pinyin.init(
+            Pinyin.newConfig()
+                .with(object : PinyinMapDict() {
+                    override fun mapping(): Map<String, Array<String>> {
+                        val map = HashMap<String, Array<String>>()
+                        map["电话薄"] = arrayOf("DIAN", "HUA", "BU")
+                        map["電話簿"] = arrayOf("DIAN", "HUA", "BU")
+                        map["音乐"] = arrayOf("YIN", "YUE")
+                        map["音樂"] = arrayOf("YIN", "YUE")
+                        map["银行"] = arrayOf("YIN", "HANG")
+                        map["銀行"] = arrayOf("YIN", "HANG")
+                        map["帕弥什"] = arrayOf("PA", "MI", "SHI")
+                        map["果壳"] = arrayOf("GUO", "KE")
+                        map["果殼"] = arrayOf("GUO", "KE")
+                        map["重庆"] = arrayOf("CHONG", "QING")
+                        map["重慶"] = arrayOf("CHONG", "QING")
+                        map["重返"] = arrayOf("CHONG", "FAN")
+                        map["东阿"] = arrayOf("DONG", "E")
+                        map["東阿"] = arrayOf("DONG", "E")
+                        map["番禺"] = arrayOf("PAN", "YU")
+                        return map
+                    }
+                })
+        )
+    }
+
     /**
      * Converts the input string to pinyin, using the user dictionary you set up earlier,
      * and inserts separators in character units.
@@ -34,8 +44,14 @@ public class PinYinSearchUtils {
      * @param separator separator
      * @return converted string from Chinese to Pinyin.
      */
-    public static String toPinyin(String str, String separator) {
-        return Pinyin.toPinyin(str, separator); //This is a wrapper method for om.github.promeg.pinyinhelper.Pinyin.toPinyin .
+    private fun toPinyin(
+        str: String?,
+        separator: String?
+    ): String {
+        return Pinyin.toPinyin(
+            str,
+            separator
+        ) //This is a wrapper method for om.github.promeg.pinyinhelper.Pinyin.toPinyin .
     }
 
     /**
@@ -43,8 +59,9 @@ public class PinYinSearchUtils {
      * @param c input character
      * @return return pinyin if c is chinese in uppercase, String.valueOf(c) otherwise.
      */
-    public static String toPinyin(char c) {
-        return Pinyin.toPinyin(c); //This is a wrapper method for om.github.promeg.pinyinhelper.Pinyin.toPinyin .
+    @Suppress("unused")
+    fun toPinyin(c: Char): String {
+        return Pinyin.toPinyin(c) //This is a wrapper method for om.github.promeg.pinyinhelper.Pinyin.toPinyin .
     }
 
     /**
@@ -56,36 +73,15 @@ public class PinYinSearchUtils {
      * This method supports Chinese Pinyin Search with "Duoyinzi".
      * For example, "yin yue" matches "音乐" while "yin le" doesn't.
      */
-    public static boolean pinYinSimpleFuzzySearch(CharSequence query, String strings) {
-        return Utils.simpleFuzzySearch(toPinyin(query.toString().replaceAll("\\s+",""), ""),
-                toPinyin(strings, ""));
+    @JvmStatic
+    fun pinYinSimpleFuzzySearch(
+        query: CharSequence,
+        strings: String?
+    ): Boolean {
+        return Utils.simpleFuzzySearch(
+            toPinyin(query.toString().replace("\\s+".toRegex(), ""), ""),
+            toPinyin(strings, "")
+        )
     }
 
-    static {
-        // Add custom dictionary for last launcher scenario,
-        // which means we manually put some words used frequently in Chinese Apps' names to correct PinYin-s.
-        Pinyin.init(Pinyin.newConfig()
-                .with(new PinyinMapDict() {
-                    @Override
-                    public Map<String, String[]> mapping() {
-                        HashMap<String, String[]> map = new HashMap<>();
-                        map.put("电话薄", new String[]{"DIAN", "HUA", "BU"});
-                        map.put("電話簿", new String[]{"DIAN", "HUA", "BU"});
-                        map.put("音乐", new String[]{"YIN", "YUE"});
-                        map.put("音樂", new String[]{"YIN", "YUE"});
-                        map.put("银行", new String[]{"YIN", "HANG"});
-                        map.put("銀行", new String[]{"YIN", "HANG"});
-                        map.put("帕弥什", new String[]{"PA", "MI", "SHI"});
-                        map.put("果壳", new String[]{"GUO", "KE"});
-                        map.put("果殼", new String[]{"GUO", "KE"});
-                        map.put("重庆", new String[]{"CHONG", "QING"});
-                        map.put("重慶", new String[]{"CHONG", "QING"});
-                        map.put("重返", new String[]{"CHONG", "FAN"});
-                        map.put("东阿", new String[]{"DONG", "E"});
-                        map.put("東阿", new String[]{"DONG", "E"});
-                        map.put("番禺", new String[]{"PAN", "YU"});
-                        return map;
-                    }
-                }));
-    }
 }

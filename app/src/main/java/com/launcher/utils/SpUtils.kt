@@ -2,7 +2,6 @@ package com.launcher.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
@@ -29,9 +28,11 @@ internal class SpUtils private constructor() {
 
     private var mPref: SharedPreferences? = null
 
-    fun init(context: Context?) {
+    fun init(context: Context) {
         if (mPref == null) {
-            mPref = PreferenceManager.getDefaultSharedPreferences(context)
+//            mPref = PreferenceManager.getDefaultSharedPreferences(context)
+            mPref =
+                context.getSharedPreferences(SpUtils::class.java.simpleName, Context.MODE_PRIVATE)
         }
     }
 

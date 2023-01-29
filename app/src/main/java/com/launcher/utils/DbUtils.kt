@@ -43,7 +43,7 @@ object DbUtils {
     private const val APPS_SORTS_REVERSE_ORDER = "apps_sorts_reverse_order"
 
     @JvmStatic
-    fun init(context: Context?) {
+    fun init(context: Context) {
         SpUtils.instance.init(context)
     }
 

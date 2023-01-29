@@ -1,431 +1,475 @@
-/*
- * created by https://github.com/rtugeek/ColorSeekBar
- */
+package com.launcher.views.colorseekbar
 
-package com.launcher.views.colorseekbar;
-
-
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.RadialGradient;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.os.Build;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.R;
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.content.Context
+import android.graphics.*
+import android.os.Build
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import com.R
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 //https://github.com/rtugeek/ColorSeekBar
-
 // NOT in priority
-public class ColorSeekBar extends View {
+class ColorSeekBar : View {
+    private val mCachedColors: MutableList<Int> = ArrayList()
+    private val colorPaint = Paint()
+    private val alphaThumbGradientPaint = Paint()
+    private val alphaBarPaint = Paint()
+    private val mDisabledPaint = Paint()
+    private val thumbGradientPaint = Paint()
+    private var mColorSeeds = intArrayOf(
+        -0x1,
+        -0x66ff01,
+        -0xffff01,
+        -0xff0100,
+        -0xff0001,
+        -0x10000,
+        -0xff01,
+        -0x9a00,
+        -0x100,
+        -0x707374,
+        -0x1000000 // 0xFFEAFEAF
+    )
+    private var mAlpha = 0
+    private var mOnColorChangeLister: OnColorChangeListener? = null
+    private var mContext: Context? = null
+    private var mIsShowAlphaBar = false
+    private var isVertical = false
+    private var mMovingColorBar = false
+    private var mMovingAlphaBar = false
+    private var mTransparentBitmap: Bitmap? = null
+    private var mColorRect: RectF? = null
+    private var thumbHeight = 20
+    private var mThumbRadius = 0f
+    private var barHeight = 2
+    private var mColorRectPaint: Paint? = null
+    private var realLeft = 0
+    private var realRight = 0
+    private var mBarWidth = 0
+    private var maxValue = 0
+    private var mAlphaRect: RectF? = null
+    private var mColorBarPosition = 0
+    private var mAlphaBarPosition = 0
+    private var mDisabledColor = 0
+    private var barMargin = 5
+    private var mAlphaMinPosition = 0
+    private var mAlphaMaxPosition = 255
+    private var mBarRadius = 0
+    private var mColorsToInvoke = -1
+    private var mInit = false
 
-    private final List<Integer> mCachedColors = new ArrayList<>();
-    private final Paint colorPaint = new Paint();
-    private final Paint alphaThumbGradientPaint = new Paint();
-    private final Paint alphaBarPaint = new Paint();
-    private final Paint mDisabledPaint = new Paint();
-    private final Paint thumbGradientPaint = new Paint();
-    private int[] mColorSeeds = new int[]{
-            0xFFFFFFFF,
-            0xFF9900FF,
-            0xFF0000FF,
-            0xFF00FF00,
-            0xFF00FFFF,
-            0xFFFF0000,
-            0xFFFF00FF,
-            0xFFFF6600,
-            0xFFFFFF00,
-            0xFF8F8C8C,
-            0xFF000000
-            // 0xFFEAFEAF
-    };
-    private int mAlpha;
-    private OnColorChangeListener mOnColorChangeLister;
-    private Context mContext;
-    private boolean mIsShowAlphaBar = false;
-    private boolean mIsVertical;
-    private boolean mMovingColorBar;
-    private boolean mMovingAlphaBar;
-    private Bitmap mTransparentBitmap;
-    private RectF mColorRect;
-    private int mThumbHeight = 20;
-    private float mThumbRadius;
-    private int mBarHeight = 2;
-    private Paint mColorRectPaint;
-    private int realLeft;
-    private int realRight;
-    private int mBarWidth;
-    private int mMaxPosition;
-    private RectF mAlphaRect;
-    private int mColorBarPosition;
-    private int mAlphaBarPosition;
-    private int mDisabledColor;
-    private int mBarMargin = 5;
-    private int mAlphaMinPosition = 0;
-    private int mAlphaMaxPosition = 255;
-    private int mBarRadius;
-    private int mColorsToInvoke = -1;
-    private boolean mInit = false;
-    private boolean mFirstDraw = true;
-    private boolean mShowThumb = true;
-    private OnInitDoneListener mOnInitDoneListener;
+    /**
+     * @return
+     */
+    @get:Deprecated("use {@link #setOnInitDoneListener(OnInitDoneListener)} instead.")
+    var isFirstDraw = true
+        private set
+    private var mShowThumb = true
+    private var mOnInitDoneListener: OnInitDoneListener? = null
 
-    public ColorSeekBar(Context context) {
-        super(context);
-        init(context, null, 0, 0);
+    constructor(context: Context) : super(context) {
+        init(context, null, 0, 0)
     }
 
-    public ColorSeekBar(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs, 0, 0);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs, 0, 0)
     }
 
-    public ColorSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr, 0);
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context, attrs, defStyleAttr, 0)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ColorSeekBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs, defStyleAttr, defStyleRes);
+    @Suppress("unused")
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(context, attrs, defStyleAttr, defStyleRes) {
+        init(context, attrs, defStyleAttr, defStyleRes)
     }
 
-    protected void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        applyStyle(context, attrs, defStyleAttr, defStyleRes);
+    private fun init(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) {
+        applyStyle(context, attrs, defStyleAttr, defStyleRes)
     }
 
-    public void applyStyle(int resId) {
-        applyStyle(getContext(), null, 0, resId);
+    @Suppress("unused")
+    fun applyStyle(resId: Int) {
+        applyStyle(context, null, 0, resId)
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int mViewWidth = widthMeasureSpec;
-        int mViewHeight = heightMeasureSpec;
-
-        int widthSpeMode = MeasureSpec.getMode(widthMeasureSpec);
-        int heightSpeMode = MeasureSpec.getMode(heightMeasureSpec);
-
-        int barHeight = mIsShowAlphaBar ? mBarHeight * 2 : mBarHeight;
-        int thumbHeight = mIsShowAlphaBar ? mThumbHeight * 2 : mThumbHeight;
-
-
-        if (isVertical()) {
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        var mViewWidth = widthMeasureSpec
+        var mViewHeight = heightMeasureSpec
+        val widthSpeMode = MeasureSpec.getMode(widthMeasureSpec)
+        val heightSpeMode = MeasureSpec.getMode(heightMeasureSpec)
+        val barHeight = if (mIsShowAlphaBar) barHeight * 2 else barHeight
+        val thumbHeight = if (mIsShowAlphaBar) thumbHeight * 2 else thumbHeight
+        if (isVertical) {
             if (widthSpeMode == MeasureSpec.AT_MOST || widthSpeMode == MeasureSpec.UNSPECIFIED) {
-                mViewWidth = thumbHeight + barHeight + mBarMargin;
-                setMeasuredDimension(mViewWidth, mViewHeight);
+                mViewWidth = thumbHeight + barHeight + barMargin
+                setMeasuredDimension(mViewWidth, mViewHeight)
             }
-
         } else {
             if (heightSpeMode == MeasureSpec.AT_MOST || heightSpeMode == MeasureSpec.UNSPECIFIED) {
-                mViewHeight = thumbHeight + barHeight + mBarMargin;
-                setMeasuredDimension(mViewWidth, mViewHeight);
+                mViewHeight = thumbHeight + barHeight + barMargin
+                setMeasuredDimension(mViewWidth, mViewHeight)
             }
         }
     }
 
-
-    protected void applyStyle(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        mContext = context;
+    private fun applyStyle(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) {
+        mContext = context
         //get attributes
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorSeekBar, defStyleAttr, defStyleRes);
-        int colorsId = a.getResourceId(R.styleable.ColorSeekBar_colorSeeds, 0);
-        mMaxPosition = a.getInteger(R.styleable.ColorSeekBar_maxPosition, 100);
-        mColorBarPosition = a.getInteger(R.styleable.ColorSeekBar_colorBarPosition, 0);
-        mAlphaBarPosition = a.getInteger(R.styleable.ColorSeekBar_alphaBarPosition, mAlphaMinPosition);
-        mDisabledColor = a.getInteger(R.styleable.ColorSeekBar_disabledColor, Color.GRAY);
-        mIsVertical = a.getBoolean(R.styleable.ColorSeekBar_isVertical, false);
-        mIsShowAlphaBar = a.getBoolean(R.styleable.ColorSeekBar_showAlphaBar, false);
-        mShowThumb = a.getBoolean(R.styleable.ColorSeekBar_showAlphaBar, true);
-
-        int backgroundColor = a.getColor(R.styleable.ColorSeekBar_bgColor, Color.TRANSPARENT);
-
-        mBarHeight = (int) a.getDimension(R.styleable.ColorSeekBar_barHeight, (float) dp2px(2));
-        mBarRadius = (int) a.getDimension(R.styleable.ColorSeekBar_barRadius, 0);
-        mThumbHeight = (int) a.getDimension(R.styleable.ColorSeekBar_thumbHeight, (float) dp2px(30));
-        mBarMargin = (int) a.getDimension(R.styleable.ColorSeekBar_barMargin, (float) dp2px(5));
-        a.recycle();
-
-        mDisabledPaint.setAntiAlias(true);
-        mDisabledPaint.setColor(mDisabledColor);
-
+        val a = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.ColorSeekBar,
+            defStyleAttr,
+            defStyleRes
+        )
+        val colorsId = a.getResourceId(R.styleable.ColorSeekBar_colorSeeds, 0)
+        maxValue = a.getInteger(R.styleable.ColorSeekBar_maxPosition, 100)
+        mColorBarPosition = a.getInteger(R.styleable.ColorSeekBar_colorBarPosition, 0)
+        mAlphaBarPosition =
+            a.getInteger(R.styleable.ColorSeekBar_alphaBarPosition, mAlphaMinPosition)
+        mDisabledColor = a.getInteger(R.styleable.ColorSeekBar_disabledColor, Color.GRAY)
+        isVertical = a.getBoolean(R.styleable.ColorSeekBar_isVertical, false)
+        mIsShowAlphaBar = a.getBoolean(R.styleable.ColorSeekBar_showAlphaBar, false)
+        mShowThumb = a.getBoolean(R.styleable.ColorSeekBar_showAlphaBar, true)
+        val backgroundColor = a.getColor(R.styleable.ColorSeekBar_bgColor, Color.TRANSPARENT)
+        barHeight = a.getDimension(R.styleable.ColorSeekBar_barHeight, dp2px(2f).toFloat()).toInt()
+        mBarRadius = a.getDimension(R.styleable.ColorSeekBar_barRadius, 0f).toInt()
+        thumbHeight =
+            a.getDimension(R.styleable.ColorSeekBar_thumbHeight, dp2px(30f).toFloat()).toInt()
+        barMargin = a.getDimension(R.styleable.ColorSeekBar_barMargin, dp2px(5f).toFloat()).toInt()
+        a.recycle()
+        mDisabledPaint.isAntiAlias = true
+        mDisabledPaint.color = mDisabledColor
         if (colorsId != 0) {
-            mColorSeeds = getColorsById(colorsId);
+            mColorSeeds = getColorsById(colorsId)
         }
-
-        setBackgroundColor(backgroundColor);
+        setBackgroundColor(backgroundColor)
     }
 
     /**
      * @param id color array resource
      * @return
      */
-    private int[] getColorsById(int id) {
-        if (isInEditMode()) {
-            String[] s = mContext.getResources().getStringArray(id);
-            int[] colors = new int[s.length];
-            for (int j = 0; j < s.length; j++) {
-                colors[j] = Color.parseColor(s[j]);
+    private fun getColorsById(id: Int): IntArray {
+        return if (isInEditMode) {
+            val s = context.resources.getStringArray(id)
+            val colors = IntArray(s.size)
+            for (j in s.indices) {
+                colors[j] = Color.parseColor(s[j])
             }
-            return colors;
+            colors
         } else {
-            TypedArray typedArray = mContext.getResources().obtainTypedArray(id);
-            int[] colors = new int[typedArray.length()];
-            for (int j = 0; j < typedArray.length(); j++) {
-                colors[j] = typedArray.getColor(j, Color.BLACK);
+            val typedArray = context.resources.obtainTypedArray(id)
+            val colors = IntArray(typedArray.length())
+            for (j in 0 until typedArray.length()) {
+                colors[j] = typedArray.getColor(j, Color.BLACK)
             }
-            typedArray.recycle();
-            return colors;
+            typedArray.recycle()
+            colors
         }
     }
 
-    private void init() {
+    private fun init() {
 
         //init size
-        mThumbRadius = mThumbHeight / 2;
-        int mPaddingSize = (int) mThumbRadius;
-        int viewBottom = getHeight() - getPaddingBottom() - mPaddingSize;
-        int viewRight = getWidth() - getPaddingRight() - mPaddingSize;
+        mThumbRadius = (thumbHeight / 2).toFloat()
+        val mPaddingSize = mThumbRadius.toInt()
+        val viewBottom = height - paddingBottom - mPaddingSize
+        val viewRight = width - paddingRight - mPaddingSize
         //init left right top bottom
-        realLeft = getPaddingLeft() + mPaddingSize;
-        realRight = mIsVertical ? viewBottom : viewRight;
-        int realTop = getPaddingTop() + mPaddingSize;
-
-        mBarWidth = realRight - realLeft;
+        realLeft = paddingLeft + mPaddingSize
+        realRight = if (isVertical) viewBottom else viewRight
+        val realTop = paddingTop + mPaddingSize
+        mBarWidth = realRight - realLeft
 
         //init rect
-        mColorRect = new RectF(realLeft, realTop, realRight, realTop + mBarHeight);
+        mColorRect = RectF(
+            realLeft.toFloat(),
+            realTop.toFloat(),
+            realRight.toFloat(),
+            (realTop + barHeight).toFloat()
+        )
 
         //init paint
-        LinearGradient mColorGradient = new LinearGradient(0, 0, mColorRect.width(), 0, mColorSeeds, null, Shader.TileMode.CLAMP);
-        mColorRectPaint = new Paint();
-        mColorRectPaint.setShader(mColorGradient);
-        mColorRectPaint.setAntiAlias(true);
-        cacheColors();
-        setAlphaValue();
+        val mColorGradient = LinearGradient(
+            0f,
+            0f,
+            mColorRect?.width() ?: 0f,
+            0f,
+            mColorSeeds,
+            null,
+            Shader.TileMode.CLAMP
+        )
+        mColorRectPaint = Paint()
+        mColorRectPaint?.shader = mColorGradient
+        mColorRectPaint?.isAntiAlias = true
+        cacheColors()
+        setAlphaValue()
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-        if (mIsVertical) {
-            mTransparentBitmap = Bitmap.createBitmap(h, w, Bitmap.Config.ARGB_4444);
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        mTransparentBitmap = if (isVertical) {
+            Bitmap.createBitmap(h, w, Bitmap.Config.ARGB_4444)
         } else {
-            mTransparentBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444);
+            Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_4444)
         }
-        mTransparentBitmap.eraseColor(Color.TRANSPARENT);
-        init();
-        mInit = true;
+        mTransparentBitmap?.eraseColor(Color.TRANSPARENT)
+        init()
+        mInit = true
         if (mColorsToInvoke != -1) {
-            setColor(mColorsToInvoke);
+            color = mColorsToInvoke
         }
     }
 
-
-    private void cacheColors() {
+    private fun cacheColors() {
         //if the view's size hasn't been initialized. do not cache.
         if (mBarWidth < 1) {
-            return;
+            return
         }
-        mCachedColors.clear();
-        for (int i = 0; i <= mMaxPosition; i++) {
-            mCachedColors.add(pickColor(i));
+        mCachedColors.clear()
+        for (i in 0..maxValue) {
+            mCachedColors.add(pickColor(i))
         }
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-
-
-        if (mIsVertical) {
-            canvas.rotate(-90);
-            canvas.translate(-getHeight(), 0);
-            canvas.scale(-1, 1, getHeight() / 2, getWidth() / 2);
+    @SuppressLint("DrawAllocation")
+    override fun onDraw(canvas: Canvas) {
+        if (isVertical) {
+            canvas.rotate(-90f)
+            canvas.translate(-height.toFloat(), 0f)
+            canvas.scale(-1f, 1f, (height / 2).toFloat(), (width / 2).toFloat())
         }
-
-        float colorPosition = (float) mColorBarPosition / mMaxPosition * mBarWidth;
-
-        colorPaint.setAntiAlias(true);
-
-        int color = isEnabled() ? getColor(false) : mDisabledColor;
-
-        int colorStartTransparent = Color.argb(mAlphaMaxPosition, Color.red(color), Color.green(color), Color.blue(color));
-        int colorEndTransparent = Color.argb(mAlphaMinPosition, Color.red(color), Color.green(color), Color.blue(color));
-        colorPaint.setColor(color);
-        int[] toAlpha = new int[]{colorStartTransparent, colorEndTransparent};
+        val colorPosition = mColorBarPosition.toFloat() / maxValue * mBarWidth
+        colorPaint.isAntiAlias = true
+        val color = if (isEnabled) getColor(false) else mDisabledColor
+        val colorStartTransparent =
+            Color.argb(mAlphaMaxPosition, Color.red(color), Color.green(color), Color.blue(color))
+        val colorEndTransparent =
+            Color.argb(mAlphaMinPosition, Color.red(color), Color.green(color), Color.blue(color))
+        colorPaint.color = color
+        val toAlpha = intArrayOf(colorStartTransparent, colorEndTransparent)
         //clear
-        canvas.drawBitmap(mTransparentBitmap, 0, 0, null);
+        mTransparentBitmap?.let {
+            canvas.drawBitmap(it, 0f, 0f, null)
+        }
 
         //draw color bar
-        canvas.drawRoundRect(mColorRect, mBarRadius, mBarRadius, isEnabled() ? mColorRectPaint : mDisabledPaint);
+        mColorRect?.let { colorRect ->
+            (if (isEnabled) mColorRectPaint else mDisabledPaint)?.let { paint ->
+                canvas.drawRoundRect(
+                    colorRect,
+                    mBarRadius.toFloat(),
+                    mBarRadius.toFloat(),
+                    paint
+                )
+            }
+        }
         //draw color bar thumb
         if (mShowThumb) {
-            float thumbX = colorPosition + realLeft;
-            float thumbY = mColorRect.top + mColorRect.height() / 2;
-            canvas.drawCircle(thumbX, thumbY, mBarHeight / 2 + 5, colorPaint);
+            val thumbX = colorPosition + realLeft
+            val thumbY = mColorRect!!.top + mColorRect!!.height() / 2
+            canvas.drawCircle(thumbX, thumbY, (barHeight / 2 + 5).toFloat(), colorPaint)
 
             //draw color bar thumb radial gradient shader
-            RadialGradient thumbShader = new RadialGradient(thumbX, thumbY, mThumbRadius, toAlpha, null, Shader.TileMode.MIRROR);
-            thumbGradientPaint.setAntiAlias(true);
-            thumbGradientPaint.setShader(thumbShader);
-            canvas.drawCircle(thumbX, thumbY, mThumbHeight / 2, thumbGradientPaint);
+            val thumbShader =
+                RadialGradient(thumbX, thumbY, mThumbRadius, toAlpha, null, Shader.TileMode.MIRROR)
+            thumbGradientPaint.isAntiAlias = true
+            thumbGradientPaint.shader = thumbShader
+            canvas.drawCircle(thumbX, thumbY, (thumbHeight / 2).toFloat(), thumbGradientPaint)
         }
-
-
         if (mIsShowAlphaBar) {
             //init rect
-            int top = (int) (mThumbHeight + mThumbRadius + mBarHeight + mBarMargin);
-            mAlphaRect = new RectF(realLeft, top, realRight, top + mBarHeight);
+            val top = (thumbHeight + mThumbRadius + barHeight + barMargin).toInt()
+            mAlphaRect = RectF(
+                realLeft.toFloat(),
+                top.toFloat(),
+                realRight.toFloat(),
+                (top + barHeight).toFloat()
+            )
             //draw alpha bar
-            alphaBarPaint.setAntiAlias(true);
-            LinearGradient alphaBarShader = new LinearGradient(0, 0, mAlphaRect.width(), 0, toAlpha, null, Shader.TileMode.CLAMP);
-            alphaBarPaint.setShader(alphaBarShader);
-            canvas.drawRect(mAlphaRect, alphaBarPaint);
+            alphaBarPaint.isAntiAlias = true
+            val alphaBarShader = LinearGradient(
+                0f,
+                0f,
+                mAlphaRect?.width() ?: 0f,
+                0f,
+                toAlpha,
+                null,
+                Shader.TileMode.CLAMP
+            )
+            alphaBarPaint.shader = alphaBarShader
+            mAlphaRect?.let {
+                canvas.drawRect(it, alphaBarPaint)
+            }
 
             //draw alpha bar thumb
             if (mShowThumb) {
-                float alphaPosition = (float) (mAlphaBarPosition - mAlphaMinPosition) / (mAlphaMaxPosition - mAlphaMinPosition) * mBarWidth;
-                float alphaThumbX = alphaPosition + realLeft;
-                float alphaThumbY = mAlphaRect.top + mAlphaRect.height() / 2;
-                canvas.drawCircle(alphaThumbX, alphaThumbY, mBarHeight / 2 + 5, colorPaint);
+                val alphaPosition =
+                    (mAlphaBarPosition - mAlphaMinPosition).toFloat() / (mAlphaMaxPosition - mAlphaMinPosition) * mBarWidth
+                val alphaThumbX = alphaPosition + realLeft
+                val alphaThumbY = mAlphaRect!!.top + mAlphaRect!!.height() / 2
+                canvas.drawCircle(
+                    alphaThumbX,
+                    alphaThumbY,
+                    (barHeight / 2 + 5).toFloat(),
+                    colorPaint
+                )
 
                 //draw alpha bar thumb radial gradient shader
-                RadialGradient alphaThumbShader = new RadialGradient(alphaThumbX, alphaThumbY, mThumbRadius, toAlpha, null, Shader.TileMode.MIRROR);
-
-                alphaThumbGradientPaint.setAntiAlias(true);
-                alphaThumbGradientPaint.setShader(alphaThumbShader);
-                canvas.drawCircle(alphaThumbX, alphaThumbY, mThumbHeight / 2, alphaThumbGradientPaint);
+                val alphaThumbShader = RadialGradient(
+                    alphaThumbX,
+                    alphaThumbY,
+                    mThumbRadius,
+                    toAlpha,
+                    null,
+                    Shader.TileMode.MIRROR
+                )
+                alphaThumbGradientPaint.isAntiAlias = true
+                alphaThumbGradientPaint.shader = alphaThumbShader
+                canvas.drawCircle(
+                    alphaThumbX,
+                    alphaThumbY,
+                    (thumbHeight / 2).toFloat(),
+                    alphaThumbGradientPaint
+                )
             }
         }
-
-        if (mFirstDraw) {
-            if (mOnColorChangeLister != null) {
-                mOnColorChangeLister.onColorChangeListener(mColorBarPosition, mAlphaBarPosition, getColor());
-            }
-            mFirstDraw = false;
-
-            if (mOnInitDoneListener != null) {
-                mOnInitDoneListener.done();
-            }
+        if (isFirstDraw) {
+            mOnColorChangeLister?.onColorChangeListener(
+                mColorBarPosition,
+                mAlphaBarPosition,
+                this.color
+            )
+            isFirstDraw = false
+            mOnInitDoneListener?.done()
         }
-        super.onDraw(canvas);
+        super.onDraw(canvas)
     }
 
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (!isEnabled()) {
-            return true;
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (!isEnabled) {
+            return true
         }
-        float x = mIsVertical ? event.getY() : event.getX();
-        float y = mIsVertical ? event.getX() : event.getY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (isOnBar(mColorRect, x, y)) {
-                    mMovingColorBar = true;
-                    float value = (x - realLeft) / mBarWidth * mMaxPosition;
-                    setColorBarPosition((int) value);
-                } else if (mIsShowAlphaBar) {
-                    if (isOnBar(mAlphaRect, x, y)) {
-                        mMovingAlphaBar = true;
-                    }
+        val x = if (isVertical) event.y else event.x
+        val y = if (isVertical) event.x else event.y
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> if (isOnBar(mColorRect, x, y)) {
+                mMovingColorBar = true
+                val value = (x - realLeft) / mBarWidth * maxValue
+                colorBarPosition = value.toInt()
+            } else if (mIsShowAlphaBar) {
+                if (isOnBar(mAlphaRect, x, y)) {
+                    mMovingAlphaBar = true
                 }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                getParent().requestDisallowInterceptTouchEvent(true);
+            }
+            MotionEvent.ACTION_MOVE -> {
+                parent.requestDisallowInterceptTouchEvent(true)
                 if (mMovingColorBar) {
-                    float value = (x - realLeft) / mBarWidth * mMaxPosition;
-                    setColorBarPosition((int) value);
+                    val value = (x - realLeft) / mBarWidth * maxValue
+                    colorBarPosition = value.toInt()
                 } else if (mIsShowAlphaBar) {
                     if (mMovingAlphaBar) {
-                        float value = (x - realLeft) / (float) mBarWidth * (mAlphaMaxPosition - mAlphaMinPosition) + mAlphaMinPosition;
-                        mAlphaBarPosition = (int) value;
+                        val value =
+                            (x - realLeft) / mBarWidth.toFloat() * (mAlphaMaxPosition - mAlphaMinPosition) + mAlphaMinPosition
+                        mAlphaBarPosition = value.toInt()
                         if (mAlphaBarPosition < mAlphaMinPosition) {
-                            mAlphaBarPosition = mAlphaMinPosition;
+                            mAlphaBarPosition = mAlphaMinPosition
                         } else if (mAlphaBarPosition > mAlphaMaxPosition) {
-                            mAlphaBarPosition = mAlphaMaxPosition;
+                            mAlphaBarPosition = mAlphaMaxPosition
                         }
-                        setAlphaValue();
+                        setAlphaValue()
                     }
                 }
-                if (mOnColorChangeLister != null && (mMovingAlphaBar || mMovingColorBar)) {
-                    mOnColorChangeLister.onColorChangeListener(mColorBarPosition, mAlphaBarPosition, getColor());
+                if ((mMovingAlphaBar || mMovingColorBar)) {
+                    mOnColorChangeLister?.onColorChangeListener(
+                        mColorBarPosition,
+                        mAlphaBarPosition,
+                        color
+                    )
                 }
-                invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-                mMovingColorBar = false;
-                mMovingAlphaBar = false;
-                break;
-            default:
+                invalidate()
+            }
+            MotionEvent.ACTION_UP -> {
+                mMovingColorBar = false
+                mMovingAlphaBar = false
+            }
+            else -> {}
         }
-        return true;
+        return true
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-    }
-
-    public int getAlphaMaxPosition() {
-        return mAlphaMaxPosition;
+    @Suppress("unused")
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
     }
 
     /***
      *
-     * @param alphaMaxPosition <= 255 && > alphaMinPosition
+     * alphaMaxPosition <= 255 && > alphaMinPosition
      */
-    public void setAlphaMaxPosition(int alphaMaxPosition) {
-        mAlphaMaxPosition = alphaMaxPosition;
-        if (mAlphaMaxPosition > 255) {
-            mAlphaMaxPosition = 255;
-        } else if (mAlphaMaxPosition <= mAlphaMinPosition) {
-            mAlphaMaxPosition = mAlphaMinPosition + 1;
+    @Suppress("unused")
+    var alphaMaxPosition: Int
+        get() = mAlphaMaxPosition
+        set(alphaMaxPosition) {
+            mAlphaMaxPosition = alphaMaxPosition
+            if (mAlphaMaxPosition > 255) {
+                mAlphaMaxPosition = 255
+            } else if (mAlphaMaxPosition <= mAlphaMinPosition) {
+                mAlphaMaxPosition = mAlphaMinPosition + 1
+            }
+            if (mAlphaBarPosition > mAlphaMinPosition) {
+                mAlphaBarPosition = mAlphaMaxPosition
+            }
+            invalidate()
         }
-
-        if (mAlphaBarPosition > mAlphaMinPosition) {
-            mAlphaBarPosition = mAlphaMaxPosition;
-        }
-        invalidate();
-    }
-
-    public int getAlphaMinPosition() {
-        return mAlphaMinPosition;
-    }
 
     /***
      *
-     * @param alphaMinPosition >=0 && < alphaMaxPosition
+     * alphaMinPosition >=0 && < alphaMaxPosition
      */
-    public void setAlphaMinPosition(int alphaMinPosition) {
-        this.mAlphaMinPosition = alphaMinPosition;
-        if (mAlphaMinPosition >= mAlphaMaxPosition) {
-            mAlphaMinPosition = mAlphaMaxPosition - 1;
-        } else if (mAlphaMinPosition < 0) {
-            mAlphaMinPosition = 0;
+    @Suppress("unused")
+    var alphaMinPosition: Int
+        get() = mAlphaMinPosition
+        set(alphaMinPosition) {
+            mAlphaMinPosition = alphaMinPosition
+            if (mAlphaMinPosition >= mAlphaMaxPosition) {
+                mAlphaMinPosition = mAlphaMaxPosition - 1
+            } else if (mAlphaMinPosition < 0) {
+                mAlphaMinPosition = 0
+            }
+            if (mAlphaBarPosition < mAlphaMinPosition) {
+                mAlphaBarPosition = mAlphaMinPosition
+            }
+            invalidate()
         }
-
-        if (mAlphaBarPosition < mAlphaMinPosition) {
-            mAlphaBarPosition = mAlphaMinPosition;
-        }
-        invalidate();
-    }
 
     /**
      * @param r
@@ -433,55 +477,41 @@ public class ColorSeekBar extends View {
      * @param y
      * @return whether MotionEvent is performing on bar or not
      */
-    private boolean isOnBar(RectF r, float x, float y) {
-        return r.left - mThumbRadius < x && x < r.right + mThumbRadius && r.top - mThumbRadius < y && y < r.bottom + mThumbRadius;
+    private fun isOnBar(r: RectF?, x: Float, y: Float): Boolean {
+        return r!!.left - mThumbRadius < x && x < r.right + mThumbRadius && r.top - mThumbRadius < y && y < r.bottom + mThumbRadius
     }
-
-    /**
-     * @return
-     * @deprecated use {@link #setOnInitDoneListener(OnInitDoneListener)} instead.
-     */
-    public boolean isFirstDraw() {
-        return mFirstDraw;
-    }
-
 
     /**
      * @param value
      * @return color
      */
-    private int pickColor(int value) {
-        return pickColor((float) value / mMaxPosition * mBarWidth);
+    private fun pickColor(value: Int): Int {
+        return pickColor(value.toFloat() / maxValue * mBarWidth)
     }
 
     /**
      * @param position
      * @return color
      */
-    private int pickColor(float position) {
-        float unit = position / mBarWidth;
+    private fun pickColor(position: Float): Int {
+        val unit = position / mBarWidth
         if (unit <= 0.0) {
-            return mColorSeeds[0];
+            return mColorSeeds[0]
         }
-
-
         if (unit >= 1) {
-            return mColorSeeds[mColorSeeds.length - 1];
+            return mColorSeeds[mColorSeeds.size - 1]
         }
-
-        float colorPosition = unit * (mColorSeeds.length - 1);
-        int i = (int) colorPosition;
-        colorPosition -= i;
-        int c0 = mColorSeeds[i];
-        int c1 = mColorSeeds[i + 1];
+        var colorPosition = unit * (mColorSeeds.size - 1)
+        val i = colorPosition.toInt()
+        colorPosition -= i.toFloat()
+        val c0 = mColorSeeds[i]
+        val c1 = mColorSeeds[i + 1]
 
         // mAlpha = mix(Color.alpha(c0), Color.alpha(c1), colorPosition);
-
-        int mRed = mix(Color.red(c0), Color.red(c1), colorPosition);
-        int mGreen = mix(Color.green(c0), Color.green(c1), colorPosition);
-        int mBlue = mix(Color.blue(c0), Color.blue(c1), colorPosition);
-
-        return Color.rgb(mRed, mGreen, mBlue);
+        val mRed = mix(Color.red(c0), Color.red(c1), colorPosition)
+        val mGreen = mix(Color.green(c0), Color.green(c1), colorPosition)
+        val mBlue = mix(Color.blue(c0), Color.blue(c1), colorPosition)
+        return Color.rgb(mRed, mGreen, mBlue)
     }
 
     /**
@@ -490,86 +520,89 @@ public class ColorSeekBar extends View {
      * @param position
      * @return
      */
-    private int mix(int start, int end, float position) {
-        return start + Math.round(position * (end - start));
-    }
-
-    public int getColor() {
-        return getColor(mIsShowAlphaBar);
+    private fun mix(start: Int, end: Int, position: Float): Int {
+        return start + (position * (end - start)).roundToInt()
     }
 
     /**
      * Set color,the mCachedColors must contains the specified color, if not ,invoke setColorBarPosition(0);
      *
-     * @param color
+     * color
      */
-    public void setColor(int color) {
-        int withoutAlphaColor = Color.rgb(Color.red(color), Color.green(color), Color.blue(color));
-        if (mInit) {
-            int value = mCachedColors.indexOf(withoutAlphaColor);
-            setAlphaValue(Color.alpha(color));
-            setColorBarPosition(value);
-
-        } else {
-            mColorsToInvoke = color;
+    var color: Int
+        get() = getColor(mIsShowAlphaBar)
+        set(color) {
+            val withoutAlphaColor =
+                Color.rgb(Color.red(color), Color.green(color), Color.blue(color))
+            if (mInit) {
+                val value = mCachedColors.indexOf(withoutAlphaColor)
+                alphaValue = Color.alpha(color)
+                colorBarPosition = value
+            } else {
+                mColorsToInvoke = color
+            }
         }
 
-    }
-
     /**
-     * @param withAlpha
+     * withAlpha
      * @return
      */
-    public int getColor(boolean withAlpha) {
+    private fun getColor(withAlpha: Boolean): Int {
         //pick mode
-        if (mColorBarPosition >= mCachedColors.size()) {
-            int color = pickColor(mColorBarPosition);
-            if (withAlpha) {
-                return color;
+        if (mColorBarPosition >= mCachedColors.size) {
+            val color = pickColor(mColorBarPosition)
+            return if (withAlpha) {
+                color
             } else {
-                return Color.argb(getAlphaValue(), Color.red(color), Color.green(color), Color.blue(color));
+                Color.argb(
+                    alphaValue,
+                    Color.red(color),
+                    Color.green(color),
+                    Color.blue(color)
+                )
             }
         }
 
         //cache mode
-        int color = mCachedColors.get(mColorBarPosition);
+        val color = mCachedColors[mColorBarPosition]
+        return if (withAlpha) {
+            Color.argb(
+                alphaValue,
+                Color.red(color),
+                Color.green(color),
+                Color.blue(color)
+            )
+        } else color
+    }
 
-        if (withAlpha) {
-            return Color.argb(getAlphaValue(), Color.red(color), Color.green(color), Color.blue(color));
+    @Suppress("unused")
+    var alphaBarPosition: Int
+        get() = mAlphaBarPosition
+        set(value) {
+            mAlphaBarPosition = value
+            setAlphaValue()
+            invalidate()
         }
-        return color;
-    }
 
-    public int getAlphaBarPosition() {
-        return mAlphaBarPosition;
-    }
-
-    public void setAlphaBarPosition(int value) {
-        this.mAlphaBarPosition = value;
-        setAlphaValue();
-        invalidate();
-    }
-
-    public int getAlphaValue() {
-        return mAlpha;
-    }
-
-    private void setAlphaValue(int value) {
-        mAlpha = value;
-        mAlphaBarPosition = 255 - mAlpha;
-        // invalidate();
-    }
+    // invalidate();
+    private var alphaValue: Int
+        get() = mAlpha
+        private set(value) {
+            mAlpha = value
+            mAlphaBarPosition = 255 - mAlpha
+            // invalidate();
+        }
 
     /**
      * @param onColorChangeListener
      */
-    public void setOnColorChangeListener(OnColorChangeListener onColorChangeListener) {
-        this.mOnColorChangeLister = onColorChangeListener;
+    fun setOnColorChangeListener(onColorChangeListener: OnColorChangeListener?) {
+        mOnColorChangeLister = onColorChangeListener
     }
 
-    public int dp2px(float dpValue) {
-        final float scale = mContext.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    private fun dp2px(dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
     }
 
     /**
@@ -577,79 +610,82 @@ public class ColorSeekBar extends View {
      *
      * @param resId
      */
-    public void setColorSeeds(int resId) {
-        setColorSeeds(getColorsById(resId));
+    @Suppress("unused")
+    fun setColorSeeds(resId: Int) {
+        setColorSeeds(getColorsById(resId))
     }
 
-    public void setColorSeeds(int[] colors) {
-        mColorSeeds = colors;
-        init();
-        invalidate();
-        if (mOnColorChangeLister != null) {
-            mOnColorChangeLister.onColorChangeListener(mColorBarPosition, mAlphaBarPosition, getColor());
-        }
+    private fun setColorSeeds(colors: IntArray) {
+        mColorSeeds = colors
+        init()
+        invalidate()
+        mOnColorChangeLister?.onColorChangeListener(
+            mColorBarPosition,
+            mAlphaBarPosition,
+            color
+        )
     }
 
     /**
      * @param color
      * @return the color's position in the bar, if not in the bar ,return -1;
      */
-    public int getColorIndexPosition(int color) {
-        return mCachedColors.indexOf(Color.argb(255, Color.red(color), Color.green(color), Color.blue(color)));
+    @Suppress("unused")
+    fun getColorIndexPosition(color: Int): Int {
+        return mCachedColors.indexOf(
+            Color.argb(
+                255,
+                Color.red(color),
+                Color.green(color),
+                Color.blue(color)
+            )
+        )
     }
 
-    public List<Integer> getColors() {
-        return mCachedColors;
-    }
+    @Suppress("unused")
+    val colors: List<Int>
+        get() = mCachedColors
 
-//    public void setVertical(boolean vertical) {
-//        mIsVertical = vertical;
-//        refreshLayoutParams();
-//        invalidate();
-//    }
-
-    public boolean isShowAlphaBar() {
-        return mIsShowAlphaBar;
-    }
-
-    public void setShowAlphaBar(boolean show) {
-        mIsShowAlphaBar = show;
-        refreshLayoutParams();
-        invalidate();
-        if (mOnColorChangeLister != null) {
-            mOnColorChangeLister.onColorChangeListener(mColorBarPosition, mAlphaBarPosition, getColor());
+    //    public void setVertical(boolean vertical) {
+    //        mIsVertical = vertical;
+    //        refreshLayoutParams();
+    //        invalidate();
+    //    }
+    var isShowAlphaBar: Boolean
+        get() = mIsShowAlphaBar
+        set(show) {
+            mIsShowAlphaBar = show
+            refreshLayoutParams()
+            invalidate()
+            mOnColorChangeLister?.onColorChangeListener(
+                mColorBarPosition,
+                mAlphaBarPosition,
+                color
+            )
         }
-    }
 
-    private void refreshLayoutParams() {
-        setLayoutParams(getLayoutParams());
-    }
-
-    public boolean isVertical() {
-        return mIsVertical;
+    private fun refreshLayoutParams() {
+        layoutParams = layoutParams
     }
 
     /**
      * @param px
      */
-    public void setBarHeightPx(int px) {
-        mBarHeight = px;
-        refreshLayoutParams();
-        invalidate();
+    @Suppress("unused")
+    fun setBarHeightPx(px: Int) {
+        barHeight = px
+        refreshLayoutParams()
+        invalidate()
     }
 
-    private void setAlphaValue() {
-        mAlpha = 255 - mAlphaBarPosition;
+    private fun setAlphaValue() {
+        mAlpha = 255 - mAlphaBarPosition
     }
 
-    public int getMaxValue() {
-        return mMaxPosition;
-    }
-
-    public void setMaxPosition(int value) {
-        this.mMaxPosition = value;
-        invalidate();
-        cacheColors();
+    fun setMaxPosition(value: Int) {
+        maxValue = value
+        invalidate()
+        cacheColors()
     }
 
     /**
@@ -657,26 +693,31 @@ public class ColorSeekBar extends View {
      *
      * @param mBarMargin
      */
-    public void setBarMarginPx(int mBarMargin) {
-        this.mBarMargin = mBarMargin;
-        refreshLayoutParams();
-        invalidate();
+    @Suppress("unused")
+    fun setBarMarginPx(mBarMargin: Int) {
+        barMargin = mBarMargin
+        refreshLayoutParams()
+        invalidate()
     }
 
-    public void setPosition(int colorBarPosition, int alphaBarPosition) {
-        this.mColorBarPosition = colorBarPosition;
-        mColorBarPosition = Math.min(mColorBarPosition, mMaxPosition);
-        mColorBarPosition = Math.max(mColorBarPosition, 0);
-        this.mAlphaBarPosition = alphaBarPosition;
-        setAlphaValue();
-        invalidate();
-        if (mOnColorChangeLister != null) {
-            mOnColorChangeLister.onColorChangeListener(mColorBarPosition, mAlphaBarPosition, getColor());
-        }
+    @Suppress("unused")
+    fun setPosition(colorBarPosition: Int, alphaBarPosition: Int) {
+        mColorBarPosition = colorBarPosition
+        mColorBarPosition = min(mColorBarPosition, maxValue)
+        mColorBarPosition = max(mColorBarPosition, 0)
+        mAlphaBarPosition = alphaBarPosition
+        setAlphaValue()
+        invalidate()
+        mOnColorChangeLister?.onColorChangeListener(
+            mColorBarPosition,
+            mAlphaBarPosition,
+            color
+        )
     }
 
-    public void setOnInitDoneListener(OnInitDoneListener listener) {
-        this.mOnInitDoneListener = listener;
+    @Suppress("unused")
+    fun setOnInitDoneListener(listener: OnInitDoneListener?) {
+        mOnInitDoneListener = listener
     }
 
     /**
@@ -684,28 +725,21 @@ public class ColorSeekBar extends View {
      *
      * @param px
      */
-    public void setThumbHeightPx(int px) {
-        this.mThumbHeight = px;
-        mThumbRadius = mThumbHeight / 2;
-        refreshLayoutParams();
-        invalidate();
-    }
-
-    public int getBarHeight() {
-        return mBarHeight;
+    @Suppress("unused")
+    fun setThumbHeightPx(px: Int) {
+        thumbHeight = px
+        mThumbRadius = (thumbHeight / 2).toFloat()
+        refreshLayoutParams()
+        invalidate()
     }
 
     /**
      * @param dp
      */
-    public void setBarHeight(float dp) {
-        mBarHeight = dp2px(dp);
-        refreshLayoutParams();
-        invalidate();
-    }
-
-    public int getThumbHeight() {
-        return mThumbHeight;
+    fun setBarHeight(dp: Float) {
+        barHeight = dp2px(dp)
+        refreshLayoutParams()
+        invalidate()
     }
 
     /**
@@ -713,15 +747,12 @@ public class ColorSeekBar extends View {
      *
      * @param dp
      */
-    public void setThumbHeight(float dp) {
-        this.mThumbHeight = dp2px(dp);
-        mThumbRadius = mThumbHeight / 2;
-        refreshLayoutParams();
-        invalidate();
-    }
-
-    public int getBarMargin() {
-        return mBarMargin;
+    @Suppress("unused")
+    fun setThumbHeight(dp: Float) {
+        thumbHeight = dp2px(dp)
+        mThumbRadius = (thumbHeight / 2).toFloat()
+        refreshLayoutParams()
+        invalidate()
     }
 
     /**
@@ -729,79 +760,75 @@ public class ColorSeekBar extends View {
      *
      * @param mBarMargin
      */
-    public void setBarMargin(float mBarMargin) {
-        this.mBarMargin = dp2px(mBarMargin);
-        refreshLayoutParams();
-        invalidate();
+    @Suppress("unused")
+    fun setBarMargin(mBarMargin: Float) {
+        barMargin = dp2px(mBarMargin)
+        refreshLayoutParams()
+        invalidate()
     }
 
-    public float getColorBarValue() {
-        return mColorBarPosition;
-    }
-
-    public int getColorBarPosition() {
-        return mColorBarPosition;
-    }
+    @Suppress("unused")
+    val colorBarValue: Float
+        get() = mColorBarPosition.toFloat()
 
     /**
      * Set the value of color bar, if out of bounds , it will be 0 or maxValue;
      *
-     * @param value
+     * value
      */
-    public void setColorBarPosition(int value) {
-        this.mColorBarPosition = value;
-        mColorBarPosition = Math.min(mColorBarPosition, mMaxPosition);
-        mColorBarPosition = Math.max(mColorBarPosition, 0);
-        invalidate();
-
-        if (mOnColorChangeLister != null) {
-            mOnColorChangeLister.onColorChangeListener(mColorBarPosition, mAlphaBarPosition, getColor());
+    private var colorBarPosition: Int
+        get() = mColorBarPosition
+        set(value) {
+            mColorBarPosition = value
+            mColorBarPosition = min(mColorBarPosition, maxValue)
+            mColorBarPosition = max(mColorBarPosition, 0)
+            invalidate()
+            mOnColorChangeLister?.onColorChangeListener(
+                mColorBarPosition,
+                mAlphaBarPosition,
+                color
+            )
         }
-    }
 
-    public int getDisabledColor() {
-        return mDisabledColor;
-    }
+    @Suppress("unused")
+    var disabledColor: Int
+        get() = mDisabledColor
+        set(disabledColor) {
+            mDisabledColor = disabledColor
+            mDisabledPaint.color = disabledColor
+        }
 
-    public void setDisabledColor(int disabledColor) {
-        this.mDisabledColor = disabledColor;
-        mDisabledPaint.setColor(disabledColor);
-    }
-
-    public boolean isShowThumb() {
-        return mShowThumb;
-    }
-
-    public void setShowThumb(boolean showThumb) {
-        this.mShowThumb = showThumb;
-        invalidate();
-    }
-
-    public int getBarRadius() {
-        return mBarRadius;
-    }
+    @Suppress("unused")
+    var isShowThumb: Boolean
+        get() = mShowThumb
+        set(showThumb) {
+            mShowThumb = showThumb
+            invalidate()
+        }
 
     /**
      * Set bar radius with px unit
      *
-     * @param barRadiusInPx
+     * barRadiusInPx
      */
-    public void setBarRadius(int barRadiusInPx) {
-        this.mBarRadius = barRadiusInPx;
-        invalidate();
-    }
+    @Suppress("unused")
+    var barRadius: Int
+        get() = mBarRadius
+        set(barRadiusInPx) {
+            mBarRadius = barRadiusInPx
+            invalidate()
+        }
 
-    public interface OnColorChangeListener {
+    interface OnColorChangeListener {
         /**
          * @param colorBarPosition between 0-maxValue
          * @param alphaBarPosition between 0-255
          * @param color            return the color contains alpha value whether showAlphaBar is true or without alpha value
          */
-        void onColorChangeListener(int colorBarPosition, int alphaBarPosition, int color);
+        fun onColorChangeListener(colorBarPosition: Int, alphaBarPosition: Int, color: Int)
     }
 
-    public interface OnInitDoneListener {
-        void done();
+    interface OnInitDoneListener {
+        fun done()
     }
-
 }

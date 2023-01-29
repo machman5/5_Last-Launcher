@@ -70,6 +70,7 @@ dependencies {
 //    testImplementation 'junit:junit:4.13.2'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     api 'org.jetbrains.kotlin:kotlin-stdlib:1.8.0'
+//    implementation 'com.github.rtugeek:colorseekbar:2.0.3'
 }
 
 static String getGitWorkingBranch() {

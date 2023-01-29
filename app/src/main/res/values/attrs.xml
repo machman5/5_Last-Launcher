@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-
-  -->
+<?xml version="1.0" encoding="utf-8"?>
 
 <resources>
     <declare-styleable name="ColorSeekBar">
@@ -18,11 +16,4 @@
         <attr name="disabledColor" format="color" />
         <attr name="showThumb" format="boolean" />
     </declare-styleable>
-
-
-    <!-- <declare-styleable name="AnimatedTextView">
-         <attr name="colorSpeed" format="dimension" />
-         <attr name="colorSpace" format="dimension" />
-     </declare-styleable>-->
-
 </resources>

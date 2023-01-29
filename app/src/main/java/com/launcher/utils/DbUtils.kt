@@ -44,35 +44,35 @@ object DbUtils {
 
     @JvmStatic
     fun init(context: Context?) {
-        SpUtils.getInstance().init(context)
+        SpUtils.instance.init(context)
     }
 
     @JvmStatic
     fun clearDB() {
-        SpUtils.getInstance().clear()
+        SpUtils.instance.clear()
     }
 
     @JvmStatic
     val dBData: Map<String, *>
-        get() = SpUtils.getInstance().all
+        get() = SpUtils.instance.all
 
     @JvmStatic
     fun loadDbFromFile(inputStream: InputStream?): Boolean {
-        return SpUtils.getInstance().loadSharedPreferencesFromFile(inputStream)
+        return SpUtils.instance.loadSharedPreferencesFromFile(inputStream)
     }
 
     @JvmStatic
     fun putAppOriginalName(activityName: String, value: String?) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_app_original_name"
-        SpUtils.getInstance().putString(sActivityName, value)
+        SpUtils.instance.putString(sActivityName, value)
     }
 
     @JvmStatic
     fun putAppName(activityName: String, value: String?) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_app_name"
-        SpUtils.getInstance().putString(sActivityName, value)
+        SpUtils.instance.putString(sActivityName, value)
     }
 
     @JvmStatic
@@ -82,7 +82,7 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_size"
-        SpUtils.getInstance().putInt(sActivityName, size)
+        SpUtils.instance.putInt(sActivityName, size)
     }
 
     @JvmStatic
@@ -92,7 +92,7 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_color"
-        SpUtils.getInstance().putInt(sActivityName, color)
+        SpUtils.instance.putInt(sActivityName, color)
     }
 
     @Suppress("unused")
@@ -102,41 +102,41 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_color"
-        SpUtils.getInstance().putIntCommit(sActivityName, color)
+        SpUtils.instance.putIntCommit(sActivityName, color)
     }
 
     @JvmStatic
     fun getAppOriginalName(
         activityName: String,
-        defaultValue: String?
+        defaultValue: String
     ): String {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_app_original_name"
-        return SpUtils.getInstance().getString(sActivityName, defaultValue)
+        return SpUtils.instance.getString(sActivityName, defaultValue) ?: defaultValue
     }
 
     @JvmStatic
     fun getAppName(
         activityName: String,
-        defaultValue: String?
+        defaultValue: String
     ): String {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_app_name"
-        return SpUtils.getInstance().getString(sActivityName, defaultValue)
+        return SpUtils.instance.getString(sActivityName, defaultValue) ?: defaultValue
     }
 
     @JvmStatic
     fun getAppSize(activityName: String): Int {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_size"
-        return SpUtils.getInstance().getInt(sActivityName, NULL_TEXT_SIZE)
+        return SpUtils.instance.getInt(sActivityName, NULL_TEXT_SIZE)
     }
 
     @JvmStatic
     fun getAppColor(activityName: String): Int {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_color"
-        return SpUtils.getInstance().getInt(sActivityName, NULL_TEXT_COLOR)
+        return SpUtils.instance.getInt(sActivityName, NULL_TEXT_COLOR)
     }
 
     @JvmStatic
@@ -146,7 +146,7 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_hide"
-        SpUtils.getInstance().putBoolean(sActivityName, value)
+        SpUtils.instance.putBoolean(sActivityName, value)
     }
 
     @JvmStatic
@@ -156,48 +156,48 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_freeze"
-        SpUtils.getInstance().putBoolean(sActivityName, value)
+        SpUtils.instance.putBoolean(sActivityName, value)
     }
 
     @JvmStatic
     fun isAppFrozen(activityName: String): Boolean {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_freeze"
-        return SpUtils.getInstance().getBoolean(sActivityName, false)
+        return SpUtils.instance.getBoolean(sActivityName, false)
     }
 
     @JvmStatic
     fun isAppHidden(activityName: String): Boolean {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_hide"
-        return SpUtils.getInstance().getBoolean(sActivityName, false)
+        return SpUtils.instance.getBoolean(sActivityName, false)
     }
 
     @JvmStatic
     fun removeColor(activityName: String) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_color"
-        SpUtils.getInstance().remove(sActivityName)
+        SpUtils.instance.remove(sActivityName)
     }
 
     @JvmStatic
     fun removeSize(activityName: String) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_size"
-        SpUtils.getInstance().remove(sActivityName)
+        SpUtils.instance.remove(sActivityName)
     }
 
     @JvmStatic
     fun removeAppName(activityName: String) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_app_name"
-        SpUtils.getInstance().remove(sActivityName)
+        SpUtils.instance.remove(sActivityName)
     }
 
     @JvmStatic
     var theme: Int
         get() {
-            when (SpUtils.getInstance().getInt(LAUNCHER_THEME, 2)) {
+            when (SpUtils.instance.getInt(LAUNCHER_THEME, 2)) {
                 1 -> return R.style.Wallpaper
                 2 -> return R.style.AppTheme
                 3 -> return R.style.White
@@ -221,53 +221,53 @@ object DbUtils {
                 R.style.Hacker_green -> theme = 7
                 R.style.Hacker_red -> theme = 8
             }
-            SpUtils.getInstance().putInt(LAUNCHER_THEME, theme)
+            SpUtils.instance.putInt(LAUNCHER_THEME, theme)
         }
 
     @JvmStatic
     var fonts: String?
-        get() = SpUtils.getInstance().getString(LAUNCHER_FONTS, null)
+        get() = SpUtils.instance.getString(LAUNCHER_FONTS, null)
         set(path) {
-            SpUtils.getInstance().putString(LAUNCHER_FONTS, path)
+            SpUtils.instance.putString(LAUNCHER_FONTS, path)
         }
 
     @Suppress("unused")
     fun permissionRequired(b: Boolean) {
-        SpUtils.getInstance().putBoolean(READ_WRITE_PERMISSION, b)
+        SpUtils.instance.putBoolean(READ_WRITE_PERMISSION, b)
     }
 
     @JvmStatic
     val isRandomColor: Boolean
-        get() = SpUtils.getInstance().getBoolean(RANDOM_COLOR_FOR_APPS, false)
+        get() = SpUtils.instance.getBoolean(RANDOM_COLOR_FOR_APPS, false)
 
     @JvmStatic
     fun randomColor(b: Boolean) {
-        SpUtils.getInstance().putBoolean(RANDOM_COLOR_FOR_APPS, b)
+        SpUtils.instance.putBoolean(RANDOM_COLOR_FOR_APPS, b)
     }
 
     @JvmStatic
     fun freezeSize(b: Boolean) {
-        SpUtils.getInstance().putBoolean(LAUNCHER_FREEZE_SIZE, b)
+        SpUtils.instance.putBoolean(LAUNCHER_FREEZE_SIZE, b)
     }
 
     @JvmStatic
     val isSizeFrozen: Boolean
-        get() = SpUtils.getInstance().getBoolean(LAUNCHER_FREEZE_SIZE, false)
+        get() = SpUtils.instance.getBoolean(LAUNCHER_FREEZE_SIZE, false)
 
     @JvmStatic
     val isExternalSourceColor: Boolean
-        get() = SpUtils.getInstance().getBoolean(APPS_COLOR_FROM_EXTERNAL_SOURCE, false)
+        get() = SpUtils.instance.getBoolean(APPS_COLOR_FROM_EXTERNAL_SOURCE, false)
 
     @JvmStatic
     fun externalSourceColor(b: Boolean) {
-        SpUtils.getInstance().putBoolean(APPS_COLOR_FROM_EXTERNAL_SOURCE, b)
+        SpUtils.instance.putBoolean(APPS_COLOR_FROM_EXTERNAL_SOURCE, b)
     }
 
     @JvmStatic
     fun getAppColorExternalSource(activityName: String): Int {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_external_color"
-        return SpUtils.getInstance().getInt(sActivityName, NULL_TEXT_COLOR)
+        return SpUtils.instance.getInt(sActivityName, NULL_TEXT_COLOR)
     }
 
     @JvmStatic
@@ -277,58 +277,58 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_external_color"
-        SpUtils.getInstance().putInt(sActivityName, color)
+        SpUtils.instance.putInt(sActivityName, color)
     }
 
     @JvmStatic
     var flowLayoutAlignment: Int
-        get() = SpUtils.getInstance()
+        get() = SpUtils.instance
             .getInt(FLOW_LAYOUT_ALIGNMENT, Gravity.CENTER or Gravity.CENTER_VERTICAL)
         set(gravity) {
-            SpUtils.getInstance().putInt(FLOW_LAYOUT_ALIGNMENT, gravity)
+            SpUtils.instance.putInt(FLOW_LAYOUT_ALIGNMENT, gravity)
         }
 
     @JvmStatic
     var maxAppSize: Int
-        get() = SpUtils.getInstance().getInt(MAX_APP_SIZE, Constants.MAX_TEXT_SIZE_FOR_APPS)
+        get() = SpUtils.instance.getInt(MAX_APP_SIZE, Constants.MAX_TEXT_SIZE_FOR_APPS)
         set(size) {
-            SpUtils.getInstance().putInt(MAX_APP_SIZE, size)
+            SpUtils.instance.putInt(MAX_APP_SIZE, size)
         }
 
     @JvmStatic
     var minAppSize: Int
-        get() = SpUtils.getInstance().getInt(MIN_APP_SIZE, Constants.MIN_TEXT_SIZE_FOR_APPS)
+        get() = SpUtils.instance.getInt(MIN_APP_SIZE, Constants.MIN_TEXT_SIZE_FOR_APPS)
         set(size) {
-            SpUtils.getInstance().putInt(MIN_APP_SIZE, size)
+            SpUtils.instance.putInt(MIN_APP_SIZE, size)
         }
 
     ///////
     @JvmStatic
     var paddingLeft: Int
-        get() = SpUtils.getInstance().getInt(PADDING_LEFT, 0)
+        get() = SpUtils.instance.getInt(PADDING_LEFT, 0)
         set(padding) {
-            SpUtils.getInstance().putInt(PADDING_LEFT, padding)
+            SpUtils.instance.putInt(PADDING_LEFT, padding)
         }
 
     @JvmStatic
     var paddingRight: Int
-        get() = SpUtils.getInstance().getInt(PADDING_RIGHT, 0)
+        get() = SpUtils.instance.getInt(PADDING_RIGHT, 0)
         set(padding) {
-            SpUtils.getInstance().putInt(PADDING_RIGHT, padding)
+            SpUtils.instance.putInt(PADDING_RIGHT, padding)
         }
 
     @JvmStatic
     var paddingTop: Int
-        get() = SpUtils.getInstance().getInt(PADDING_TOP, 0)
+        get() = SpUtils.instance.getInt(PADDING_TOP, 0)
         set(padding) {
-            SpUtils.getInstance().putInt(PADDING_TOP, padding)
+            SpUtils.instance.putInt(PADDING_TOP, padding)
         }
 
     @JvmStatic
     var paddingBottom: Int
-        get() = SpUtils.getInstance().getInt(PADDING_BOTTOM, 0)
+        get() = SpUtils.instance.getInt(PADDING_BOTTOM, 0)
         set(padding) {
-            SpUtils.getInstance().putInt(PADDING_BOTTOM, padding)
+            SpUtils.instance.putInt(PADDING_BOTTOM, padding)
         }
 
     @Suppress("unused")
@@ -338,7 +338,7 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_group_prefix"
-        SpUtils.getInstance().putString(sActivityName, prefix)
+        SpUtils.instance.putString(sActivityName, prefix)
     }
 
     @JvmStatic
@@ -348,7 +348,7 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_categories"
-        SpUtils.getInstance().putString(sActivityName, categories)
+        SpUtils.instance.putString(sActivityName, categories)
     }
 
     @JvmStatic
@@ -358,67 +358,67 @@ object DbUtils {
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_opening_counts"
-        SpUtils.getInstance().putString(sActivityName, codeCount(count))
+        SpUtils.instance.putString(sActivityName, codeCount(count))
     }
 
     @Suppress("unused")
     fun getGroupPrefix(activityName: String): String {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_group_prefix"
-        return SpUtils.getInstance().getString(sActivityName)
+        return SpUtils.instance.getString(sActivityName) ?: ""
     }
 
     @Suppress("unused")
     fun getCategories(activityName: String): String {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_categories"
-        return SpUtils.getInstance().getString(sActivityName)
+        return SpUtils.instance.getString(sActivityName) ?: ""
     }
 
     @JvmStatic
     fun getOpeningCounts(activityName: String): Int {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_opening_counts"
-        return decodeCount(SpUtils.getInstance().getString(sActivityName, null))
+        return decodeCount(SpUtils.instance.getString(sActivityName, null))
     }
 
     @JvmStatic
     var globalSizeAdditionExtra: Int
-        get() = SpUtils.getInstance().getInt(GLOBAL_SIZE_ADDITION_EXTRA, 0)
+        get() = SpUtils.instance.getInt(GLOBAL_SIZE_ADDITION_EXTRA, 0)
         set(extra) {
-            SpUtils.getInstance().putInt(GLOBAL_SIZE_ADDITION_EXTRA, extra)
+            SpUtils.instance.putInt(GLOBAL_SIZE_ADDITION_EXTRA, extra)
         }
 
     @JvmStatic
     var appsColorDefault: Int
-        get() = SpUtils.getInstance().getInt(APPS_COLORS_DEFAULT, NULL_TEXT_COLOR)
+        get() = SpUtils.instance.getInt(APPS_COLORS_DEFAULT, NULL_TEXT_COLOR)
         set(color) {
-            SpUtils.getInstance().putInt(APPS_COLORS_DEFAULT, color)
+            SpUtils.instance.putInt(APPS_COLORS_DEFAULT, color)
         }
 
     @JvmStatic
     fun removeFont() {
-        SpUtils.getInstance().remove(LAUNCHER_FONTS)
+        SpUtils.instance.remove(LAUNCHER_FONTS)
     }
 
     @JvmStatic
     val isFontExists: Boolean
-        get() = SpUtils.getInstance().contains(LAUNCHER_FONTS)
+        get() = SpUtils.instance.contains(LAUNCHER_FONTS)
 
     @JvmStatic
     val sortsTypes: Int
-        get() = SpUtils.getInstance().getInt(APPS_SORTS_TYPE, 1)
+        get() = SpUtils.instance.getInt(APPS_SORTS_TYPE, 1)
 
     @JvmStatic
     fun setAppsSortsType(type: Int) {
-        SpUtils.getInstance().putInt(APPS_SORTS_TYPE, type)
+        SpUtils.instance.putInt(APPS_SORTS_TYPE, type)
     }
 
     @JvmStatic
     var appSortReverseOrder: Boolean
-        get() = SpUtils.getInstance().getBoolean(APPS_SORTS_REVERSE_ORDER, false)
+        get() = SpUtils.instance.getBoolean(APPS_SORTS_REVERSE_ORDER, false)
         set(reverseOrder) {
-            SpUtils.getInstance().putBoolean(APPS_SORTS_REVERSE_ORDER, reverseOrder)
+            SpUtils.instance.putBoolean(APPS_SORTS_REVERSE_ORDER, reverseOrder)
         }
 
     //  a simple ciphered counter: "opening counter" is a private thing

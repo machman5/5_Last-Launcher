@@ -1,221 +1,208 @@
-/*
- * Last Launcher
- * Copyright (C) 2019 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package com.launcher.utils
 
-package com.launcher.utils;
-
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.util.Map;
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
+import java.io.ObjectInputStream
 
 // utility to handle shared prefs
-class SpUtils {
-    private volatile static SpUtils mInstance;
-    private SharedPreferences mPref;
+internal class SpUtils private constructor() {
 
-    private SpUtils() {
-    }
-
-    static SpUtils getInstance() {
-        if (null == mInstance) {
-            synchronized (SpUtils.class) {
+    companion object {
+        @Volatile
+        private var mInstance: SpUtils? = null
+        val instance: SpUtils
+            get() {
                 if (null == mInstance) {
-                    mInstance = new SpUtils();
+                    synchronized(SpUtils::class.java) {
+                        if (null == mInstance) {
+                            mInstance = SpUtils()
+                        }
+                    }
                 }
+                return mInstance!!
             }
-        }
-        return mInstance;
     }
 
-    void init(Context context) {
+    private var mPref: SharedPreferences? = null
+
+    fun init(context: Context?) {
         if (mPref == null) {
-            mPref = PreferenceManager.getDefaultSharedPreferences(context);
+            mPref = PreferenceManager.getDefaultSharedPreferences(context)
         }
     }
 
-    void putString(String key, String value) {
+    fun putString(key: String?, value: String?) {
         if (mPref != null) {
-            Editor editor = mPref.edit();
-            editor.putString(key, value);
-            editor.apply();
-        } else throw new RuntimeException("First Initialize context");
+            mPref?.apply {
+                val editor = this.edit()
+                editor.putString(key, value)
+                editor.apply()
+            }
+        } else {
+            throw RuntimeException("First Initialize context")
+        }
     }
 
-    void putLong(String key, long value) {
+    @Suppress("unused")
+    fun putLong(key: String?, value: Long) {
         if (mPref != null) {
-            Editor editor = mPref.edit();
-            editor.putLong(key, value);
-            editor.apply();
-        } else throw new RuntimeException("First Initialize context");
+            mPref?.apply {
+                val editor = this.edit()
+                editor.putLong(key, value)
+                editor.apply()
+            }
+        } else throw RuntimeException("First Initialize context")
     }
 
-    void putInt(String key, int value) {
-
+    fun putInt(key: String?, value: Int) {
         if (mPref != null) {
-            Editor editor = mPref.edit();
-            editor.putInt(key, value);
-            editor.apply();
-        } else throw new RuntimeException("First Initialize context");
+            mPref?.apply {
+                val editor = this.edit()
+                editor.putInt(key, value)
+                editor.apply()
+            }
+        } else throw RuntimeException("First Initialize context")
     }
 
-    void putIntCommit(String key, int value) {
-
+    fun putIntCommit(key: String?, value: Int) {
         if (mPref != null) {
-            Editor editor = mPref.edit();
-            editor.putInt(key, value);
-            editor.commit();
-        } else throw new RuntimeException("First Initialize context");
+            mPref?.apply {
+                val editor = this.edit()
+                editor.putInt(key, value)
+//            editor.commit()
+                editor.apply()
+            }
+        } else throw RuntimeException("First Initialize context")
     }
 
-    void putBoolean(String key, boolean value) {
+    fun putBoolean(key: String?, value: Boolean) {
         if (mPref != null) {
-            Editor editor = mPref.edit();
-            editor.putBoolean(key, value);
-            editor.apply();
-        } else throw new RuntimeException("First Initialize context");
+            mPref?.apply {
+                val editor = this.edit()
+                editor.putBoolean(key, value)
+                editor.apply()
+            }
+        } else throw RuntimeException("First Initialize context")
     }
 
-    public boolean getBoolean(String key) {
-        if (mPref != null) {
-            return mPref.getBoolean(key, false);
-        } else throw new RuntimeException("First Initialize context");
+    @Suppress("unused")
+    fun getBoolean(key: String?): Boolean {
+        return if (mPref != null) {
+            mPref?.getBoolean(key, false) ?: false
+        } else throw RuntimeException("First Initialize context")
     }
 
-    boolean getBoolean(String key, boolean def) {
-        if (mPref != null) {
-            return mPref.getBoolean(key, def);
-        } else throw new RuntimeException("First Initialize context");
+    fun getBoolean(key: String?, def: Boolean): Boolean {
+        return if (mPref != null) {
+            mPref?.getBoolean(key, def) ?: false
+        } else throw RuntimeException("First Initialize context")
     }
 
-
-    String getString(String key) {
-        if (mPref != null) {
-            return mPref.getString(key, "");
-        } else throw new RuntimeException("First Initialize context");
+    fun getString(key: String?): String? {
+        return if (mPref != null) {
+            mPref?.getString(key, "")
+        } else throw RuntimeException("First Initialize context")
     }
 
-    String getString(String key, String def) {
-        if (mPref != null) {
-            return mPref.getString(key, def);
-        } else throw new RuntimeException("First Initialize context");
+    fun getString(key: String?, def: String?): String? {
+        return if (mPref != null) {
+            mPref?.getString(key, def)
+        } else throw RuntimeException("First Initialize context")
     }
 
-    public long getLong(String key) {
-        if (mPref != null) {
-            return mPref.getLong(key, 0);
-        } else throw new RuntimeException("First Initialize context");
+    @Suppress("unused")
+    fun getLong(key: String?): Long {
+        return if (mPref != null) {
+            mPref?.getLong(key, 0) ?: 0
+        } else throw RuntimeException("First Initialize context")
     }
 
-    public long getLong(String key, int defInt) {
-        if (mPref != null) {
-            return mPref.getLong(key, defInt);
-        } else throw new RuntimeException("First Initialize context");
+    @Suppress("unused")
+    fun getLong(key: String?, defInt: Int): Long {
+        return if (mPref != null) {
+            mPref?.getLong(key, defInt.toLong()) ?: defInt.toLong()
+        } else throw RuntimeException("First Initialize context")
     }
 
-    int getInt(String key) {
-        if (mPref != null) {
-            return mPref.getInt(key, 0);
-        } else throw new RuntimeException("First Initialize context");
+    @Suppress("unused")
+    fun getInt(key: String?): Int {
+        return if (mPref != null) {
+            mPref?.getInt(key, 0) ?: 0
+        } else throw RuntimeException("First Initialize context")
     }
 
-    int getInt(String key, int defInt) {
-        if (mPref != null) {
-            return mPref.getInt(key, defInt);
-        } else throw new RuntimeException("First Initialize context");
+    fun getInt(key: String?, defInt: Int): Int {
+        return if (mPref != null) {
+            mPref?.getInt(key, defInt) ?: defInt
+        } else throw RuntimeException("First Initialize context")
     }
 
-    boolean contains(String key) {
-        if (mPref != null) {
-            return mPref.contains(key);
-        } else throw new RuntimeException("First Initialize context");
+    operator fun contains(key: String?): Boolean {
+        return if (mPref != null) {
+            mPref?.contains(key) ?: false
+        } else throw RuntimeException("First Initialize context")
     }
 
-
-    void remove(String key) {
+    fun remove(key: String?) {
         if (mPref != null) {
-            Editor editor = mPref.edit();
-            editor.remove(key);
-            editor.apply();
-        } else throw new RuntimeException("First Initialize context");
+            mPref?.apply {
+                val editor = this.edit()
+                editor.remove(key)
+                editor.apply()
+            }
+        } else throw RuntimeException("First Initialize context")
     }
 
-    void clear() {
+    fun clear() {
         if (mPref != null) {
-            Editor editor = mPref.edit();
-            editor.clear();
-            editor.commit();
-        } else throw new RuntimeException("First Initialize context");
+            mPref?.apply {
+                val editor = this.edit()
+                editor.clear()
+//            editor.commit()
+                editor.apply()
+            }
+        } else throw RuntimeException("First Initialize context")
     }
-
-
-
 
     //stub
-    @SuppressWarnings("unchecked")
-    boolean loadSharedPreferencesFromFile(InputStream inputS) {
-        boolean res = false;
-        ObjectInputStream input = null;
+    fun loadSharedPreferencesFromFile(inputS: InputStream?): Boolean {
+        var res = false
+        var input: ObjectInputStream? = null
         try {
-            input = new ObjectInputStream(inputS);
-            clear();
-            //noinspection unchecked
-            Map<String, ?> entries = (Map<String, ?>) input.readObject();
-            for (Map.Entry<String, ?> entry : entries.entrySet()) {
-                Object v = entry.getValue();
-                String key = entry.getKey();
-
-                if (v instanceof Boolean)
-                    putBoolean(key, (Boolean) v);
-                else if (v instanceof Integer)
-                    putInt(key, (Integer) v);
-                else if (v instanceof Long)
-                    putLong(key, (Long) v);
-                else if (v instanceof String)
-                    putString(key, ((String) v));
+            input = ObjectInputStream(inputS)
+            clear()
+            val entries = input.readObject() as Map<String, *>
+            for ((key, value) in entries) {
+                when (value) {
+                    is Boolean -> putBoolean(key, value)
+                    is Int -> putInt(
+                        key, value
+                    )
+                    is Long -> putLong(key, value)
+                    is String -> putString(key, value)
+                }
             }
-
-            res = true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            res = true
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
         } finally {
             try {
-                if (input != null) {
-                    input.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                input?.close()
+            } catch (ex: IOException) {
+                ex.printStackTrace()
             }
         }
-        return res;
+        return res
     }
 
-    Map<String, ?> getAll() {
-        return mPref.getAll();
-    }
+    val all: Map<String, *>
+        get() = mPref!!.all
 }

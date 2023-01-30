@@ -36,7 +36,7 @@ class ColorSizeDialog     // boolean change=false;
         // getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // no title please
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_color_size)
+        setContentView(R.layout.dlg_color_size)
         window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val colorSlider1 = findViewById<ColorSeekBar>(R.id.colorSlider1)

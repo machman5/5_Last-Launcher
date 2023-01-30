@@ -43,7 +43,7 @@ class GlobalSettingsDialog(
         super.onCreate(savedInstanceState)
         // no old title: Last Launcher use Activity class not AppCompatActivity so it show very old title
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_global_settings)
+        setContentView(R.layout.dlg_global_settings)
         findViewById<View>(R.id.settings_themes).setOnClickListener(this)
         freezeSize = findViewById(R.id.settings_freeze_size)
         freezeSize?.setOnClickListener(this)

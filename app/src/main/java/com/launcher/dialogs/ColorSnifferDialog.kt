@@ -81,7 +81,7 @@ class ColorSnifferDialog internal constructor(
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_color_sniffer_settings)
+        setContentView(R.layout.dlg_color_sniffer_settings)
         findViewById<View>(R.id.text_color_sniffer_on_off).setOnClickListener(this)
         findViewById<View>(R.id.color_sniffer_clipboard).setOnClickListener(this)
         mStartColorSniffer = findViewById(R.id.color_sniffer_external_app)

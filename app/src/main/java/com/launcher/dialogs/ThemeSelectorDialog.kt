@@ -18,7 +18,7 @@ class ThemeSelectorDialog internal constructor(
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_theme_selector)
+        setContentView(R.layout.dlg_theme_selector)
         val ll = findViewById<LinearLayout>(R.id.theme_linear_layout)
         for (i in 0 until ll.childCount) {
             ll.getChildAt(i).setOnClickListener(this)

@@ -10,7 +10,6 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center|center_horizontal|center_vertical"
-
         android:layout_margin="6dp"
         android:foregroundGravity="center_vertical|center|center_horizontal" />
 

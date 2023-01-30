@@ -26,7 +26,7 @@ class FrozenAppsDialogs(
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_hidden_apps)
+        setContentView(R.layout.dlg_hidden_apps)
         val listView = findViewById<ListView>(R.id.hidden_app_list)
         val adapter = UniversalAdapter(context, frozenApps)
         listView.adapter = adapter

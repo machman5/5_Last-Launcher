@@ -43,7 +43,7 @@ class PaddingDialog(
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_padding)
+        setContentView(R.layout.dlg_padding)
         val btnLeftMinus = findViewById<TextView>(R.id.btn_left_minus)
         btnLeftMinus.setOnLongClickListener(this)
         btnLeftMinus.setOnClickListener(this)

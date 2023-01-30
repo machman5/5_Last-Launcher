@@ -14,7 +14,7 @@ import com.launcher.model.Apps
 class UniversalAdapter(
     mContext: Context, private val list: ArrayList<Apps>
 ) : ArrayAdapter<Apps>(
-    mContext, R.layout.list_item, list
+    mContext, R.layout.v_list_item, list
 ) {
 
     private var listener: OnClickListener? = null
@@ -26,7 +26,7 @@ class UniversalAdapter(
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val row = inflater.inflate(R.layout.list_item, parent, false)
+        val row = inflater.inflate(R.layout.v_list_item, parent, false)
         row.tag = position
         val tvAppLabel = row.findViewById<TextView>(R.id.app_label)
         tvAppLabel.text = list[position].getAppName()

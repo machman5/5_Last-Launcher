@@ -42,7 +42,7 @@ class GlobalColorSizeDialog(
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dialog_color_size)
+        setContentView(R.layout.dlg_color_size)
         window?.setBackgroundDrawableResource(android.R.color.transparent)
         val colorSlider1 = findViewById<ColorSeekBar>(R.id.colorSlider1)
         colorSlider1.setMaxPosition(100)

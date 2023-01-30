@@ -196,7 +196,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         //theme must be set before setContentView
         setTheme(theme);
 
-        setContentView(R.layout.activity_launcher);
+        setContentView(R.layout.a_launcher);
 
         // set the status bar color as per theme
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

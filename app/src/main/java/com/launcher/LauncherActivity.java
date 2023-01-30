@@ -13,13 +13,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -323,13 +326,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             // get app color
             color = DbUtils.getAppColor(activity);
 
-            /*Drawable icon = null;
-            try {
-                icon = getPackageManager().getApplicationIcon(packageName);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-            color= Utils.getDominantColor(Utils.drawableToBitmap(icon));*/
+//            Drawable icon = null;
+//            try {
+//                icon = getPackageManager().getApplicationIcon(packageName);
+//            } catch (PackageManager.NameNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            color= Utils.getDominantColor(Utils.drawableToBitmap(icon));
 
 
             // check for default color : set default colors if random color is not set
@@ -684,7 +687,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         if (window != null) {
             window.setGravity(Gravity.BOTTOM);
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         }
 
         dialogs.show();
@@ -818,14 +821,12 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     // register the receiver
     // when new app installed, app updated and app uninstalled launcher have to reflect it
     private void registerForReceivers() {
-        /*if (broadcastReceiverShortcutInstall!=null){
-            unregisterReceiver(broadcastReceiverShortcutInstall);
-        }
-        if (broadcastReceiverAppInstall!=null){
-            unregisterReceiver(broadcastReceiverAppInstall);
-        }*/
-        //app install and uninstall receiver
-
+//        if (broadcastReceiverShortcutInstall!=null){
+//            unregisterReceiver(broadcastReceiverShortcutInstall);
+//        }
+//        if (broadcastReceiverAppInstall!=null){
+//            unregisterReceiver(broadcastReceiverAppInstall);
+//        }
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_PACKAGE_ADDED);
         intentFilter.addAction(ACTION_PACKAGE_CHANGED);
@@ -927,12 +928,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
                 try {
 
-               /* String[] projection = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(data.getData(), projection, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                String path = cursor.getString(column_index);
-                cursor.close();*/
+//               String[] projection = {MediaStore.Images.Media.DATA};
+//                Cursor cursor = getContentResolver().query(data.getData(), projection, null, null, null);
+//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                cursor.moveToFirst();
+//                String path = cursor.getString(column_index);
+//                cursor.close();
+
                     ///new
                     Uri uri1 = data.getData();
                     ContentResolver cr1 = getContentResolver();
@@ -1124,7 +1126,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         if (window != null) {
             window.setGravity(Gravity.BOTTOM);
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         }
         dialogs.show();
     }

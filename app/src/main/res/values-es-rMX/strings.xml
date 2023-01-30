@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Last Launcher</string>
-
+    <string name="app_name">Quick Launcher</string>
     <string name="action_settings">Ajustes</string>
-    <!--App information related strings-->
-    <!--app menu-->
     <string name="size_for_this_entry">Tamaño</string>
     <string name="color_for_this_entry">Color</string>
     <string name="rename">Renombrar</string>
-    <!--launcher menu-->
     <string name="uninstall"><font fgcolor="#FF0000">Desinstalar</font></string>
     <string name="fonts">Fuentes</string>
     <string name="themes">Temas</string>

@@ -263,7 +263,7 @@ class GlobalSettingsDialog(
 
     private fun showThemeDialog() {
         cancel()
-        ThemeSelectorDialog(context, launcherActivity).show()
+        ThemeSelectorDialog(launcherActivity).show()
     }
 
     private fun defaultSettings() {

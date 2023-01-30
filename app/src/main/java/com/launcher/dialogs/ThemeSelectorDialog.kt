@@ -1,88 +1,47 @@
-/*
- * Last Launcher
- * Copyright (C) 2019 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package com.launcher.dialogs
 
-package com.launcher.dialogs;
+import android.app.Dialog
+import android.os.Bundle
+import android.view.View
+import android.view.Window
+import android.widget.LinearLayout
+import com.R
+import com.launcher.LauncherActivity
+import com.launcher.utils.DbUtils.externalSourceColor
+import com.launcher.utils.DbUtils.theme
 
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.widget.LinearLayout;
+class ThemeSelectorDialog internal constructor(
+    private val launcherActivity: LauncherActivity
+) : Dialog(launcherActivity), View.OnClickListener {
 
-import com.R;
-import com.launcher.LauncherActivity;
-import com.launcher.utils.DbUtils;
+    override fun onCreate(savedInstanceState: Bundle) {
+        super.onCreate(savedInstanceState)
 
-public class ThemeSelectorDialog extends Dialog implements View.OnClickListener {
-
-    private final LauncherActivity context;
-
-    ThemeSelectorDialog(Context context, LauncherActivity launcherActivity) {
-        super(context);
-        this.context = launcherActivity;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_theme_selector);
-        LinearLayout ll = findViewById(R.id.theme_linear_layout);
-        for (int i = 0; i < ll.getChildCount(); i++) {
-            ll.getChildAt(i).setOnClickListener(this);
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.dialog_theme_selector)
+        val ll = findViewById<LinearLayout>(R.id.theme_linear_layout)
+        for (i in 0 until ll.childCount) {
+            ll.getChildAt(i).setOnClickListener(this)
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.t1:
-                setTheme(R.style.AppTheme);
-                break;
-            case R.id.t2:
-                setTheme(R.style.Wallpaper);
-                break;
-            case R.id.t3:
-                setTheme(R.style.Black);
-                break;
-            case R.id.t4:
-                setTheme(R.style.White);
-                break;
-            case R.id.t5:
-                setTheme(R.style.WhiteOnGrey);
-                break;
-            case R.id.t6:
-                setTheme(R.style.BlackOnGrey);
-                break;
-            case R.id.t35:
-                setTheme(R.style.Hacker_green);
-                break;
-            case R.id.t36:
-                setTheme(R.style.Hacker_red);
-                break;
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.t1 -> setTheme(R.style.AppTheme)
+            R.id.t2 -> setTheme(R.style.Wallpaper)
+            R.id.t3 -> setTheme(R.style.Black)
+            R.id.t4 -> setTheme(R.style.White)
+            R.id.t5 -> setTheme(R.style.WhiteOnGrey)
+            R.id.t6 -> setTheme(R.style.BlackOnGrey)
+            R.id.t35 -> setTheme(R.style.Hacker_green)
+            R.id.t36 -> setTheme(R.style.Hacker_red)
         }
     }
 
-    private void setTheme(int appTheme) {
-        DbUtils.setTheme(appTheme);
-        DbUtils.externalSourceColor(false);
-        cancel();
-        context.recreate();
+    private fun setTheme(appTheme: Int) {
+        theme = appTheme
+        externalSourceColor(b = false)
+        cancel()
+        launcherActivity.recreate()
     }
 }

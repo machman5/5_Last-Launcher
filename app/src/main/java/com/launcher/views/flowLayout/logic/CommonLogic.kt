@@ -167,7 +167,7 @@ object CommonLogic {
         // if it is relative, then START is TOP, and we do not need to switch it here.
         // it will be switched later on onMeasure stage when calculations will be with length and thickness
         var mChildGravity = childGravity
-        if (config.orientation == VERTICAL && mChildGravity and Gravity.RELATIVE_LAYOUT_DIRECTION == 0) {
+        if (config.getOrientation() == VERTICAL && mChildGravity and Gravity.RELATIVE_LAYOUT_DIRECTION == 0) {
             val horizontalGravity = mChildGravity
             mChildGravity = 0
             mChildGravity =
@@ -203,13 +203,13 @@ object CommonLogic {
             if (newLine && config.maxLines > 0 && lines.size == config.maxLines) break
             if (newLine) {
                 currentLine = LineDefinition(config)
-                if (config.orientation == VERTICAL && config.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+                if (config.getOrientation() == VERTICAL && config.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                     lines.add(0, currentLine)
                 } else {
                     lines.add(currentLine)
                 }
             }
-            if (config.orientation == HORIZONTAL && config.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+            if (config.getOrientation() == HORIZONTAL && config.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 currentLine.addView(0, child)
             } else {
                 currentLine.addView(child)

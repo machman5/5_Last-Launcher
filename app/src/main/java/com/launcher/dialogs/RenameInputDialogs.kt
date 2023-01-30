@@ -1,82 +1,65 @@
-/*
- * Last Launcher
- * Copyright (C) 2019 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package com.launcher.dialogs
 
-package com.launcher.dialogs;
+import android.app.Dialog
+import android.content.Context
+import android.os.Bundle
+import android.view.KeyEvent
+import android.view.Window
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.TextView.OnEditorActionListener
+import com.R
+import com.launcher.LauncherActivity
+import com.launcher.utils.DbUtils.putAppName
 
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
+class RenameInputDialogs(
+    context: Context,
+    private val appPackage: String,
+    private val oldAppName: String,
+    private val launcherActivity: LauncherActivity
+) : Dialog(
+    context
+), OnEditorActionListener {
 
-import com.R;
-import com.launcher.LauncherActivity;
-import com.launcher.utils.DbUtils;
+    private var etInput: EditText? = null
 
-public class RenameInputDialogs extends Dialog implements TextView.OnEditorActionListener {
+    override fun onCreate(savedInstanceState: Bundle) {
+        super.onCreate(savedInstanceState)
 
-    final private String appPackage;
-    private final LauncherActivity launcherActivity;
-    private final String oldAppName;
-
-
-    private EditText mAppName;
-
-    public RenameInputDialogs(Context context, String appPackage, String oldAppName, LauncherActivity launcherActivity) {
-        super(context);
-        this.appPackage = appPackage;
-        this.launcherActivity = launcherActivity;
-        this.oldAppName = oldAppName;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_rename_input);
-        mAppName = findViewById(R.id.ed_input);
-        mAppName.setText(oldAppName);
-        mAppName.setOnEditorActionListener(this);
-        mAppName.setEnabled(true);
-        mAppName.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-    }
-
-
-    @Override
-    public boolean onEditorAction(TextView tv, int i, KeyEvent keyEvent) {
-        boolean handled = false;
-        if (i == EditorInfo.IME_ACTION_DONE) {
-            String temp = mAppName.getText().toString();
-            if (!temp.isEmpty()) {
-                DbUtils.putAppName(appPackage, temp);
-                //reflect this on screen immediately
-                launcherActivity.onAppRenamed(appPackage, temp);
-                cancel();
-            }
-            handled = true;
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.dialog_rename_input)
+        etInput = findViewById(R.id.ed_input)
+        etInput?.let { et ->
+            et.setText(oldAppName)
+            et.setOnEditorActionListener(this)
+            et.isEnabled = true
+            et.requestFocus()
         }
-        return handled;
+
+        window?.apply {
+            this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+            this.setBackgroundDrawableResource(android.R.color.transparent)
+        }
+    }
+
+    override fun onEditorAction(
+        tv: TextView,
+        i: Int,
+        keyEvent: KeyEvent
+    ): Boolean {
+        var handled = false
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            val temp = etInput?.text.toString()
+            if (temp.isNotEmpty()) {
+                putAppName(activityName = appPackage, value = temp)
+                //reflect this on screen immediately
+                launcherActivity.onAppRenamed(appPackage, temp)
+                cancel()
+            }
+            handled = true
+        }
+        return handled
     }
 }

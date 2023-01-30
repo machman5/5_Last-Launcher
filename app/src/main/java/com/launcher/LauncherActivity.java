@@ -1,21 +1,3 @@
-/*
- * Last Launcher
- * Copyright (C) 2019,2020 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.launcher;
 
 import android.annotation.TargetApi;
@@ -100,12 +82,13 @@ import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 
 import com.launcher.utils.Constants;
 
-//TODO ic launcher
+//TODO build release, keystore
 //TODO firebase
 //TODO show set default launcher
 
 //done
 //package name
+//ic launcher
 
 public class LauncherActivity extends Activity implements View.OnClickListener,
         View.OnLongClickListener,
@@ -118,9 +101,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     private static FlowLayout mHomeLayout;
     // when search bar appears this will be true and show search result
     private static boolean searching = false;
-    //todo: save this to db
+    //TODO: save this to db
     private static int recentlyUsedCounter = 0;
-    private final String TAG = "LauncherActivity";
     // broadcast receiver
     private BroadcastReceiver broadcastReceiverAppInstall;
     private BroadcastReceiver broadcastReceiverShortcutInstall;
@@ -150,7 +132,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
         @Override
         public void afterTextChanged(Editable editable) {
-
             // do everything
         }
     };
@@ -162,16 +143,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
         mHomeLayout.removeAllViews();
         mHomeLayout.setPadding(0, 150, 0, 0);
-        /*//sort the apps alphabetically
-        Collections.sort(filteredApps, (a, b) -> String.CASE_INSENSITIVE_ORDER.compare(
-                a.getAppName(),
-                b.getAppName()
-        ));*/
         for (Apps apps : filteredApps) {
             mHomeLayout.addView(apps.getTextView(), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         }
-
-
     }
 
     @Override
@@ -249,8 +223,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     /**
      * set the color of status bar and navigation bar as per theme
      * if theme color is light then pass this to system so status icon color will turn into black
-     *
-     * @param theme current theme applied to launcher
+     * <p>
+     * theme current theme applied to launcher
      */
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -286,7 +260,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 mTypeface = Typeface.createFromAsset(getAssets(), "fonts/raleway_bold.ttf");
             }
         }
-
     }
 
     public void loadApps() {
@@ -307,7 +280,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         // shortcut or pwa counts
         final int installedShortcut = shortcutUtils.getShortcutCounts();
 
-        // Log.d(TAG, "loadApps: install shortcut sizes::" + installedShortcut);
         final int appsCount = activities.size();
 
         mAppsList = Collections.synchronizedList(new ArrayList<>(appsCount + installedShortcut));
@@ -404,51 +376,43 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         // shortcut are stored in DB, android doesn't store them
 
         ArrayList<Shortcut> shortcuts = shortcutUtils.getAllShortcuts();
-        if (shortcuts != null) {
-            for (Shortcut s : shortcuts) {
+        for (Shortcut s : shortcuts) {
 
-                // shortcut only have URI
-                String uri = s.getUri();
-                // shortcut name
-                String sName = s.getName();
+            // shortcut only have URI
+            String uri = s.getUri();
+            // shortcut name
+            String sName = s.getName();
 
-               /* if (uri.isEmpty()) {
-                    ++installedShortcut;
-                    continue;
-                }*/
+            // this is the unique code for each uri
+            // let store them in activity field app
+            // As we have to store some uniquely identified info in Db
+            // this be used as key as i have done for Each apps(see above)
+            // Usually URI sting is too long and so it will take more memory and storage
+            String sActivity = String.valueOf(Utils.hash(uri));
 
+            // get color and size for this shortcut
+            int sColor = DbUtils.getAppColor(sActivity);
+            int sSize = DbUtils.getAppSize(sActivity);
 
-                // this is the unique code for each uri
-                // let store them in activity field app
-                // As we have to store some uniquely identified info in Db
-                // this be used as key as i have done for Each apps(see above)
-                // Usually URI sting is too long and so it will take more memory and storage
-                String sActivity = String.valueOf(Utils.hash(uri));
-
-                // get color and size for this shortcut
-                int sColor = DbUtils.getAppColor(sActivity);
-                int sSize = DbUtils.getAppSize(sActivity);
-
-                if (sSize == DbUtils.NULL_TEXT_SIZE) {
-                    sSize = Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS;
-                }
-
-                if (sColor == DbUtils.NULL_TEXT_COLOR) {
-                    if (DbUtils.isRandomColor()) {
-                        sColor = Utils.generateColorFromString(sName);
-                    } else {
-                        sColor = DbUtils.getAppsColorDefault();
-                    }
-                }
-
-                boolean sFreeze = DbUtils.isAppFrozen(sActivity);
-                int sOpeningCount = DbUtils.getOpeningCounts(sActivity);
-
-                // add this shortcut to list
-                // currently shortcut hide is disabled
-                mAppsList.add(new Apps(true, uri, sName, getCustomView(), sColor, sSize, false, sFreeze, sOpeningCount, 0));
-
+            if (sSize == DbUtils.NULL_TEXT_SIZE) {
+                sSize = Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS;
             }
+
+            if (sColor == DbUtils.NULL_TEXT_COLOR) {
+                if (DbUtils.isRandomColor()) {
+                    sColor = Utils.generateColorFromString(sName);
+                } else {
+                    sColor = DbUtils.getAppsColorDefault();
+                }
+            }
+
+            boolean sFreeze = DbUtils.isAppFrozen(sActivity);
+            int sOpeningCount = DbUtils.getOpeningCounts(sActivity);
+
+            // add this shortcut to list
+            // currently shortcut hide is disabled
+            mAppsList.add(new Apps(true, uri, sName, getCustomView(), sColor, sSize, false, sFreeze, sOpeningCount, 0));
+
         }
 
         // now sort the app list
@@ -457,17 +421,15 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     }
 
     /**
-     * @param type sorting type
+     * type sorting type
      */
     public void sortApps(final int type) {
         new SortTask().execute(type, DbUtils.getAppSortReverseOrder() ? 1 : 0);
     }
 
     // the text view and set the various parameters
-    //TODO: new animated field for this(test randomly)
+    //TODO: new animated field for this (test randomly)
     private AppTextView getCustomView() {
-        //  AnimatedTextView textView=new AnimatedTextView(this);
-        // textView.setColorSpace(15);
         AppTextView textView = new AppTextView(this);
         textView.setOnClickListener(this);
         textView.setOnLongClickListener(this);
@@ -514,11 +476,10 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     // tell the our db that app is opened
                     appOpened(activity);
-                } catch (Exception ignore) {
-                    //  Log.e(TAG, "onClick: exception:::" + ignore);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-
         }
     }
 
@@ -577,7 +538,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
 
-
         int color = Color.parseColor("#E53935");
 
         SpannableString s = new SpannableString(getString(R.string.hide));
@@ -592,7 +552,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         s = new SpannableString(getString(R.string.reset_to_default));
         s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
         popupMenu.getMenu().findItem(R.id.menuResetToDefault).setTitle(s);
-
 
         // set proper item based on Db value
         if (DbUtils.isAppFrozen(activityName)) {
@@ -792,14 +751,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         if (window != null) {
             window.setGravity(Gravity.BOTTOM);
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         }
-
 
         dialogs.show();
     }
 
-    //TO1DO: multi thread check for memory leaks if any, or check any bad behaviour;
+    //TODO: multi thread check for memory leaks if any, or check any bad behaviour;
     private void appOpened(String activity) {
         /* new Thread() {
             @Override
@@ -833,14 +791,10 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                             sortApps(Constants.SORT_BY_SIZE);
                         }
                     }
-
-
                     break;
                 }
             }
         }
-        /*   }
-        }.start();*/
     }
 
     @Override
@@ -872,7 +826,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }*/
         //app install and uninstall receiver
 
-        //  Log.d("WTF", "registerForReceivers: called ");
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_PACKAGE_ADDED);
         intentFilter.addAction(ACTION_PACKAGE_CHANGED);
@@ -997,12 +950,11 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     }
 
                     String path = fontFile.getPath();
-                    //Log.i(TAG, "onActivityResult: " + path);
                     mTypeface = Typeface.createFromFile(path);
                     DbUtils.setFonts(path);
                     loadApps();
-                } catch (Exception i) {
-                    //i.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                     mTypeface = Typeface.createFromAsset(getAssets(), "fonts/raleway_bold.ttf");
                 }
                 break;
@@ -1030,9 +982,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 }
                 break;
 
-
             case Constants.COLOR_SNIFFER_REQUEST:
-
                 colorSnifferCall(data.getBundleExtra("color_bundle"));
 
                 break;
@@ -1057,10 +1007,12 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 int color = bundle.getInt(appPackage);
                 if (color != DbUtils.NULL_TEXT_COLOR) {
                     textView.setTextColor(color);
+                    assert appPackage != null;
                     DbUtils.putAppColorExternalSource(appPackage, color);
                     // DbUtils.putAppColor(appPackage, color);
                 } else if (defaultColorSet) {
                     //set default color
+                    assert appPackage != null;
                     DbUtils.putAppColor(appPackage, DEFAULT_COLOR);
                     textView.setTextColor(DEFAULT_COLOR);
                 }//else do nothing theme default color will apply
@@ -1100,8 +1052,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 e.printStackTrace();
             }
         }
-
-        // return empty null/
         return result;
     }
 
@@ -1117,8 +1067,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     if (newColor == null) continue;
                     textView.setTextColor(newColor);
                     DbUtils.putAppColorExternalSource(s, newColor);
-                } catch (NullPointerException ignore) {
-
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -1135,7 +1085,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             TextView tv = (TextView) tst.getView().findViewById(android.R.id.message);
             tv.setTextColor(Color.parseColor("#d5e0e2"));
             tst.show();
-
         }
     }
 
@@ -1150,7 +1099,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             TextView tv = (TextView) tst.getView().findViewById(android.R.id.message);
             tv.setTextColor(Color.parseColor("#d5e0e2"));
             tst.show();
-
         }
     }
 
@@ -1191,14 +1139,11 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
     /**
      * remove the shortcut
-     *
-     * @param view shortcut view to be removed...
+     * <p>
+     * view shortcut view to be removed...
      */
     private void removeShortcut(AppTextView view) {
-        // view.setVisibility(View.GONE);
         shortcutUtils.removeShortcut(new Shortcut(view.getText().toString(), view.getUri()));
-
-        // if (b)
         loadApps();
     }
 
@@ -1245,18 +1190,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     } else {
                         // Support for searching non-ascii languages Apps using ascii characters.
                         boolean isMatch = false;
-                        switch (mLocale.getLanguage()) {
-                            case "zh": {
-                                // In case of Chinese, PinYin Search is supported.
-                                isMatch = PinYinSearchUtils.pinYinSimpleFuzzySearch(charSequences[0], app.getAppName());
-                                break;
-                            }
-//                        You can add new non-ascii language search to be supported here.
-//                        case "xx":{
-//                            break;
-//                        }
-                            default:
-                                break;
+                        if ("zh".equals(mLocale.getLanguage())) {// In case of Chinese, PinYin Search is supported.
+                            isMatch = PinYinSearchUtils.pinYinSimpleFuzzySearch(charSequences[0], app.getAppName());
                         }
                         if (isMatch)
                             filteredApps.add(app);
@@ -1293,9 +1228,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         /**
          * So this is where you sort your apps.
          * We modified this method so that when the first sorting condition fails, it can sort by the frequency of use, which makes it easier for users to find the app they want to use.
-         *
-         * @param integers
-         * @return
+         * <p>
+         * integers
          */
         @Override
         protected Void doInBackground(final Integer... integers) {
@@ -1313,7 +1247,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 switch (type) {
                     case Constants.SORT_BY_SIZE://descending
                         Collections.sort(mAppsList, (apps, t1) -> {
-                            //CS304 Issue link: https://github.com/SubhamTyagi/Last-Launcher/issues/162
                             if (apps.getSize() != t1.getSize()) {
                                 return t1.getSize() - apps.getSize();
                             } else {
@@ -1323,7 +1256,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                         break;
                     case Constants.SORT_BY_OPENING_COUNTS://descending
                         Collections.sort(mAppsList, (apps, t1) -> {
-                            //CS304 Issue link: https://github.com/SubhamTyagi/Last-Launcher/issues/162
                             if (t1.getOpeningCounts() != apps.getOpeningCounts()) {
                                 return t1.getOpeningCounts() - apps.getOpeningCounts();
                             } else {
@@ -1342,13 +1274,11 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                                     return (hsv[i] < another[i]) ? -1 : 1;
                                 }
                             }
-                            //CS304 Issue link: https://github.com/SubhamTyagi/Last-Launcher/issues/162
                             return -t1.getRecentUsedWeight() + apps.getRecentUsedWeight();
                         });
                         break;
                     case Constants.SORT_BY_UPDATE_TIME://descending
                         Collections.sort(mAppsList, (apps, t1) -> {
-                            //CS304 Issue link: https://github.com/SubhamTyagi/Last-Launcher/issues/162
                             if (t1.getUpdateTime() != apps.getUpdateTime()) {
                                 return t1.getUpdateTime() - apps.getUpdateTime();
                             } else {

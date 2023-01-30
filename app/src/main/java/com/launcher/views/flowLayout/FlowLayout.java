@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -20,6 +19,8 @@ import com.launcher.views.flowLayout.logic.ViewDefinition;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.Suppress;
 
 public class FlowLayout extends ViewGroup {
 
@@ -55,11 +56,7 @@ public class FlowLayout extends ViewGroup {
             this.config.setGravity(a.getInteger(R.styleable.FlowLayout_android_gravity, Gravity.NO_GRAVITY));
 
             int layoutDirection;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                layoutDirection = a.getInteger(R.styleable.FlowLayout_layoutDirection, LAYOUT_DIRECTION_LTR);
-            } else {
-                layoutDirection = a.getInteger(R.styleable.FlowLayout_layoutDirection, super.getLayoutDirection());
-            }
+            layoutDirection = a.getInteger(R.styleable.FlowLayout_layoutDirection, super.getLayoutDirection());
             //noinspection ResourceType
             this.setLayoutDirection(layoutDirection);
 
@@ -261,10 +258,12 @@ public class FlowLayout extends ViewGroup {
         return paint;
     }
 
+    @Suppress(names = "unused")
     public int getOrientation() {
         return this.config.getOrientation();
     }
 
+    @Suppress(names = "unused")
     public void setOrientation(int orientation) {
         this.config.setOrientation(orientation);
         this.requestLayout();
@@ -274,6 +273,7 @@ public class FlowLayout extends ViewGroup {
         return this.config.isDebugDraw() || debugDraw();
     }
 
+    @Suppress(names = "unused")
     public void setDebugDraw(boolean debugDraw) {
         this.config.setDebugDraw(debugDraw);
         this.invalidate();
@@ -293,10 +293,12 @@ public class FlowLayout extends ViewGroup {
         return false;
     }
 
+    @Suppress(names = "unused")
     public float getWeightDefault() {
         return this.config.getWeightDefault();
     }
 
+    @Suppress(names = "unused")
     public void setWeightDefault(float weightDefault) {
         this.config.setWeightDefault(weightDefault);
         this.requestLayout();
@@ -314,11 +316,7 @@ public class FlowLayout extends ViewGroup {
     @Override
     public int getLayoutDirection() {
         if (this.config == null) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                return View.LAYOUT_DIRECTION_LTR;
-            } else {
-                return super.getLayoutDirection();
-            }
+            return super.getLayoutDirection();
         }
 
         //noinspection ResourceType
@@ -327,9 +325,7 @@ public class FlowLayout extends ViewGroup {
 
     @Override
     public void setLayoutDirection(int layoutDirection) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            super.setLayoutDirection(layoutDirection);
-        }
+        super.setLayoutDirection(layoutDirection);
 
         //noinspection ResourceType
         if (this.config.getLayoutDirection() != layoutDirection) {
@@ -338,10 +334,12 @@ public class FlowLayout extends ViewGroup {
         }
     }
 
+    @Suppress(names = "unused")
     public int getMaxLines() {
         return this.config.getMaxLines();
     }
 
+    @Suppress(names = "unused")
     public void setMaxLines(int maxLines) {
         this.config.setMaxLines(maxLines);
         this.requestLayout();
@@ -352,8 +350,8 @@ public class FlowLayout extends ViewGroup {
                 @ViewDebug.IntToString(from = Gravity.NO_GRAVITY, to = "NONE"),
                 @ViewDebug.IntToString(from = Gravity.TOP, to = "TOP"),
                 @ViewDebug.IntToString(from = Gravity.BOTTOM, to = "BOTTOM"),
-                @ViewDebug.IntToString(from = Gravity.LEFT, to = "LEFT"),
-                @ViewDebug.IntToString(from = Gravity.RIGHT, to = "RIGHT"),
+                @ViewDebug.IntToString(from = Gravity.START, to = "START"),
+                @ViewDebug.IntToString(from = Gravity.END, to = "END"),
                 @ViewDebug.IntToString(from = Gravity.CENTER_VERTICAL, to = "CENTER_VERTICAL"),
                 @ViewDebug.IntToString(from = Gravity.FILL_VERTICAL, to = "FILL_VERTICAL"),
                 @ViewDebug.IntToString(from = Gravity.CENTER_HORIZONTAL, to = "CENTER_HORIZONTAL"),
@@ -402,6 +400,7 @@ public class FlowLayout extends ViewGroup {
             return weight;
         }
 
+        @Suppress(names = "unused")
         public void setWeight(float weight) {
             this.weight = weight;
         }
@@ -410,6 +409,7 @@ public class FlowLayout extends ViewGroup {
             return newLine;
         }
 
+        @Suppress(names = "unused")
         public void setNewLine(boolean newLine) {
             this.newLine = newLine;
         }

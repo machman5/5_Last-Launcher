@@ -1,4 +1,4 @@
-package com.launcher.views.colorseekbar
+package com.launcher.views.colorSeekBar
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi

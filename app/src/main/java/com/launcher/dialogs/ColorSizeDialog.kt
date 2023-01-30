@@ -13,8 +13,8 @@ import com.launcher.utils.DbUtils.maxAppSize
 import com.launcher.utils.DbUtils.minAppSize
 import com.launcher.utils.DbUtils.putAppColor
 import com.launcher.utils.DbUtils.putAppSize
-import com.launcher.views.colorseekbar.ColorSeekBar
-import com.launcher.views.colorseekbar.ColorSeekBar.OnColorChangeListener
+import com.launcher.views.colorSeekBar.ColorSeekBar
+import com.launcher.views.colorSeekBar.ColorSeekBar.OnColorChangeListener
 
 // choose color Dialog
 class ColorSizeDialog     // boolean change=false;

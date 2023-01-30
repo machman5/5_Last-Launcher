@@ -1,4 +1,4 @@
-package org.apmem.tools.layouts;
+package com.launcher.views.flowLayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,10 +11,11 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 
-import org.apmem.tools.layouts.logic.CommonLogic;
-import org.apmem.tools.layouts.logic.ConfigDefinition;
-import org.apmem.tools.layouts.logic.LineDefinition;
-import org.apmem.tools.layouts.logic.ViewDefinition;
+import com.R;
+import com.launcher.views.flowLayout.logic.CommonLogic;
+import com.launcher.views.flowLayout.logic.ConfigDefinition;
+import com.launcher.views.flowLayout.logic.LineDefinition;
+import com.launcher.views.flowLayout.logic.ViewDefinition;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

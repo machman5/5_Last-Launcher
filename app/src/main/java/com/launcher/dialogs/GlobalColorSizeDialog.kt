@@ -19,8 +19,8 @@ import com.launcher.utils.DbUtils.getAppColor
 import com.launcher.utils.DbUtils.getAppSize
 import com.launcher.utils.DbUtils.globalSizeAdditionExtra
 import com.launcher.utils.Utils.Companion.oftenAppsList
-import com.launcher.views.colorseekbar.ColorSeekBar
-import com.launcher.views.colorseekbar.ColorSeekBar.OnColorChangeListener
+import com.launcher.views.colorSeekBar.ColorSeekBar
+import com.launcher.views.colorSeekBar.ColorSeekBar.OnColorChangeListener
 
 class GlobalColorSizeDialog(
     context: Context, private val mAppsList: List<Apps>

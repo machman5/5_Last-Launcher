@@ -1,4 +1,4 @@
-package org.apmem.tools.layouts.logic;
+package com.launcher.views.flowLayout.logic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +71,7 @@ public class LineDefinition {
     public int getX() {
         return this.config.getOrientation() == CommonLogic.HORIZONTAL ? this.lineStartLength : this.lineStartThickness;
     }
+
     public int getY() {
         return this.config.getOrientation() == CommonLogic.HORIZONTAL ? this.lineStartThickness : this.lineStartLength;
     }

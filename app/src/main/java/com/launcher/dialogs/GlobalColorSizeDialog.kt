@@ -1,253 +1,253 @@
-/*
- * Last Launcher
- * Copyright (C) 2019,2020 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package com.launcher.dialogs
 
-package com.launcher.dialogs;
+import android.app.Dialog
+import android.content.Context
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.Window
+import android.widget.TextView
+import com.R
+import com.launcher.model.Apps
+import com.launcher.utils.Constants.DEFAULT_MAX_TEXT_SIZE
+import com.launcher.utils.Constants.DEFAULT_MIN_TEXT_SIZE
+import com.launcher.utils.Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS
+import com.launcher.utils.Constants.DEFAULT_TEXT_SIZE_OFTEN_APPS
+import com.launcher.utils.DbUtils
+import com.launcher.utils.DbUtils.appsColorDefault
+import com.launcher.utils.DbUtils.getAppColor
+import com.launcher.utils.DbUtils.getAppSize
+import com.launcher.utils.DbUtils.globalSizeAdditionExtra
+import com.launcher.utils.Utils.Companion.oftenAppsList
+import com.launcher.views.colorseekbar.ColorSeekBar
+import com.launcher.views.colorseekbar.ColorSeekBar.OnColorChangeListener
 
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.Window;
-import android.widget.TextView;
+class GlobalColorSizeDialog(
+    context: Context, private val mAppsList: List<Apps>
+) : Dialog(
+    context
+) {
 
-import java.util.List;
-
-import com.R;
-import com.launcher.model.Apps;
-import com.launcher.utils.DbUtils;
-import com.launcher.utils.Utils;
-import com.launcher.views.colorseekbar.ColorSeekBar;
-
-import static com.launcher.utils.Constants.DEFAULT_MAX_TEXT_SIZE;
-import static com.launcher.utils.Constants.DEFAULT_MIN_TEXT_SIZE;
-import static com.launcher.utils.Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS;
-import static com.launcher.utils.Constants.DEFAULT_TEXT_SIZE_OFTEN_APPS;
-
-
-public class GlobalColorSizeDialog extends Dialog {
-
-    private static final long DELAY = 100;
-
-    private final Handler handler = new Handler();
-    private final List<Apps> mAppsList;
-    private final List<String> oftenApps = Utils.getOftenAppsList();
-    private Runnable runnable;
-    private int appSize;
-    private int mColor;
-
-    public GlobalColorSizeDialog(Context context, List<Apps> appsList) {
-        super(context);
-        this.mAppsList = appsList;
+    companion object {
+        private const val DELAY: Long = 100
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        // no title please
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_color_size);
-        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+    private val handler = Handler(Looper.getMainLooper())
+    private val oftenApps = oftenAppsList
+    private var runnable: Runnable? = null
+    private var appSize = 0
+    private var mColor = 0
 
+    override fun onCreate(savedInstanceState: Bundle) {
+        super.onCreate(savedInstanceState)
 
-        ColorSeekBar colorSeekBar = findViewById(R.id.colorSlider1);
-        colorSeekBar.setMaxPosition(100);
-        //colorSeekBar.setColorSeeds(R.array.material_colors);
-        colorSeekBar.setShowAlphaBar(true);
-        colorSeekBar.setBarHeight(8);
-
-        int colorDefault = DbUtils.getAppsColorDefault();
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.dialog_color_size)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val colorSlider1 = findViewById<ColorSeekBar>(R.id.colorSlider1)
+        colorSlider1.setMaxPosition(100)
+        colorSlider1.isShowAlphaBar = true
+        colorSlider1.setBarHeight(8f)
+        val colorDefault = appsColorDefault
         if (colorDefault != DbUtils.NULL_TEXT_COLOR) {
-            colorSeekBar.setColor(colorDefault);
+            colorSlider1.color = colorDefault
             //} else {
             //do something
         }
 
-
         // set the color and save this to database
-        colorSeekBar.setOnColorChangeListener((colorBarPosition, alphaBarPosition, color) -> {
-            // set the color
-            mColor = color;
-            synchronized (mAppsList) {
-                for (Apps apps : mAppsList) {
-                    // only change the color of app, which had not set yet
-                    if (DbUtils.getAppColor(apps.getActivityName()) == DbUtils.NULL_TEXT_COLOR) {
-                        // change only the text view color
-                        // do not save the color of individuals apps
-                        apps.getTextView().setTextColor(color);
+        colorSlider1.setOnColorChangeListener(object : OnColorChangeListener {
+            override fun onColorChangeListener(
+                colorBarPosition: Int, alphaBarPosition: Int, color: Int
+            ) {
+                mColor = color
+                synchronized(mAppsList) {
+                    for (apps in mAppsList) {
+                        // only change the color of app, which had not set yet
+
+                        apps.activityName?.let { name ->
+                            if (getAppColor(name) == DbUtils.NULL_TEXT_COLOR) {
+                                // change only the text view color
+                                // do not save the color of individuals apps
+                                apps.textView.setTextColor(color)
+                            }
+                        }
                     }
                 }
             }
-            // idea: save global color to Db
-        });
 
+        })
 
         // size related
-        TextView plus = findViewById(R.id.btn_plus);
-        TextView minus = findViewById(R.id.btn_minus);
-        TextView size = findViewById(R.id.tv_size);
+        val btnPlus = findViewById<TextView>(R.id.btn_plus)
+        val btnMinus = findViewById<TextView>(R.id.btn_minus)
+        val tvSize = findViewById<TextView>(R.id.tv_size)
 
-        appSize = DbUtils.getGlobalSizeAdditionExtra();
-        size.setText(String.valueOf(appSize));
-
-        plus.setOnClickListener(view -> {
-
-            appSize++;
-
+        appSize = globalSizeAdditionExtra
+        tvSize.text = appSize.toString()
+        btnPlus.setOnClickListener {
+            appSize++
             if (appSize >= DEFAULT_MAX_TEXT_SIZE) {
-                appSize = DEFAULT_MAX_TEXT_SIZE;
+                appSize = DEFAULT_MAX_TEXT_SIZE
                 //   plus.setClickable(false);
-
             } else {
-                synchronized (mAppsList) {
-                    for (Apps apps : mAppsList) {
-                        int textSize = DbUtils.getAppSize(apps.getActivityName());
-                        // check if text size is null then set the size to default size
-                        // size is null(-1) when user installed this app
-                        if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                            if (oftenApps.contains(apps.getActivityName().split("/")[0])) {
-                                textSize = DEFAULT_TEXT_SIZE_OFTEN_APPS;
-                            } else {
-                                textSize = DEFAULT_TEXT_SIZE_NORMAL_APPS;
+                synchronized(mAppsList) {
+                    for (apps in mAppsList) {
+                        apps.activityName?.let { name ->
+                            var textSize = getAppSize(name)
+                            // check if text size is null then set the size to default size
+                            // size is null(-1) when user installed this app
+                            if (textSize == DbUtils.NULL_TEXT_SIZE) {
+                                textSize = if (oftenApps.contains(
+                                        name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
+                                            .toTypedArray()[0]
+                                    )
+                                ) {
+                                    DEFAULT_TEXT_SIZE_OFTEN_APPS
+                                } else {
+                                    DEFAULT_TEXT_SIZE_NORMAL_APPS
+                                }
                             }
-                            /// DbUtils.putAppSize(activity, textSize);
+                            apps.setSize(++textSize)
                         }
-                        apps.setSize(++textSize);
-
                     }
                 }
             }
-            size.setText(String.valueOf(appSize));
-        });
-
-        minus.setOnClickListener(view -> {
-            --appSize;
+            tvSize.text = appSize.toString()
+        }
+        btnMinus.setOnClickListener {
+            --appSize
             if (appSize < DEFAULT_MIN_TEXT_SIZE) {
-                appSize = DEFAULT_MIN_TEXT_SIZE;
+                appSize = DEFAULT_MIN_TEXT_SIZE
             } else {
-                synchronized (mAppsList) {
-                    for (Apps apps : mAppsList) {
-                        int textSize = DbUtils.getAppSize(apps.getActivityName());
-                        // check if text size is null then set the size to default size
-                        // size is null(-1) when user installed this app
-                        if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                            if (oftenApps.contains(apps.getActivityName().split("/")[0])) {
-                                textSize = DEFAULT_TEXT_SIZE_OFTEN_APPS;
-                            } else {
-                                textSize = DEFAULT_TEXT_SIZE_NORMAL_APPS;
-                            }
+                synchronized(mAppsList) {
+                    for (apps in mAppsList) {
+                        apps.activityName?.let { name ->
+                            var textSize = getAppSize(name)
+                            // check if text size is null then set the size to default size
+                            // size is null(-1) when user installed this app
+                            if (textSize == DbUtils.NULL_TEXT_SIZE) {
+                                textSize = if (oftenApps.contains(
+                                        name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
+                                            .toTypedArray()[0]
+                                    )
+                                ) {
+                                    DEFAULT_TEXT_SIZE_OFTEN_APPS
+                                } else {
+                                    DEFAULT_TEXT_SIZE_NORMAL_APPS
+                                }
 
-                            /// DbUtils.putAppSize(activity, textSize);
+                                /// DbUtils.putAppSize(activity, textSize);
+                            }
+                            apps.setSize(--textSize)
                         }
-                        apps.setSize(--textSize);
                     }
                 }
             }
-            size.setText(String.valueOf(appSize));
-        });
-
-
-        plus.setOnLongClickListener(view -> {
-            runnable = () -> {
-                if (!plus.isPressed()) {
-                    handler.removeCallbacks(runnable);
-                    return;
+            tvSize.text = appSize.toString()
+        }
+        btnPlus.setOnLongClickListener {
+            runnable = Runnable {
+                if (!btnPlus.isPressed) {
+                    runnable?.apply {
+                        handler.removeCallbacks(this)
+                    }
+                    return@Runnable
                 }
                 // increase value
-                appSize++;
-
+                appSize++
                 if (appSize >= DEFAULT_MAX_TEXT_SIZE) {
-                    appSize = DEFAULT_MAX_TEXT_SIZE;
+                    appSize = DEFAULT_MAX_TEXT_SIZE
                     //   plus.setClickable(false);
                 } else {
-                    synchronized (mAppsList) {
-                        for (Apps apps : mAppsList) {
-                            int textSize = DbUtils.getAppSize(apps.getActivityName());
-                            // check if text size is null then set the size to default size
-                            // size is null(-1) when user installed this app
-                            if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                                if (oftenApps.contains(apps.getActivityName().split("/")[0])) {
-                                    textSize = DEFAULT_TEXT_SIZE_OFTEN_APPS;
-                                } else {
-                                    textSize = DEFAULT_TEXT_SIZE_NORMAL_APPS;
-                                }
+                    synchronized(mAppsList) {
+                        for (apps in mAppsList) {
+                            apps.activityName?.let { name ->
+                                var textSize = getAppSize(name)
+                                // check if text size is null then set the size to default size
+                                // size is null(-1) when user installed this app
+                                if (textSize == DbUtils.NULL_TEXT_SIZE) {
+                                    textSize = if (oftenApps.contains(
+                                            name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
+                                                .toTypedArray()[0]
+                                        )
+                                    ) {
+                                        DEFAULT_TEXT_SIZE_OFTEN_APPS
+                                    } else {
+                                        DEFAULT_TEXT_SIZE_NORMAL_APPS
+                                    }
 
-                                /// DbUtils.putAppSize(activity, textSize);
+                                    /// DbUtils.putAppSize(activity, textSize);
+                                }
+                                apps.setSize(++textSize)
                             }
-                            apps.setSize(++textSize);
                         }
                     }
                 }
-                size.setText(String.valueOf(appSize));
-                handler.postDelayed(runnable, DELAY);
-            };
-            handler.removeCallbacks(runnable);
-            handler.postDelayed(runnable, DELAY);
-            return true;
-        });
-
-
-        minus.setOnLongClickListener(view -> {
-            runnable = () -> {
-                if (!minus.isPressed()) {
-                    handler.removeCallbacks(runnable);
-                    return;
+                tvSize.text = appSize.toString()
+                runnable?.apply {
+                    handler.postDelayed(this, DELAY)
+                }
+            }
+            runnable?.apply {
+                handler.removeCallbacks(this)
+                handler.postDelayed(this, DELAY)
+            }
+            true
+        }
+        btnMinus.setOnLongClickListener {
+            runnable = Runnable {
+                if (!btnMinus.isPressed) {
+                    runnable?.apply {
+                        handler.removeCallbacks(this)
+                    }
+                    return@Runnable
                 }
                 // decrease value
-                --appSize;
+                --appSize
                 if (appSize < DEFAULT_MIN_TEXT_SIZE) {
-                    appSize = DEFAULT_MIN_TEXT_SIZE;
+                    appSize = DEFAULT_MIN_TEXT_SIZE
                 } else {
-                    synchronized (mAppsList) {
-                        for (Apps apps : mAppsList) {
-                            int textSize = DbUtils.getAppSize(apps.getActivityName());
-                            // check if text size is null then set the size to default size
-                            // size is null(-1) when user installed this app
-                            if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                                if (oftenApps.contains(apps.getActivityName().split("/")[0])) {
-                                    textSize = DEFAULT_TEXT_SIZE_OFTEN_APPS;
-                                } else {
-                                    textSize = DEFAULT_TEXT_SIZE_NORMAL_APPS;
-                                }
+                    synchronized(mAppsList) {
+                        for (apps in mAppsList) {
+                            apps.activityName?.let { name ->
+                                var textSize = getAppSize(name)
+                                // check if text size is null then set the size to default size
+                                // size is null(-1) when user installed this app
+                                if (textSize == DbUtils.NULL_TEXT_SIZE) {
+                                    textSize = if (oftenApps.contains(
+                                            name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
+                                                .toTypedArray()[0]
+                                        )
+                                    ) {
+                                        DEFAULT_TEXT_SIZE_OFTEN_APPS
+                                    } else {
+                                        DEFAULT_TEXT_SIZE_NORMAL_APPS
+                                    }
 
-                                /// DbUtils.putAppSize(activity, textSize);
+                                    /// DbUtils.putAppSize(activity, textSize);
+                                }
+                                apps.setSize(--textSize)
                             }
-                            apps.setSize(--textSize);
                         }
                     }
                 }
-                size.setText(String.valueOf(appSize));
-                handler.postDelayed(runnable, DELAY);
-            };
-
-            handler.removeCallbacks(runnable);
-            handler.postDelayed(runnable, DELAY);
-            return true;
-        });
-
+                tvSize.text = appSize.toString()
+                runnable?.apply {
+                    handler.postDelayed(this, DELAY)
+                }
+            }
+            runnable?.apply {
+                handler.removeCallbacks(this)
+                handler.postDelayed(this, DELAY)
+            }
+            true
+        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        DbUtils.setGlobalSizeAdditionExtra(appSize);
-        DbUtils.setAppsColorDefault(mColor);
+    override fun onStop() {
+        super.onStop()
+        globalSizeAdditionExtra = appSize
+        appsColorDefault = mColor
     }
-
 }

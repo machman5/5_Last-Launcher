@@ -1,153 +1,138 @@
-package com.launcher.dialogs;
+package com.launcher.dialogs
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.ContextThemeWrapper;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
-import android.widget.PopupMenu;
-import android.widget.TextView;
-
-import com.BuildConfig;
-import com.R;
-import com.launcher.LauncherActivity;
-
-import com.launcher.model.Apps;
-import com.launcher.utils.Constants;
-import com.launcher.utils.DbUtils;
-import com.launcher.utils.Utils;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import android.app.Dialog
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.view.*
+import android.widget.PopupMenu
+import android.widget.TextView
+import com.BuildConfig
+import com.R
+import com.launcher.LauncherActivity
+import com.launcher.utils.Constants
+import com.launcher.utils.DbUtils
+import com.launcher.utils.DbUtils.appSortReverseOrder
+import com.launcher.utils.DbUtils.clearDB
+import com.launcher.utils.DbUtils.freezeSize
+import com.launcher.utils.DbUtils.getAppColor
+import com.launcher.utils.DbUtils.isFontExists
+import com.launcher.utils.DbUtils.isRandomColor
+import com.launcher.utils.DbUtils.isSizeFrozen
+import com.launcher.utils.DbUtils.randomColor
+import com.launcher.utils.DbUtils.removeFont
+import com.launcher.utils.DbUtils.sortsTypes
+import com.launcher.utils.DbUtils.theme
+import com.launcher.utils.Utils.Companion.generateColorFromString
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * this the launcher setting Dialog
  */
-public class GlobalSettingsDialog extends Dialog implements View.OnClickListener {
+class GlobalSettingsDialog(
+    mContext: Context,
+    private val launcherActivity: LauncherActivity
+) : Dialog(mContext), View.OnClickListener {
+    private var freezeSize: TextView? = null
 
-    //private static final String TAG = "Global";/**/
-    private final LauncherActivity launcherActivity;
-    private final Context context;
-    private TextView freezeSize;
-
-    public GlobalSettingsDialog(Context context, LauncherActivity launcherActivity) {
-        super(context);
-        this.context = context;
-        this.launcherActivity = launcherActivity;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    override fun onCreate(savedInstanceState: Bundle) {
+        super.onCreate(savedInstanceState)
         // no old title: Last Launcher use Activity class not AppCompatActivity so it show very old title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_global_settings);
-
-
-        findViewById(R.id.settings_themes).setOnClickListener(this);
-        freezeSize = findViewById(R.id.settings_freeze_size);
-        freezeSize.setOnClickListener(this);
-
-
-        findViewById(R.id.settings_fonts).setOnClickListener(this);
-
-        TextView reset = findViewById(R.id.settings_reset_to_defaults);
-        reset.setOnClickListener(this);
-        reset.setTextColor(Color.parseColor("#E53935"));
-        findViewById(R.id.settings_backup).setOnClickListener(this);
-        findViewById(R.id.settings_restore).setOnClickListener(this);
-        findViewById(R.id.settings_alignment).setOnClickListener(this);
-        findViewById(R.id.settings_padding).setOnClickListener(this);
-        findViewById(R.id.settings_color_size).setOnClickListener(this);
-        findViewById(R.id.settings_sort_app_by).setOnClickListener(this);
-        findViewById(R.id.settings_sort_app_reverse).setOnClickListener(this);
-        findViewById(R.id.settings_restart_launcher).setOnClickListener(this);
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setContentView(R.layout.dialog_global_settings)
+        findViewById<View>(R.id.settings_themes).setOnClickListener(this)
+        freezeSize = findViewById(R.id.settings_freeze_size)
+        freezeSize?.setOnClickListener(this)
+        findViewById<View>(R.id.settings_fonts).setOnClickListener(this)
+        val reset = findViewById<TextView>(R.id.settings_reset_to_defaults)
+        reset.setOnClickListener(this)
+        reset.setTextColor(Color.parseColor("#E53935"))
+        findViewById<View>(R.id.settings_backup).setOnClickListener(this)
+        findViewById<View>(R.id.settings_restore).setOnClickListener(this)
+        findViewById<View>(R.id.settings_alignment).setOnClickListener(this)
+        findViewById<View>(R.id.settings_padding).setOnClickListener(this)
+        findViewById<View>(R.id.settings_color_size).setOnClickListener(this)
+        findViewById<View>(R.id.settings_sort_app_by).setOnClickListener(this)
+        findViewById<View>(R.id.settings_sort_app_reverse).setOnClickListener(this)
+        findViewById<View>(R.id.settings_restart_launcher).setOnClickListener(this)
 
         //TODO: remove this var
-        TextView colorSniffer = findViewById(R.id.settings_color_sniffer);
-        colorSniffer.setOnClickListener(this);
-
+        val colorSniffer = findViewById<TextView>(R.id.settings_color_sniffer)
+        colorSniffer.setOnClickListener(this)
         if (!BuildConfig.enableColorSniffer) {
-            if (DbUtils.isRandomColor()) {
-                colorSniffer.setText(R.string.fixed_colors);
-            } else
-                colorSniffer.setText(R.string.random_colors);
+            if (isRandomColor) {
+                colorSniffer.setText(R.string.fixed_colors)
+            } else {
+                colorSniffer.setText(R.string.random_colors)
+            }
         }
-
-        findViewById(R.id.settings_frozen_apps).setOnClickListener(this);
-        findViewById(R.id.settings_hidden_apps).setOnClickListener(this);
-
+        findViewById<View>(R.id.settings_frozen_apps).setOnClickListener(this)
+        findViewById<View>(R.id.settings_hidden_apps).setOnClickListener(this)
 
         //reflect the DB value
-        if (DbUtils.isSizeFrozen()) {
-            freezeSize.setText(R.string.unfreeze_app_size);
-        } else
-            freezeSize.setText(R.string.freeze_apps_size);
-
+        if (isSizeFrozen) {
+            freezeSize?.setText(R.string.unfreeze_app_size)
+        } else {
+            freezeSize?.setText(R.string.freeze_apps_size)
+        }
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.settings_fonts:
-                fontSelection(view);
-                break;
-            case R.id.settings_themes:
-                showThemeDialog();
-                break;
-            case R.id.settings_color_sniffer: {
-                if (BuildConfig.enableColorSniffer)
-                    showColorSnifferDialog();
-                else randomColor();
-                break;
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.settings_fonts -> {
+                fontSelection(view)
             }
-            case R.id.settings_sort_app_by: {
-                sortApps(view);
-                break;
+            R.id.settings_themes -> {
+                showThemeDialog()
             }
-            case R.id.settings_sort_app_reverse: {
-                sortAppsReverseOrder();
-                break;
+            R.id.settings_color_sniffer -> {
+                if (BuildConfig.enableColorSniffer) {
+                    showColorSnifferDialog()
+                } else {
+                    randomColor()
+                }
             }
-            case R.id.settings_color_size: {
-                showColorAndSizeDialog();
-                break;
+            R.id.settings_sort_app_by -> {
+                sortApps(view)
             }
-            case R.id.settings_freeze_size:
-                freezeAppsSize();
-                break;
-            case R.id.settings_hidden_apps:
-                hiddenApps();
-                break;
-            case R.id.settings_frozen_apps:
-                frozenApps();
-                break;
-            case R.id.settings_backup:
-                backup();
-                break;
-            case R.id.settings_restore:
-                restore();
-                break;
-            case R.id.settings_reset_to_defaults:
-                defaultSettings();
-                break;
-            case R.id.settings_alignment:
-                setFlowLayoutAlignment(view);
-                break;
-            case R.id.settings_padding:
-                launcherActivity.setPadding();
-                cancel();
-                break;
-            case R.id.settings_restart_launcher:
-                launcherActivity.recreate();
-                break;
-
+            R.id.settings_sort_app_reverse -> {
+                sortAppsReverseOrder()
+            }
+            R.id.settings_color_size -> {
+                showColorAndSizeDialog()
+            }
+            R.id.settings_freeze_size -> {
+                freezeAppsSize()
+            }
+            R.id.settings_hidden_apps -> {
+                hiddenApps()
+            }
+            R.id.settings_frozen_apps -> {
+                frozenApps()
+            }
+            R.id.settings_backup -> {
+                backup()
+            }
+            R.id.settings_restore -> {
+                restore()
+            }
+            R.id.settings_reset_to_defaults -> {
+                defaultSettings()
+            }
+            R.id.settings_alignment -> {
+                setFlowLayoutAlignment(view)
+            }
+            R.id.settings_padding -> {
+                launcherActivity.setPadding()
+                cancel()
+            }
+            R.id.settings_restart_launcher -> {
+                launcherActivity.recreate()
+            }
         }
     }
 
@@ -155,237 +140,209 @@ public class GlobalSettingsDialog extends Dialog implements View.OnClickListener
      * This method is used to control the order of apps.
      * The code block we added is to give the newly added buttons the ability to sort them by name.
      */
-    private void sortApps(View view) {
-        Context context;
+    private fun sortApps(view: View) {
         // set theme
         // if theme wallpaper ie transparent then we have to show other theme
-        if (DbUtils.getTheme() == R.style.Wallpaper)
-            context = new ContextThemeWrapper(getContext(), R.style.AppTheme);
-        else
-            context = new ContextThemeWrapper(getContext(), DbUtils.getTheme());
-
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.getMenuInflater().inflate(R.menu.sort_apps_popups, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(menuItem -> {
-            cancel();
-            switch (menuItem.getItemId()) {
-                case R.id.menu_sort_by_name:
-                    launcherActivity.sortApps(Constants.SORT_BY_NAME);
-                    break;
-                case R.id.menu_sort_by_opening_counts:
-                    launcherActivity.sortApps(Constants.SORT_BY_OPENING_COUNTS);
-                    break;
-                case R.id.menu_sort_by_color:
-                    launcherActivity.sortApps(Constants.SORT_BY_COLOR);
-                    break;
-               /* case R.id.menu_sort_by_customs:
-                    launcherActivity.sortApps(LauncherActivity.SORT_BY_CUSTOM);
-                    break;*/
-                case R.id.menu_sort_by_size:
-                    launcherActivity.sortApps(Constants.SORT_BY_SIZE);
-                    break;
-                case R.id.menu_sort_by_update_time:
-                    launcherActivity.sortApps(Constants.SORT_BY_UPDATE_TIME);
-                    break;
-                case R.id.menu_sort_by_recent_use:
-                    launcherActivity.sortApps(Constants.SORT_BY_RECENT_OPEN);
-                    break;
+        val context: Context = if (theme == R.style.Wallpaper) {
+            ContextThemeWrapper(
+                context,
+                R.style.AppTheme
+            )
+        } else {
+            ContextThemeWrapper(context, theme)
+        }
+        val popupMenu = PopupMenu(context, view)
+        popupMenu.menuInflater.inflate(R.menu.sort_apps_popups, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            cancel()
+            when (menuItem.itemId) {
+                R.id.menu_sort_by_name -> launcherActivity.sortApps(Constants.SORT_BY_NAME)
+                R.id.menu_sort_by_opening_counts -> launcherActivity.sortApps(Constants.SORT_BY_OPENING_COUNTS)
+                R.id.menu_sort_by_color -> launcherActivity.sortApps(Constants.SORT_BY_COLOR)
+                R.id.menu_sort_by_size -> launcherActivity.sortApps(Constants.SORT_BY_SIZE)
+                R.id.menu_sort_by_update_time -> launcherActivity.sortApps(Constants.SORT_BY_UPDATE_TIME)
+                R.id.menu_sort_by_recent_use -> launcherActivity.sortApps(Constants.SORT_BY_RECENT_OPEN)
             }
-            return true;
-        });
-        popupMenu.show();
+            true
+        }
+        popupMenu.show()
     }
 
-    private void sortAppsReverseOrder() {
-        DbUtils.setAppSortReverseOrder(!DbUtils.getAppSortReverseOrder());
-        launcherActivity.sortApps(DbUtils.getSortsTypes());
-        cancel();
+    private fun sortAppsReverseOrder() {
+        appSortReverseOrder = !appSortReverseOrder
+        launcherActivity.sortApps(sortsTypes)
+        cancel()
     }
 
-    private void showColorAndSizeDialog() {
-        launcherActivity.setColorsAndSize();
-        cancel();
+    private fun showColorAndSizeDialog() {
+        launcherActivity.setColorsAndSize()
+        cancel()
     }
 
-    private void setFlowLayoutAlignment(View view) {
-
-        Context context;
+    private fun setFlowLayoutAlignment(view: View) {
         // set theme
         // if theme is  wallpaper i.e. transparent then we have to show other theme:
-        if (DbUtils.getTheme() == R.style.Wallpaper)
-            context = new ContextThemeWrapper(getContext(), R.style.AppTheme);
-        else
-            context = new ContextThemeWrapper(getContext(), DbUtils.getTheme());
-
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.getMenuInflater().inflate(R.menu.alignment_popup, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.menu_center:
-                    launcherActivity.setFlowLayoutAlignment(Gravity.CENTER | Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-                    break;
-                case R.id.menu_end:
-                    launcherActivity.setFlowLayoutAlignment(Gravity.END | Gravity.CENTER_VERTICAL);
-                    break;
-                case R.id.menu_start:
-                    launcherActivity.setFlowLayoutAlignment(Gravity.START | Gravity.CENTER_VERTICAL);
-                    break;
+        val context: Context = if (theme == R.style.Wallpaper) {
+            ContextThemeWrapper(
+                context,
+                R.style.AppTheme
+            )
+        } else {
+            ContextThemeWrapper(context, theme)
+        }
+        val popupMenu = PopupMenu(context, view)
+        popupMenu.menuInflater.inflate(R.menu.alignment_popup, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_center -> launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
+                R.id.menu_end -> launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
+                R.id.menu_start -> launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
             }
-            return true;
-        });
-        popupMenu.show();
-
+            true
+        }
+        popupMenu.show()
     }
 
-    private void randomColor() {
-        boolean rColor = !DbUtils.isRandomColor();
-        DbUtils.randomColor(rColor);
-        cancel();
+    private fun randomColor() {
+        val rColor = !isRandomColor
+        randomColor(rColor)
+        cancel()
         if (rColor) {
-            int color;
-            for (Apps app : LauncherActivity.mAppsList) {
-                color = DbUtils.getAppColor(app.getActivityName());
-                if (color == DbUtils.NULL_TEXT_COLOR) {
-                    color = Utils.generateColorFromString(app.getActivityName());
-                    app.getTextView().setTextColor(color);
+            var color: Int
+            for (app in LauncherActivity.mAppsList) {
+                app.activityName?.let { name ->
+                    color = getAppColor(name)
+                    if (color == DbUtils.NULL_TEXT_COLOR) {
+                        color = generateColorFromString(name)
+                        app.textView.setTextColor(color)
+                    }
                 }
             }
         } else {
-            launcherActivity.recreate();
+            launcherActivity.recreate()
         }
     }
 
-    private void showColorSnifferDialog() {
-        cancel();
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage("ryey.colorsniffer");
+    private fun showColorSnifferDialog() {
+        cancel()
+        val intent = context.packageManager.getLaunchIntentForPackage("ryey.colorsniffer")
 
         // if color snifer app is not installed then send user to install it
         // else show color sniffer option
         if (intent == null) {
             //Change this to proper url , currently this also show BASTARD PLAY STORE
-            Uri uri = Uri.parse("market://details?id=ryey.colorsniffer");
-            Intent i = new Intent(Intent.ACTION_VIEW, uri);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
+            val uri = Uri.parse("market://details?id=ryey.colorsniffer")
+            val i = Intent(Intent.ACTION_VIEW, uri)
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(i)
         } else {
-            new ColorSnifferDialog(getContext(), launcherActivity).show();
-
+            ColorSnifferDialog(context, launcherActivity).show()
         }
     }
 
-    private void freezeAppsSize() {
-        boolean b = DbUtils.isSizeFrozen();
-        DbUtils.freezeSize(!b);
+    private fun freezeAppsSize() {
+        val b = isSizeFrozen
+        freezeSize(!b)
         if (!b) {
-            freezeSize.setText(R.string.unfreeze_app_size);
-        } else
-            freezeSize.setText(R.string.freeze_apps_size);
+            freezeSize?.setText(R.string.unfreeze_app_size)
+        } else {
+            freezeSize?.setText(R.string.freeze_apps_size)
+        }
     }
 
-    private void frozenApps() {
-        launcherActivity.showFrozenApps();
-        cancel();
+    private fun frozenApps() {
+        launcherActivity.showFrozenApps()
+        cancel()
     }
 
     //show hidden apps
-    private void hiddenApps() {
-        launcherActivity.showHiddenApps();
-        cancel();
+    private fun hiddenApps() {
+        launcherActivity.showHiddenApps()
+        cancel()
     }
 
-    private void showThemeDialog() {
-        cancel();
-        new ThemeSelectorDialog(getContext(), launcherActivity).show();
+    private fun showThemeDialog() {
+        cancel()
+        ThemeSelectorDialog(context, launcherActivity).show()
     }
 
-    private void defaultSettings() {
+    private fun defaultSettings() {
         if (!BuildConfig.DEBUG) {
-            DbUtils.clearDB();
-            launcherActivity.recreate();
-        }  //DO SOME ESTER EGG.. FOR DEBUG BUILD..
-
-
+            clearDB()
+            launcherActivity.recreate()
+        } //DO SOME ESTER EGG.. FOR DEBUG BUILD..
     }
 
-    private void backup() {
-        cancel();
-        Intent intentBackupFiles;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            intentBackupFiles = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+    private fun backup() {
+        cancel()
+        val intentBackupFiles: Intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Intent(Intent.ACTION_CREATE_DOCUMENT)
         } else {
-            intentBackupFiles = new Intent(Intent.ACTION_GET_CONTENT);
+            Intent(Intent.ACTION_GET_CONTENT)
         }
-        intentBackupFiles.addCategory(Intent.CATEGORY_OPENABLE);
-
-        intentBackupFiles.setType("*/*");
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy_MM_dd_HHSS", Locale.getDefault());
-        df.format(new Date());
-        String date = df.format(new Date());
-
-        intentBackupFiles.putExtra(Intent.EXTRA_TITLE, "Backup_LastLauncher_" + date);
-
-        Intent intent = Intent.createChooser(intentBackupFiles, launcherActivity.getString(R.string.choose_old_backup_files));
-        launcherActivity.startActivityForResult(intent, Constants.BACKUP_REQUEST);
+        intentBackupFiles.addCategory(Intent.CATEGORY_OPENABLE)
+        intentBackupFiles.type = "*/*"
+        val df = SimpleDateFormat("yyyy_MM_dd_HHSS", Locale.getDefault())
+        df.format(Date())
+        val date = df.format(Date())
+        intentBackupFiles.putExtra(Intent.EXTRA_TITLE, "Backup_LastLauncher_$date")
+        val intent = Intent.createChooser(
+            intentBackupFiles,
+            launcherActivity.getString(R.string.choose_old_backup_files)
+        )
+        launcherActivity.startActivityForResult(intent, Constants.BACKUP_REQUEST)
     }
 
-    private void restore() {
-        cancel();
-        Intent intentRestoreFiles;
-        intentRestoreFiles = new Intent(Intent.ACTION_GET_CONTENT);
-        intentRestoreFiles.addCategory(Intent.CATEGORY_OPENABLE);
-        intentRestoreFiles.setType("*/*");
-        Intent intent = Intent.createChooser(intentRestoreFiles, launcherActivity.getString(R.string.choose_old_backup_files));
-        launcherActivity.startActivityForResult(intent, Constants.RESTORE_REQUEST);
+    private fun restore() {
+        cancel()
+        val intentRestoreFiles = Intent(Intent.ACTION_GET_CONTENT)
+        intentRestoreFiles.addCategory(Intent.CATEGORY_OPENABLE)
+        intentRestoreFiles.type = "*/*"
+        val intent = Intent.createChooser(
+            intentRestoreFiles,
+            launcherActivity.getString(R.string.choose_old_backup_files)
+        )
+        launcherActivity.startActivityForResult(intent, Constants.RESTORE_REQUEST)
     }
 
-    private void setFonts() {
-        cancel();
-        Intent intentSetFonts = new Intent(Intent.ACTION_GET_CONTENT);
-
-        intentSetFonts.addCategory(Intent.CATEGORY_OPENABLE);
+    private fun setFonts() {
+        cancel()
+        val intentSetFonts = Intent(Intent.ACTION_GET_CONTENT)
+        intentSetFonts.addCategory(Intent.CATEGORY_OPENABLE)
         //intentSetFonts.setType("application/x-font-ttf");
         // intentSetFonts.setType("file/plain");
-        intentSetFonts.setType("*/*");
-        Intent intent = Intent.createChooser(intentSetFonts, "Choose Fonts");
-        launcherActivity.startActivityForResult(intent, Constants.FONTS_REQUEST);
-
+        intentSetFonts.type = "*/*"
+        val intent = Intent.createChooser(intentSetFonts, "Choose Fonts")
+        launcherActivity.startActivityForResult(intent, Constants.FONTS_REQUEST)
     }
 
-    private void fontSelection(View view) {
-
-        Context context;
+    private fun fontSelection(view: View) {
         // set theme
         // if theme wallpaper ie transparent then we have to show other theme
-        if (DbUtils.getTheme() == R.style.Wallpaper)
-            context = new ContextThemeWrapper(getContext(), R.style.AppTheme);
-        else
-            context = new ContextThemeWrapper(getContext(), DbUtils.getTheme());
-
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.getMenuInflater().inflate(R.menu.font_selection_popup, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.menu_choose_fonts:
-                    setFonts();
-                    break;
-                case R.id.menu_default_font: {
-                    if (DbUtils.isFontExists()) {
-                        DbUtils.removeFont();
-                        launcherActivity.setFont();
-                        launcherActivity.loadApps();
-                        cancel();
-                        break;
+        val context: Context = if (theme == R.style.Wallpaper) {
+            ContextThemeWrapper(
+                context,
+                R.style.AppTheme
+            )
+        } else {
+            ContextThemeWrapper(context, theme)
+        }
+        val popupMenu = PopupMenu(context, view)
+        popupMenu.menuInflater.inflate(R.menu.font_selection_popup, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_choose_fonts -> setFonts()
+                R.id.menu_default_font -> {
+                    if (isFontExists) {
+                        removeFont()
+                        launcherActivity.setFont()
+                        launcherActivity.loadApps()
+                        cancel()
                     }
                 }
             }
-            return true;
-        });
-        popupMenu.show();
-
+            true
+        }
+        popupMenu.show()
     }
-
 }

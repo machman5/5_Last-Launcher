@@ -1,78 +1,40 @@
-package com.launcher.views.flowLayout.logic;
+package com.launcher.views.flowLayout.logic
 
-import java.util.ArrayList;
-import java.util.List;
+import kotlin.math.max
 
-public class LineDefinition {
-    private final List<ViewDefinition> views = new ArrayList<>();
-    private final ConfigDefinition config;
-    private int lineLength;
-    private int lineThickness;
-    private int lineStartThickness;
-    private int lineStartLength;
+class LineDefinition(private val config: ConfigDefinition) {
+    val views = ArrayList<ViewDefinition>()
+    var lineLength = 0
+        private set
+    var lineThickness = 0
+        private set
+    var lineStartThickness = 0
+    var lineStartLength = 0
 
-    public LineDefinition(ConfigDefinition config) {
-        this.config = config;
-        this.lineStartThickness = 0;
-        this.lineStartLength = 0;
+    fun addView(child: ViewDefinition) {
+        this.addView(views.size, child)
     }
 
-    public void addView(ViewDefinition child) {
-        this.addView(this.views.size(), child);
+    fun addView(i: Int, child: ViewDefinition) {
+        views.add(i, child)
+        lineLength += child.length + child.spacingLength
+        lineThickness = max(lineThickness, child.thickness + child.spacingThickness)
     }
 
-    public void addView(int i, ViewDefinition child) {
-        this.views.add(i, child);
-
-        this.lineLength = this.lineLength + child.getLength() + child.getSpacingLength();
-        this.lineThickness = Math.max(this.lineThickness, child.getThickness() + child.getSpacingThickness());
+    fun canFit(child: ViewDefinition): Boolean {
+        return lineLength + child.length + child.spacingLength <= config.maxLength
     }
 
-    public boolean canFit(ViewDefinition child) {
-        return lineLength + child.getLength() + child.getSpacingLength() <= config.getMaxLength();
+    fun setThickness(thickness: Int) {
+        lineThickness = thickness
     }
 
-    public int getLineStartThickness() {
-        return lineStartThickness;
+    fun setLength(length: Int) {
+        lineLength = length
     }
 
-    public void setLineStartThickness(int lineStartThickness) {
-        this.lineStartThickness = lineStartThickness;
-    }
-
-    public int getLineThickness() {
-        return lineThickness;
-    }
-
-    public int getLineLength() {
-        return lineLength;
-    }
-
-    public int getLineStartLength() {
-        return lineStartLength;
-    }
-
-    public void setLineStartLength(int lineStartLength) {
-        this.lineStartLength = lineStartLength;
-    }
-
-    public List<ViewDefinition> getViews() {
-        return views;
-    }
-
-    public void setThickness(int thickness) {
-        this.lineThickness = thickness;
-    }
-
-    public void setLength(int length) {
-        this.lineLength = length;
-    }
-
-    public int getX() {
-        return this.config.getOrientation() == CommonLogic.HORIZONTAL ? this.lineStartLength : this.lineStartThickness;
-    }
-
-    public int getY() {
-        return this.config.getOrientation() == CommonLogic.HORIZONTAL ? this.lineStartThickness : this.lineStartLength;
-    }
+    val x: Int
+        get() = if (config.getOrientation() == CommonLogic.HORIZONTAL) lineStartLength else lineStartThickness
+    val y: Int
+        get() = if (config.getOrientation() == CommonLogic.HORIZONTAL) lineStartThickness else lineStartLength
 }

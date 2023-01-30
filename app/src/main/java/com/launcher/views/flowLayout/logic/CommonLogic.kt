@@ -1,236 +1,218 @@
-package com.launcher.views.flowLayout.logic;
+package com.launcher.views.flowLayout.logic
 
-import android.graphics.Rect;
-import android.view.Gravity;
-import android.view.View;
+import android.graphics.Rect
+import android.view.Gravity
+import android.view.View
+import kotlin.math.min
+import kotlin.math.roundToInt
 
-import java.util.List;
+object CommonLogic {
+    const val HORIZONTAL = 0
+    const val VERTICAL = 1
 
-public class CommonLogic {
-    public static final int HORIZONTAL = 0;
-    public static final int VERTICAL = 1;
-
-    public static void calculateLinesAndChildPosition(List<LineDefinition> lines) {
-        int prevLinesThickness = 0;
-        final int linesCount = lines.size();
-        for (int i = 0; i < linesCount; i++) {
-            final LineDefinition line = lines.get(i);
-            line.setLineStartThickness(prevLinesThickness);
-            prevLinesThickness += line.getLineThickness();
-            int prevChildThickness = 0;
-            final List<ViewDefinition> childViews = line.getViews();
-            final int childCount = childViews.size();
-            for (int j = 0; j < childCount; j++) {
-                ViewDefinition child = childViews.get(j);
-                child.setInlineStartLength(prevChildThickness);
-                prevChildThickness += child.getLength() + child.getSpacingLength();
+    @JvmStatic
+    fun calculateLinesAndChildPosition(lines: List<LineDefinition>) {
+        var prevLinesThickness = 0
+        val linesCount = lines.size
+        for (i in 0 until linesCount) {
+            val line = lines[i]
+            line.lineStartThickness = prevLinesThickness
+            prevLinesThickness += line.lineThickness
+            var prevChildThickness = 0
+            val childViews = line.views
+            val childCount = childViews.size
+            for (j in 0 until childCount) {
+                val child = childViews[j]
+                child.inlineStartLength = prevChildThickness
+                prevChildThickness += child.length + child.spacingLength
             }
         }
     }
 
-    public static void applyGravityToLines(List<LineDefinition> lines, int realControlLength, int realControlThickness, ConfigDefinition config) {
-        final int linesCount = lines.size();
+    @JvmStatic
+    fun applyGravityToLines(
+        lines: List<LineDefinition>,
+        realControlLength: Int,
+        realControlThickness: Int,
+        config: ConfigDefinition
+    ) {
+        val linesCount = lines.size
         if (linesCount <= 0) {
-            return;
+            return
         }
-
-        int remainingWeight = linesCount;
-        LineDefinition lastLine = lines.get(linesCount - 1);
-        int excessThickness = realControlThickness - (lastLine.getLineThickness() + lastLine.getLineStartThickness());
-
+        var remainingWeight = linesCount
+        val lastLine = lines[linesCount - 1]
+        var excessThickness =
+            realControlThickness - (lastLine.lineThickness + lastLine.lineStartThickness)
         if (excessThickness < 0) {
-            excessThickness = 0;
+            excessThickness = 0
         }
-
-        int excessOffset = 0;
-        for (int i = 0; i < linesCount; i++) {
-            final LineDefinition child = lines.get(i);
-            int weight = 1;
-            int gravity = getGravity(null, config);
-            int extraThickness = Math.round(excessThickness * weight / remainingWeight);
-
-            excessThickness -= extraThickness;
-            remainingWeight -= weight;
-
-            final int childLength = child.getLineLength();
-            final int childThickness = child.getLineThickness();
-
-            Rect container = new Rect();
-            container.top = excessOffset;
-            container.left = 0;
-            container.right = realControlLength;
-            container.bottom = childThickness + extraThickness + excessOffset;
-
-            Rect result = new Rect();
-            Gravity.apply(gravity, childLength, childThickness, container, result);
-
-            excessOffset += extraThickness;
-            child.setLineStartLength(child.getLineStartLength() + result.left);
-            child.setLineStartThickness(child.getLineStartThickness() + result.top);
-            child.setLength(result.width());
-            child.setThickness(result.height());
-
-            applyGravityToLine(child, config);
+        var excessOffset = 0
+        for (i in 0 until linesCount) {
+            val child = lines[i]
+            val weight = 1
+            val gravity = getGravity(null, config)
+            val extraThickness = (excessThickness * weight / remainingWeight).toFloat().roundToInt()
+            excessThickness -= extraThickness
+            remainingWeight -= weight
+            val childLength = child.lineLength
+            val childThickness = child.lineThickness
+            val container = Rect()
+            container.top = excessOffset
+            container.left = 0
+            container.right = realControlLength
+            container.bottom = childThickness + extraThickness + excessOffset
+            val result = Rect()
+            Gravity.apply(gravity, childLength, childThickness, container, result)
+            excessOffset += extraThickness
+            child.lineStartLength = child.lineStartLength + result.left
+            child.lineStartThickness = child.lineStartThickness + result.top
+            child.setLength(result.width())
+            child.setThickness(result.height())
+            applyGravityToLine(child, config)
         }
     }
 
-    public static void applyGravityToLine(LineDefinition line, ConfigDefinition config) {
-        final List<ViewDefinition> views = line.getViews();
-        final int viewCount = views.size();
+    fun applyGravityToLine(line: LineDefinition, config: ConfigDefinition) {
+        val views = line.views
+        val viewCount = views.size
         if (viewCount <= 0) {
-            return;
+            return
         }
-
-        float remainingWeight = 0;
-        for (int i = 0; i < viewCount; i++) {
-            final ViewDefinition child = views.get(i);
-            remainingWeight += getWeight(child, config);
+        var remainingWeight = 0f
+        for (i in 0 until viewCount) {
+            val child = views[i]
+            remainingWeight += getWeight(child, config)
         }
-        final boolean weightBased = remainingWeight > 0;
-
-        ViewDefinition lastChild = views.get(viewCount - 1);
-        int excessLengthRemaining = line.getLineLength() - (lastChild.getLength() + lastChild.getSpacingLength() + lastChild.getInlineStartLength());
-        int excessOffset = 0;
-        for (int i = 0; i < viewCount; i++) {
-            final ViewDefinition child = views.get(i);
-            float weight = getWeight(child, config);
-            int gravity = getGravity(child, config);
-            int extraLength;
+        val weightBased = remainingWeight > 0
+        val lastChild = views[viewCount - 1]
+        var excessLengthRemaining =
+            line.lineLength - (lastChild.length + lastChild.spacingLength + lastChild.inlineStartLength)
+        var excessOffset = 0
+        for (i in 0 until viewCount) {
+            val child = views[i]
+            val weight = getWeight(child, config)
+            val gravity = getGravity(child, config)
+            var extraLength: Int
             if (!weightBased) {
-                extraLength = excessLengthRemaining / (viewCount - i);
+                extraLength = excessLengthRemaining / (viewCount - i)
             } else {
-                extraLength = Math.round(excessLengthRemaining * weight / remainingWeight);
-                remainingWeight -= weight;
+                extraLength = (excessLengthRemaining * weight / remainingWeight).roundToInt()
+                remainingWeight -= weight
             }
-            excessLengthRemaining -= extraLength;
-
-            final int childLength = child.getLength() + child.getSpacingLength();
-            final int childThickness = child.getThickness() + child.getSpacingThickness();
-
-            Rect container = new Rect();
-            container.top = 0;
-            container.left = excessOffset;
-            container.right = childLength + extraLength + excessOffset;
-            container.bottom = line.getLineThickness();
-
-            Rect result = new Rect();
-            Gravity.apply(gravity, childLength, childThickness, container, result);
-
-            excessOffset += extraLength;
-            child.setInlineStartLength(result.left + child.getInlineStartLength());
-            child.setInlineStartThickness(result.top);
-            child.setLength(result.width() - child.getSpacingLength());
-            child.setThickness(result.height() - child.getSpacingThickness());
+            excessLengthRemaining -= extraLength
+            val childLength = child.length + child.spacingLength
+            val childThickness = child.thickness + child.spacingThickness
+            val container = Rect()
+            container.top = 0
+            container.left = excessOffset
+            container.right = childLength + extraLength + excessOffset
+            container.bottom = line.lineThickness
+            val result = Rect()
+            Gravity.apply(gravity, childLength, childThickness, container, result)
+            excessOffset += extraLength
+            child.inlineStartLength = result.left + child.inlineStartLength
+            child.inlineStartThickness = result.top
+            child.length = result.width() - child.spacingLength
+            child.thickness = result.height() - child.spacingThickness
         }
     }
 
-    public static int findSize(int modeSize, int controlMaxSize, int contentSize) {
-        int realControlSize;
-        switch (modeSize) {
-            /* duplicate of default
-            case View.MeasureSpec.UNSPECIFIED:
-                realControlSize = contentSize;
-                break;
-             */
-            case View.MeasureSpec.AT_MOST:
-                realControlSize = Math.min(contentSize, controlMaxSize);
-                break;
-            case View.MeasureSpec.EXACTLY:
-                realControlSize = controlMaxSize;
-                break;
-            default:
-                realControlSize = contentSize;
-                break;
+    @JvmStatic
+    fun findSize(modeSize: Int, controlMaxSize: Int, contentSize: Int): Int {
+        val realControlSize: Int = when (modeSize) {
+            View.MeasureSpec.AT_MOST -> min(contentSize, controlMaxSize)
+            View.MeasureSpec.EXACTLY -> controlMaxSize
+            else -> contentSize
         }
-        return realControlSize;
+        return realControlSize
     }
 
-    private static float getWeight(ViewDefinition child, ConfigDefinition config) {
-        return child.weightSpecified() ? child.getWeight() : config.getWeightDefault();
+    private fun getWeight(child: ViewDefinition, config: ConfigDefinition): Float {
+        return if (child.weightSpecified()) child.weight else config.weightDefault
     }
 
-
-    private static int getGravity(ViewDefinition child, ConfigDefinition config) {
-        int parentGravity = config.getGravity();
-
-        int childGravity;
+    private fun getGravity(child: ViewDefinition?, config: ConfigDefinition): Int {
+        var parentGravity = config.gravity
+        var childGravity: Int
         // get childGravity of child view (if exists)
-        if (child != null && child.gravitySpecified()) {
-            childGravity = child.getGravity();
+        childGravity = if (child != null && child.gravitySpecified()) {
+            child.gravity
         } else {
-            childGravity = parentGravity;
+            parentGravity
         }
-
-        childGravity = getGravityFromRelative(childGravity, config);
-        parentGravity = getGravityFromRelative(parentGravity, config);
+        childGravity = getGravityFromRelative(childGravity, config)
+        parentGravity = getGravityFromRelative(parentGravity, config)
 
         // add parent gravity to child gravity if child gravity is not specified
-        if ((childGravity & Gravity.HORIZONTAL_GRAVITY_MASK) == 0) {
-            childGravity |= parentGravity & Gravity.HORIZONTAL_GRAVITY_MASK;
+        if (childGravity and Gravity.HORIZONTAL_GRAVITY_MASK == 0) {
+            childGravity = childGravity or (parentGravity and Gravity.HORIZONTAL_GRAVITY_MASK)
         }
-        if ((childGravity & Gravity.VERTICAL_GRAVITY_MASK) == 0) {
-            childGravity |= parentGravity & Gravity.VERTICAL_GRAVITY_MASK;
+        if (childGravity and Gravity.VERTICAL_GRAVITY_MASK == 0) {
+            childGravity = childGravity or (parentGravity and Gravity.VERTICAL_GRAVITY_MASK)
         }
 
         // if childGravity is still not specified - set default top - left gravity
-        if ((childGravity & Gravity.HORIZONTAL_GRAVITY_MASK) == 0) {
-            childGravity |= Gravity.START;
+        if (childGravity and Gravity.HORIZONTAL_GRAVITY_MASK == 0) {
+            childGravity = childGravity or Gravity.START
         }
-        if ((childGravity & Gravity.VERTICAL_GRAVITY_MASK) == 0) {
-            childGravity |= Gravity.TOP;
+        if (childGravity and Gravity.VERTICAL_GRAVITY_MASK == 0) {
+            childGravity = childGravity or Gravity.TOP
         }
-
-        return childGravity;
+        return childGravity
     }
 
-
-    public static int getGravityFromRelative(int childGravity, ConfigDefinition config) {
+    private fun getGravityFromRelative(childGravity: Int, config: ConfigDefinition): Int {
         // swap directions for vertical non relative view
         // if it is relative, then START is TOP, and we do not need to switch it here.
         // it will be switched later on onMeasure stage when calculations will be with length and thickness
-        if (config.getOrientation() == CommonLogic.VERTICAL && (childGravity & Gravity.RELATIVE_LAYOUT_DIRECTION) == 0) {
-            int horizontalGravity = childGravity;
-            childGravity = 0;
-            childGravity |= (horizontalGravity & Gravity.HORIZONTAL_GRAVITY_MASK) >> Gravity.AXIS_X_SHIFT << Gravity.AXIS_Y_SHIFT;
-            childGravity |= (horizontalGravity & Gravity.VERTICAL_GRAVITY_MASK) >> Gravity.AXIS_Y_SHIFT << Gravity.AXIS_X_SHIFT;
+        var mChildGravity = childGravity
+        if (config.orientation == VERTICAL && mChildGravity and Gravity.RELATIVE_LAYOUT_DIRECTION == 0) {
+            val horizontalGravity = mChildGravity
+            mChildGravity = 0
+            mChildGravity =
+                mChildGravity or (horizontalGravity and Gravity.HORIZONTAL_GRAVITY_MASK shr Gravity.AXIS_X_SHIFT shl Gravity.AXIS_Y_SHIFT)
+            mChildGravity =
+                mChildGravity or (horizontalGravity and Gravity.VERTICAL_GRAVITY_MASK shr Gravity.AXIS_Y_SHIFT shl Gravity.AXIS_X_SHIFT)
         }
 
         // for relative layout and RTL direction swap left and right gravity
-        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL && (childGravity & Gravity.RELATIVE_LAYOUT_DIRECTION) != 0) {
-            int ltrGravity = childGravity;
-            childGravity = 0;
-            childGravity |= (ltrGravity & Gravity.START) == Gravity.START ? Gravity.END : 0;
-            childGravity |= (ltrGravity & Gravity.END) == Gravity.END ? Gravity.START : 0;
+        if (config.layoutDirection == View.LAYOUT_DIRECTION_RTL && mChildGravity and Gravity.RELATIVE_LAYOUT_DIRECTION != 0) {
+            val ltrGravity = mChildGravity
+            mChildGravity = 0
+            mChildGravity =
+                mChildGravity or if (ltrGravity and Gravity.START == Gravity.START) Gravity.END else 0
+            mChildGravity =
+                mChildGravity or if (ltrGravity and Gravity.END == Gravity.END) Gravity.START else 0
         }
-
-        return childGravity;
+        return mChildGravity
     }
 
-    public static void fillLines(List<ViewDefinition> views, List<LineDefinition> lines, ConfigDefinition config) {
-        LineDefinition currentLine = new LineDefinition(config);
-        lines.add(currentLine);
-        final int count = views.size();
-        for (int i = 0; i < count; i++) {
-            final ViewDefinition child = views.get(i);
-
-            boolean newLine = child.isNewLine() || (config.isCheckCanFit() && !currentLine.canFit(child));
-
-            if (newLine && config.getMaxLines() > 0 && lines.size() == config.getMaxLines())
-                break;
-
+    @JvmStatic
+    fun fillLines(
+        views: List<ViewDefinition>,
+        lines: MutableList<LineDefinition?>,
+        config: ConfigDefinition
+    ) {
+        var currentLine = LineDefinition(config)
+        lines.add(currentLine)
+        val count = views.size
+        for (i in 0 until count) {
+            val child = views[i]
+            val newLine = child.isNewLine || config.isCheckCanFit && !currentLine.canFit(child)
+            if (newLine && config.maxLines > 0 && lines.size == config.maxLines) break
             if (newLine) {
-                currentLine = new LineDefinition(config);
-                if (config.getOrientation() == CommonLogic.VERTICAL && config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                    lines.add(0, currentLine);
+                currentLine = LineDefinition(config)
+                if (config.orientation == VERTICAL && config.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+                    lines.add(0, currentLine)
                 } else {
-                    lines.add(currentLine);
+                    lines.add(currentLine)
                 }
             }
-
-            if (config.getOrientation() == CommonLogic.HORIZONTAL && config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                currentLine.addView(0, child);
+            if (config.orientation == HORIZONTAL && config.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+                currentLine.addView(0, child)
             } else {
-                currentLine.addView(child);
+                currentLine.addView(child)
             }
         }
     }

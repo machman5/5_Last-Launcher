@@ -1,21 +1,3 @@
-/*
- * Last Launcher
- * Copyright (C) 2019 Shubham Tyagi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.launcher.dialogs;
 
 import android.app.Dialog;
@@ -48,7 +30,6 @@ import java.util.Locale;
  * this the launcher setting Dialog
  */
 public class GlobalSettingsDialog extends Dialog implements View.OnClickListener {
-
 
     //private static final String TAG = "Global";/**/
     private final LauncherActivity launcherActivity;
@@ -173,8 +154,6 @@ public class GlobalSettingsDialog extends Dialog implements View.OnClickListener
     /**
      * This method is used to control the order of apps.
      * The code block we added is to give the newly added buttons the ability to sort them by name.
-     *
-     * @param view
      */
     private void sortApps(View view) {
         Context context;
@@ -325,9 +304,8 @@ public class GlobalSettingsDialog extends Dialog implements View.OnClickListener
         if (!BuildConfig.DEBUG) {
             DbUtils.clearDB();
             launcherActivity.recreate();
-        } else {
-            //DO SOME ESTER EGG.. FOR DEBUG BUILD..
-        }
+        }  //DO SOME ESTER EGG.. FOR DEBUG BUILD..
+
 
     }
 
@@ -338,7 +316,6 @@ public class GlobalSettingsDialog extends Dialog implements View.OnClickListener
             intentBackupFiles = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         } else {
             intentBackupFiles = new Intent(Intent.ACTION_GET_CONTENT);
-            ;
         }
         intentBackupFiles.addCategory(Intent.CATEGORY_OPENABLE);
 

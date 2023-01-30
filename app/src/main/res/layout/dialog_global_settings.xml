@@ -1,40 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Last Launcher
-  ~ Copyright (C) 2019 Shubham Tyagi
-  ~
-  ~ This program is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/black"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/settings_fonts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:gravity="center"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
@@ -82,7 +60,6 @@
             android:background="#DEDEDE"
             android:foregroundGravity="center_vertical|center_horizontal" />
 
-
         <TextView
             android:id="@+id/settings_alignment"
             android:layout_width="match_parent"
@@ -99,7 +76,6 @@
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:background="#DEDEDE"
             android:foregroundGravity="center_vertical|center_horizontal" />
-
 
         <TextView
             android:id="@+id/settings_padding"
@@ -128,7 +104,6 @@
             android:text="@string/customize_with_color_sniffer"
             android:textSize="20sp" />
 
-
         <View
             android:layout_width="170dp"
             android:layout_height="1dp"
@@ -146,7 +121,6 @@
             android:text="@string/sort_apps_by"
             android:textSize="20sp" />
 
-
         <View
             android:layout_width="170dp"
             android:layout_height="1dp"
@@ -163,7 +137,6 @@
             android:paddingBottom="5dp"
             android:text="@string/sort_apps_reverse"
             android:textSize="20sp" />
-
 
         <View
             android:layout_width="170dp"
@@ -197,7 +170,6 @@
             android:gravity="center"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-
             android:text="@string/hidden_apps"
             android:textSize="20sp" />
 
@@ -215,7 +187,6 @@
             android:gravity="center"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-
             android:text="@string/frozen_apps"
             android:textSize="20sp" />
 
@@ -233,7 +204,6 @@
             android:gravity="center"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-
             android:text="@string/backup"
             android:textSize="20sp" />
 
@@ -267,7 +237,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="5dp"
-
             android:paddingBottom="5dp"
             android:text="@string/reset_to_default_settings"
             android:textSize="20sp" />
@@ -285,11 +254,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="5dp"
-
             android:paddingBottom="5dp"
             android:text="@string/restart_launcher"
             android:textSize="20sp" />
-
 
     </LinearLayout>
 </ScrollView>

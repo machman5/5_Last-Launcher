@@ -64,10 +64,10 @@ class HiddenAppsDialogs(
         val popupMenu = PopupMenu(/* context = */ ctx, /* anchor = */ view)
         popupMenu.menuInflater.inflate(R.menu.popup_remove, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            if (menuItem.itemId == R.id.menu_remove_this) {
+            if (menuItem.itemId == R.id.menuRemoveThis) {
                 apps.setAppHidden(false)
                 updateHiddenList()
-            } else if (menuItem.itemId == R.id.menu_run_this_app) {
+            } else if (menuItem.itemId == R.id.menuRunThisApp) {
                 if (!apps.isShortcut) {
                     apps.activityName?.let { name ->
                         val strings = name.split("/".toRegex()).dropLastWhile { it.isEmpty() }

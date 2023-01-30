@@ -56,7 +56,7 @@ class FrozenAppsDialogs(
         val popupMenu = PopupMenu(ctx, view)
         popupMenu.menuInflater.inflate(R.menu.popup_remove, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            if (menuItem.itemId == R.id.menu_remove_this) {
+            if (menuItem.itemId == R.id.menuRemoveThis) {
                 apps.setFreeze(false)
                 updateFrozenList()
             }

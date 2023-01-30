@@ -156,12 +156,12 @@ class GlobalSettingsDialog(
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             cancel()
             when (menuItem.itemId) {
-                R.id.menu_sort_by_name -> launcherActivity.sortApps(Constants.SORT_BY_NAME)
-                R.id.menu_sort_by_opening_counts -> launcherActivity.sortApps(Constants.SORT_BY_OPENING_COUNTS)
-                R.id.menu_sort_by_color -> launcherActivity.sortApps(Constants.SORT_BY_COLOR)
-                R.id.menu_sort_by_size -> launcherActivity.sortApps(Constants.SORT_BY_SIZE)
-                R.id.menu_sort_by_update_time -> launcherActivity.sortApps(Constants.SORT_BY_UPDATE_TIME)
-                R.id.menu_sort_by_recent_use -> launcherActivity.sortApps(Constants.SORT_BY_RECENT_OPEN)
+                R.id.menuSortByName -> launcherActivity.sortApps(Constants.SORT_BY_NAME)
+                R.id.menuSortByOpeningCounts -> launcherActivity.sortApps(Constants.SORT_BY_OPENING_COUNTS)
+                R.id.menuSortByColor -> launcherActivity.sortApps(Constants.SORT_BY_COLOR)
+                R.id.menuSortBySize -> launcherActivity.sortApps(Constants.SORT_BY_SIZE)
+                R.id.menuSortByUpdateTime -> launcherActivity.sortApps(Constants.SORT_BY_UPDATE_TIME)
+                R.id.menuSortByRecentUse -> launcherActivity.sortApps(Constants.SORT_BY_RECENT_OPEN)
             }
             true
         }
@@ -191,12 +191,12 @@ class GlobalSettingsDialog(
             ContextThemeWrapper(context, theme)
         }
         val popupMenu = PopupMenu(context, view)
-        popupMenu.menuInflater.inflate(R.menu.alignment_popup, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.popup_alignment, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
-                R.id.menu_center -> launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
-                R.id.menu_end -> launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
-                R.id.menu_start -> launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
+                R.id.menuCenter -> launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
+                R.id.menuEnd -> launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
+                R.id.menuStart -> launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
             }
             true
         }
@@ -331,8 +331,8 @@ class GlobalSettingsDialog(
         popupMenu.menuInflater.inflate(R.menu.popup_font_selection, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
-                R.id.menu_choose_fonts -> setFonts()
-                R.id.menu_default_font -> {
+                R.id.menuChooseFonts -> setFonts()
+                R.id.menuDefaultFont -> {
                     if (isFontExists) {
                         removeFont()
                         launcherActivity.setFont()

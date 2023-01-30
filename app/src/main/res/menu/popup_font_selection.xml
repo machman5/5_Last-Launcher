@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_default_font"
+        android:id="@+id/menuDefaultFont"
         android:title="@string/restore_default_fonts" />
     <item
-        android:id="@+id/menu_choose_fonts"
+        android:id="@+id/menuChooseFonts"
         android:title="@string/select_fonts" />
 </menu>

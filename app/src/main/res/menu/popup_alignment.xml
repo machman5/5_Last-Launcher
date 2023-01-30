@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_start"
+        android:id="@+id/menuStart"
         android:title="@string/start" />
     <item
-        android:id="@+id/menu_center"
+        android:id="@+id/menuCenter"
         android:title="@string/center" />
     <item
-        android:id="@+id/menu_end"
+        android:id="@+id/menuEnd"
         android:title="@string/end" />
 </menu>

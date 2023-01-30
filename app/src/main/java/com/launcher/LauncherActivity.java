@@ -18,7 +18,6 @@
 
 package com.launcher;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -584,20 +583,20 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         SpannableString s = new SpannableString(getString(R.string.hide));
 
         s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
-        popupMenu.getMenu().findItem(R.id.menu_hide).setTitle(s);
+        popupMenu.getMenu().findItem(R.id.menuHide).setTitle(s);
 
         s = new SpannableString(getString(R.string.uninstall));
         s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
-        popupMenu.getMenu().findItem(R.id.menu_uninstall).setTitle(s);
+        popupMenu.getMenu().findItem(R.id.menuUninstall).setTitle(s);
 
         s = new SpannableString(getString(R.string.reset_to_default));
         s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
-        popupMenu.getMenu().findItem(R.id.menu_reset_to_default).setTitle(s);
+        popupMenu.getMenu().findItem(R.id.menuResetToDefault).setTitle(s);
 
 
         // set proper item based on Db value
         if (DbUtils.isAppFrozen(activityName)) {
-            popupMenu.getMenu().findItem(R.id.menu_freeze_size).setTitle(R.string.unfreeze_size);
+            popupMenu.getMenu().findItem(R.id.menuFreezeSize).setTitle(R.string.unfreeze_size);
         }
 
         //disable some item for shortcut
@@ -606,43 +605,43 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
             SpannableString s1 = new SpannableString(getString(R.string.remove));
             s1.setSpan(new ForegroundColorSpan(Color.parseColor("#E53935")), 0, s1.length(), 0);
-            popupMenu.getMenu().findItem(R.id.menu_uninstall).setTitle(s1);
+            popupMenu.getMenu().findItem(R.id.menuUninstall).setTitle(s1);
 
-            popupMenu.getMenu().findItem(R.id.menu_hide).setVisible(false);
+            popupMenu.getMenu().findItem(R.id.menuHide).setVisible(false);
             //renaming is also disabled;
             // consider it later
-            popupMenu.getMenu().findItem(R.id.menu_rename).setVisible(false);
-            popupMenu.getMenu().findItem(R.id.menu_app_info).setVisible(false);
+            popupMenu.getMenu().findItem(R.id.menuRename).setVisible(false);
+            popupMenu.getMenu().findItem(R.id.menuAppInfo).setVisible(false);
         }
 
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.menu_color:
+                case R.id.menuColor:
                     changeColorSize(activityName, view);
                     break;
-                case R.id.menu_rename:
+                case R.id.menuRename:
                     renameApp(activityName, view.getText().toString());
                     break;
-                case R.id.menu_freeze_size:
+                case R.id.menuFreezeSize:
                     freezeAppSize(activityName);
                     break;
-                case R.id.menu_hide:
+                case R.id.menuHide:
                     hideApp(activityName);
                     break;
-                case R.id.menu_uninstall:
+                case R.id.menuUninstall:
                     if (view.isShortcut()) {
                         removeShortcut(view);
                     } else {
                         uninstallApp(activityName);
                     }
                     break;
-                case R.id.menu_app_info:
+                case R.id.menuAppInfo:
                     showAppInfo(activityName);
                     break;
-                case R.id.menu_reset_to_default:
+                case R.id.menuResetToDefault:
                     resetApp(activityName);
                     break;
-                case R.id.menu_reset_color:
+                case R.id.menuResetColor:
                     resetAppColor(activityName);
                     break;
 

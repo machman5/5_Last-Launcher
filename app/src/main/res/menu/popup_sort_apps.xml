@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_sort_by_name"
+        android:title="@string/by_name" />
+    <item
+        android:id="@+id/menu_sort_by_opening_counts"
+        android:title="@string/by_opening_counts" />
+    <item
+        android:id="@+id/menu_sort_by_size"
+        android:title="@string/by_size" />
+    <item
+        android:id="@+id/menu_sort_by_color"
+        android:title="@string/by_color" />
+    <item
+        android:id="@+id/menu_sort_by_update_time"
+        android:title="@string/update_time" />
+    <item
+        android:id="@+id/menu_sort_by_recent_use"
+        android:title="@string/recently_first" />
+</menu>

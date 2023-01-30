@@ -152,7 +152,7 @@ class GlobalSettingsDialog(
             ContextThemeWrapper(context, theme)
         }
         val popupMenu = PopupMenu(context, view)
-        popupMenu.menuInflater.inflate(R.menu.sort_apps_popups, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.popup_sort_apps, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             cancel()
             when (menuItem.itemId) {
@@ -328,7 +328,7 @@ class GlobalSettingsDialog(
             ContextThemeWrapper(context, theme)
         }
         val popupMenu = PopupMenu(context, view)
-        popupMenu.menuInflater.inflate(R.menu.font_selection_popup, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.popup_font_selection, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
                 R.id.menu_choose_fonts -> setFonts()

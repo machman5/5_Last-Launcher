@@ -13,16 +13,15 @@ import com.BuildConfig
 import com.R
 import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.LauncherActivity
+import com.launcher.dialogs.launcher.font.FontDialog
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.appSortReverseOrder
 import com.launcher.utils.DbUtils.clearDB
 import com.launcher.utils.DbUtils.getAppColor
-import com.launcher.utils.DbUtils.isFontExists
 import com.launcher.utils.DbUtils.isRandomColor
 import com.launcher.utils.DbUtils.isSizeFrozen
 import com.launcher.utils.DbUtils.randomColor
-import com.launcher.utils.DbUtils.removeFont
 import com.launcher.utils.DbUtils.settingsFreezeSize
 import com.launcher.utils.DbUtils.sortsTypes
 import com.launcher.utils.DbUtils.theme
@@ -82,7 +81,7 @@ class GlobalSettingsDialog(
     override fun onClick(view: View) {
         when (view) {
             binding.settingsFonts -> {
-                fontSelection(view)
+                fontSelection()
             }
             binding.settingsThemes -> {
                 showThemeDialog()
@@ -303,44 +302,21 @@ class GlobalSettingsDialog(
         launcherActivity.startActivityForResult(intent, Constants.RESTORE_REQUEST)
     }
 
-    private fun setFonts() {
-        cancel()
-        val intentSetFonts = Intent(Intent.ACTION_GET_CONTENT)
-        intentSetFonts.addCategory(Intent.CATEGORY_OPENABLE)
-        //intentSetFonts.setType("application/x-font-ttf");
-        // intentSetFonts.setType("file/plain");
-        intentSetFonts.type = "*/*"
-        val intent = Intent.createChooser(intentSetFonts, "Choose Fonts")
-        launcherActivity.startActivityForResult(intent, Constants.FONTS_REQUEST)
-    }
-
-    private fun fontSelection(view: View) {
-        // set theme
-        // if theme wallpaper ie transparent then we have to show other theme
-        val context = if (theme == R.style.Wallpaper) {
-            ContextThemeWrapper(
-                context,
-                R.style.AppTheme
+    private fun fontSelection() {
+        dismiss()
+        val dialogs = FontDialog(
+            mContext = context,
+            launcherActivity = launcherActivity
+        )
+        dialogs.show()
+        val window = dialogs.window
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
-        } else {
-            ContextThemeWrapper(context, theme)
         }
-        val popupMenu = PopupMenu(context, view)
-        popupMenu.menuInflater.inflate(R.menu.popup_font_selection, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-                R.id.menuChooseFonts -> setFonts()
-                R.id.menuDefaultFont -> {
-                    if (isFontExists) {
-                        removeFont()
-                        launcherActivity.setFont()
-                        launcherActivity.loadApps()
-                        cancel()
-                    }
-                }
-            }
-            true
-        }
-        popupMenu.show()
     }
 }

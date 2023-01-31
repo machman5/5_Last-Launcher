@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/round_medium"
+    app:cardElevation="@dimen/margin_padding_small"
+    app:cardUseCompatPadding="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menuDefaultFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/actionBarItemBackground"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/restore_default_fonts"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
+
+            <TextView
+                android:id="@+id/menuChooseFonts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/actionBarItemBackground"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/select_fonts"
+                android:textSize="20sp"
+                tools:ignore="UnusedAttribute" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>

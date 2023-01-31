@@ -603,7 +603,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         synchronized (mAppsList) {
             for (ListIterator<Apps> iterator = mAppsList.listIterator(); iterator.hasNext(); ) {
                 Apps app = iterator.next();
-                if (app.getActivityName().equalsIgnoreCase(activityName)) {
+                if (app.getActivityName() != null && app.getActivityName().equalsIgnoreCase(activityName)) {
                     iterator.remove();
                     //now add new App
                     int color;
@@ -673,7 +673,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     public void onAppRenamed(String activityName, String appNewName) {
         synchronized (mAppsList) {
             for (Apps app : mAppsList) {
-                if (app.getActivityName().equalsIgnoreCase(activityName)) {
+                if (app.getActivityName() != null && app.getActivityName().equalsIgnoreCase(activityName)) {
                     app.setAppName(appNewName.trim());
                     if (Constants.SORT_BY_NAME == DbUtils.getSortsTypes()) {
                         sortApps(Constants.SORT_BY_NAME);
@@ -716,7 +716,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         if (size == DbUtils.NULL_TEXT_SIZE) {
             synchronized (mAppsList) {
                 for (Apps apps : mAppsList) {
-                    if (apps.getActivityName().equals(activityName)) {
+                    if (apps.getActivityName() != null && apps.getActivityName().equals(activityName)) {
                         size = apps.getSize();
                         break;
                     }
@@ -743,7 +743,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 super.run();*/
         synchronized (mAppsList) {
             for (Apps apps : mAppsList) {
-                if (apps.getActivityName().equalsIgnoreCase(activity)) {
+                if (apps.getActivityName() != null && apps.getActivityName().equalsIgnoreCase(activity)) {
                     apps.increaseOpeningCounts();// save to Db that app is opened by user
                     recentlyUsedCounter++;
                     apps.setRecentUsedWeight(recentlyUsedCounter);
@@ -796,7 +796,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     // register the receiver
     // when new app installed, app updated and app uninstalled launcher have to reflect it
     private void registerForReceivers() {
-//        if (broadcastReceiverShortcutInstall!=null){
+//        if (broadcastReceiverShortcutInstall != null){
 //            unregisterReceiver(broadcastReceiverShortcutInstall);
 //        }
 //        if (broadcastReceiverAppInstall!=null){
@@ -916,7 +916,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
                     File fontFile = new File(getFilesDir(), "font.ttf");
                     try (InputStream inputFontStream = cr1.openInputStream(uri1);
-                         OutputStream out = new FileOutputStream(fontFile);) {
+                         OutputStream out = new FileOutputStream(fontFile)) {
                         byte[] buf = new byte[1024];
                         int len;
                         while ((len = inputFontStream.read(buf)) > 0) {
@@ -1043,7 +1043,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     Integer newColor = colorsAndId.get(s);
                     if (newColor == null) continue;
                     textView.setTextColor(newColor);
-                    DbUtils.putAppColorExternalSource(s, newColor);
+                    if (s != null) {
+                        DbUtils.putAppColorExternalSource(s, newColor);
+                    }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -1120,7 +1122,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
      * view shortcut view to be removed...
      */
     private void removeShortcut(AppTextView view) {
-        shortcutUtils.removeShortcut(new Shortcut(view.getText().toString(), view.getUri()));
+        if (view.getUri() != null) {
+            shortcutUtils.removeShortcut(new Shortcut(view.getText().toString(), view.getUri()));
+        }
         loadApps();
     }
 

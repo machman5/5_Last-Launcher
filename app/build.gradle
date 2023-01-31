@@ -71,6 +71,7 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
     api 'org.jetbrains.kotlin:kotlin-stdlib:1.8.0'
 //    implementation 'com.github.rtugeek:colorseekbar:2.0.3'
+    api 'androidx.cardview:cardview:1.0.0'
 }
 
 static String getGitWorkingBranch() {

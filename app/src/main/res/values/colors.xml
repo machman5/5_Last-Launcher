@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transparent">#00000000</color>
     <color name="default_apps_colors">#8F8C8C</color>
     <array name="material_colors1">
         <item>#8F8C8C</item>

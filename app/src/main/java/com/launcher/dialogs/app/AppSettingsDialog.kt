@@ -2,6 +2,8 @@ package com.launcher.dialogs.app
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.TextView
 import com.R
 import com.databinding.DlgAppSettingsBinding
 import com.launcher.LauncherActivity
+import com.launcher.model.Shortcut
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.getAppColor
 import com.launcher.utils.DbUtils.getAppSize
@@ -52,6 +55,7 @@ class AppSettingsDialog(
         binding.menuRename.setOnClickListener(this)
         binding.menuFreezeSize.setOnClickListener(this)
         binding.menuHide.setOnClickListener(this)
+        binding.menuUninstall.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -67,6 +71,14 @@ class AppSettingsDialog(
             }
             binding.menuHide -> {
                 hideApp(activityName)
+            }
+            binding.menuUninstall -> {
+                if (view.isShortcut) {
+                    removeShortcut(view)
+                } else {
+                    uninstallApp(activityName)
+                }
+                dismiss()
             }
         }
     }
@@ -134,4 +146,26 @@ class AppSettingsDialog(
         }
         dismiss()
     }
+
+    private fun removeShortcut(view: AppTextView) {
+        if (view.uri != null) {
+            launcherActivity.shortcutUtils.removeShortcut(
+                Shortcut(
+                    name = view.text.toString(),
+                    uris = view.uri!!
+                )
+            )
+        }
+        launcherActivity.loadApps()
+    }
+
+    private fun uninstallApp(activityName: String) {
+        val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+        intent.data =
+            Uri.parse("package:" + activityName.split("/".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[0])
+        intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
+        launcherActivity.startActivityForResult(intent, 97)
+    }
+
 }

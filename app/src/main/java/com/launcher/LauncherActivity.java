@@ -105,7 +105,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     private InputMethodManager imm;
     // gesture detector
     private Gestures detector;
-    private ShortcutUtils shortcutUtils;
+    public ShortcutUtils shortcutUtils;
 
     private static final TextWatcher mTextWatcher = new TextWatcher() {
 
@@ -595,9 +595,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 //                hideApp(activityName);
             } else if (itemId == R.id.menuUninstall) {
                 if (view.isShortcut()) {
-                    removeShortcut(view);
+//                    removeShortcut(view);
                 } else {
-                    uninstallApp(activityName);
+//                    uninstallApp(activityName);
                 }
             } else if (itemId == R.id.menuAppInfo) {
                 showAppInfo(activityName);

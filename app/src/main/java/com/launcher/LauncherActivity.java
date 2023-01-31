@@ -507,7 +507,12 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         if (view instanceof AppTextView) {
             // show app setting
 //            showPopup((String) view.getTag(), (AppTextView) view);
-            dialogs = new AppSettingsDialog(this, this);
+            dialogs = new AppSettingsDialog(
+                    this,
+                    this,
+                    (String) view.getTag(),
+                    (AppTextView) view
+            );
             dialogs.show();
 
             Window window = dialogs.getWindow();
@@ -530,6 +535,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }
         return true;
     }
+
     private void showPopup(String activityName, AppTextView view) {
 
         Context context;

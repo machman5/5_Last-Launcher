@@ -600,7 +600,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 //                    uninstallApp(activityName);
                 }
             } else if (itemId == R.id.menuAppInfo) {
-                showAppInfo(activityName);
+//                showAppInfo(activityName);
             } else if (itemId == R.id.menuResetToDefault) {
                 resetApp(activityName);
             } else if (itemId == R.id.menuResetColor) {

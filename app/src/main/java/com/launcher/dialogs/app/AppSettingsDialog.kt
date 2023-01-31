@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,7 @@ class AppSettingsDialog(
         binding.menuFreezeSize.setOnClickListener(this)
         binding.menuHide.setOnClickListener(this)
         binding.menuUninstall.setOnClickListener(this)
+        binding.menuAppInfo.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -79,6 +81,9 @@ class AppSettingsDialog(
                     uninstallApp(activityName)
                 }
                 dismiss()
+            }
+            binding.menuAppInfo -> {
+                showAppInfo(activityName)
             }
         }
     }
@@ -166,6 +171,14 @@ class AppSettingsDialog(
                 .toTypedArray()[0])
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
         launcherActivity.startActivityForResult(intent, 97)
+    }
+
+    private fun showAppInfo(activityName: String) {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.parse("package:" + activityName.split("/".toRegex()).dropLastWhile {
+            it.isEmpty()
+        }.toTypedArray()[0])
+        launcherActivity.startActivity(intent)
     }
 
 }

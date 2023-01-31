@@ -50,7 +50,7 @@ import com.R;
 import com.launcher.dialogs.ColorSizeDialog;
 import com.launcher.dialogs.FrozenAppsDialogs;
 import com.launcher.dialogs.GlobalColorSizeDialog;
-import com.launcher.dialogs.GlobalSettingsDialog;
+import com.launcher.dialogs.launcher.GlobalSettingsDialog;
 import com.launcher.dialogs.HiddenAppsDialogs;
 import com.launcher.dialogs.PaddingDialog;
 import com.launcher.dialogs.RenameInputDialogs;

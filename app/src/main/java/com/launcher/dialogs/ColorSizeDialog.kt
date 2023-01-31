@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Window
-import android.view.WindowManager
 import android.widget.TextView
 import com.R
 import com.launcher.utils.DbUtils
@@ -58,9 +57,9 @@ class ColorSizeDialog     // boolean change=false;
         })
 
         // size related
-        val btnPlus = findViewById<TextView>(R.id.btn_plus)
-        val btnMinus = findViewById<TextView>(R.id.btn_minus)
-        val tvSize = findViewById<TextView>(R.id.tv_size)
+        val btnPlus = findViewById<TextView>(R.id.btnPlus)
+        val btnMinus = findViewById<TextView>(R.id.btnMinus)
+        val tvSize = findViewById<TextView>(R.id.tvSize)
         tvSize.text = appSize.toString()
         btnPlus.setOnClickListener {
 

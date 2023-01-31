@@ -17,3 +17,5 @@ package com.launcher
 //done
 //package name
 //ic launcher
+
+//android:background="?android:attr/actionBarItemBackground"

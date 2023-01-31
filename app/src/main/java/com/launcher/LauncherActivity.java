@@ -732,7 +732,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         }
 
-
     }
 
     //TODO: multi thread check for memory leaks if any, or check any bad behaviour;

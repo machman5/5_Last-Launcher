@@ -1,233 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/round_medium"
+    app:cardElevation="@dimen/margin_padding_small"
+    app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/settingsFonts"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/fonts"
-            android:textSize="20sp" />
+            android:background="@android:color/black"
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsFonts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/fonts"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsThemes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/themes"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsThemes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/themes"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsColorSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/color_for_this_entry"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsColorSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/color_for_this_entry"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsAlignment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/alignment"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsAlignment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/alignment"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsPadding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/padding"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/padding"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsColorSniffer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/customize_with_color_sniffer"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsColorSniffer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/customize_with_color_sniffer"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsSortAppBy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/sort_apps_by"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsSortAppBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/sort_apps_by"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsSortAppReverse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/sort_apps_reverse"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsSortAppReverse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/sort_apps_reverse"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsFreezeSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/freeze_apps_size"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsFreezeSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/freeze_apps_size"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsHiddenApps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/hidden_apps"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsHiddenApps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/hidden_apps"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsFrozenApps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/frozen_apps"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsFrozenApps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/frozen_apps"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsBackup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/backup"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsBackup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/backup"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsRestore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/restore"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsRestore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/restore"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsResetToDefaults"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/reset_to_default_settings"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DEDEDE" />
+            <TextView
+                android:id="@+id/settingsResetToDefaults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/reset_to_default_settings"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/settingsRestartLauncher"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_padding_small"
-            android:paddingBottom="@dimen/margin_padding_small"
-            android:text="@string/restart_launcher"
-            android:textSize="20sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
 
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/settingsRestartLauncher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_padding_small"
+                android:paddingBottom="@dimen/margin_padding_small"
+                android:text="@string/restart_launcher"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.cardview.widget.CardView>

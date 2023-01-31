@@ -510,6 +510,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             // show launcher setting
             dialogs = new GlobalSettingsDialog(this, this);
             dialogs.show();
+
+            Window window = dialogs.getWindow();
+            if (window != null) {
+                window.setGravity(Gravity.BOTTOM);
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            }
         }
         return true;
     }

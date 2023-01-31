@@ -44,24 +44,24 @@ class GlobalSettingsDialog(
         // no old title: Last Launcher use Activity class not AppCompatActivity so it show very old title
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dlg_global_settings)
-        findViewById<View>(R.id.settings_themes).setOnClickListener(this)
-        freezeSize = findViewById(R.id.settings_freeze_size)
+        findViewById<View>(R.id.settingsThemes).setOnClickListener(this)
+        freezeSize = findViewById(R.id.settingsFreezeSize)
         freezeSize?.setOnClickListener(this)
-        findViewById<View>(R.id.settings_fonts).setOnClickListener(this)
-        val reset = findViewById<TextView>(R.id.settings_reset_to_defaults)
+        findViewById<View>(R.id.settingsFonts).setOnClickListener(this)
+        val reset = findViewById<TextView>(R.id.settingsResetToDefaults)
         reset.setOnClickListener(this)
         reset.setTextColor(Color.parseColor("#E53935"))
-        findViewById<View>(R.id.settings_backup).setOnClickListener(this)
-        findViewById<View>(R.id.settings_restore).setOnClickListener(this)
-        findViewById<View>(R.id.settings_alignment).setOnClickListener(this)
-        findViewById<View>(R.id.settings_padding).setOnClickListener(this)
-        findViewById<View>(R.id.settings_color_size).setOnClickListener(this)
-        findViewById<View>(R.id.settings_sort_app_by).setOnClickListener(this)
-        findViewById<View>(R.id.settings_sort_app_reverse).setOnClickListener(this)
-        findViewById<View>(R.id.settings_restart_launcher).setOnClickListener(this)
+        findViewById<View>(R.id.settingsBackup).setOnClickListener(this)
+        findViewById<View>(R.id.settingsRestore).setOnClickListener(this)
+        findViewById<View>(R.id.settingsAlignment).setOnClickListener(this)
+        findViewById<View>(R.id.settingsPadding).setOnClickListener(this)
+        findViewById<View>(R.id.settingsColorSize).setOnClickListener(this)
+        findViewById<View>(R.id.settingsSortAppBy).setOnClickListener(this)
+        findViewById<View>(R.id.settingsSortAppReverse).setOnClickListener(this)
+        findViewById<View>(R.id.settingsRestartLauncher).setOnClickListener(this)
 
         //TODO: remove this var
-        val colorSniffer = findViewById<TextView>(R.id.settings_color_sniffer)
+        val colorSniffer = findViewById<TextView>(R.id.settingsColorSniffer)
         colorSniffer.setOnClickListener(this)
         if (!BuildConfig.enableColorSniffer) {
             if (isRandomColor) {
@@ -70,8 +70,8 @@ class GlobalSettingsDialog(
                 colorSniffer.setText(R.string.random_colors)
             }
         }
-        findViewById<View>(R.id.settings_frozen_apps).setOnClickListener(this)
-        findViewById<View>(R.id.settings_hidden_apps).setOnClickListener(this)
+        findViewById<View>(R.id.settingsFrozenApps).setOnClickListener(this)
+        findViewById<View>(R.id.settingsHiddenApps).setOnClickListener(this)
 
         //reflect the DB value
         if (isSizeFrozen) {
@@ -83,54 +83,54 @@ class GlobalSettingsDialog(
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.settings_fonts -> {
+            R.id.settingsFonts -> {
                 fontSelection(view)
             }
-            R.id.settings_themes -> {
+            R.id.settingsThemes -> {
                 showThemeDialog()
             }
-            R.id.settings_color_sniffer -> {
+            R.id.settingsColorSniffer -> {
                 if (BuildConfig.enableColorSniffer) {
                     showColorSnifferDialog()
                 } else {
                     randomColor()
                 }
             }
-            R.id.settings_sort_app_by -> {
+            R.id.settingsSortAppBy -> {
                 sortApps(view)
             }
-            R.id.settings_sort_app_reverse -> {
+            R.id.settingsSortAppReverse -> {
                 sortAppsReverseOrder()
             }
-            R.id.settings_color_size -> {
+            R.id.settingsColorSize -> {
                 showColorAndSizeDialog()
             }
-            R.id.settings_freeze_size -> {
+            R.id.settingsFreezeSize -> {
                 freezeAppsSize()
             }
-            R.id.settings_hidden_apps -> {
+            R.id.settingsHiddenApps -> {
                 hiddenApps()
             }
-            R.id.settings_frozen_apps -> {
+            R.id.settingsFrozenApps -> {
                 frozenApps()
             }
-            R.id.settings_backup -> {
+            R.id.settingsBackup -> {
                 backup()
             }
-            R.id.settings_restore -> {
+            R.id.settingsRestore -> {
                 restore()
             }
-            R.id.settings_reset_to_defaults -> {
+            R.id.settingsResetToDefaults -> {
                 defaultSettings()
             }
-            R.id.settings_alignment -> {
+            R.id.settingsAlignment -> {
                 setFlowLayoutAlignment(view)
             }
-            R.id.settings_padding -> {
+            R.id.settingsPadding -> {
                 launcherActivity.setPadding()
                 cancel()
             }
-            R.id.settings_restart_launcher -> {
+            R.id.settingsRestartLauncher -> {
                 launcherActivity.recreate()
             }
         }

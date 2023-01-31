@@ -7,12 +7,12 @@ import android.view.KeyEvent
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import com.R
 import com.launcher.LauncherActivity
+import com.launcher.ext.showKeyboard
 import com.launcher.utils.DbUtils.putAppName
 
 class RenameInputDialogs(
@@ -44,8 +44,9 @@ class RenameInputDialogs(
             this.setBackgroundDrawableResource(android.R.color.transparent)
         }
 
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-        imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        etInput?.postDelayed(
+            { etInput?.showKeyboard() }, 100
+        )
     }
 
     override fun onEditorAction(

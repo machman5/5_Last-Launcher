@@ -14,7 +14,7 @@ class ThemeSelectorDialog internal constructor(
     private val launcherActivity: LauncherActivity
 ) : Dialog(launcherActivity), View.OnClickListener {
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)

@@ -38,7 +38,7 @@ class GlobalColorSizeDialog(
     private var appSize = 0
     private var mColor = 0
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)

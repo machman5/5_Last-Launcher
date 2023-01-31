@@ -25,7 +25,7 @@ class HiddenAppsDialogs(
 ) {
     private var hiddenApps = ArrayList<Apps>()
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)

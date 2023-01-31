@@ -39,7 +39,7 @@ class GlobalSettingsDialog(
 ) : Dialog(mContext), View.OnClickListener {
     private var freezeSize: TextView? = null
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // no old title: Last Launcher use Activity class not AppCompatActivity so it show very old title
         requestWindowFeature(Window.FEATURE_NO_TITLE)

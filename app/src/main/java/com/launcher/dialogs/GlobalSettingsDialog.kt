@@ -317,7 +317,7 @@ class GlobalSettingsDialog(
     private fun fontSelection(view: View) {
         // set theme
         // if theme wallpaper ie transparent then we have to show other theme
-        val context: Context = if (theme == R.style.Wallpaper) {
+        val context = if (theme == R.style.Wallpaper) {
             ContextThemeWrapper(
                 context,
                 R.style.AppTheme

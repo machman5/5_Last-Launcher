@@ -54,6 +54,7 @@ import com.launcher.dialogs.GlobalSettingsDialog;
 import com.launcher.dialogs.HiddenAppsDialogs;
 import com.launcher.dialogs.PaddingDialog;
 import com.launcher.dialogs.RenameInputDialogs;
+import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.model.Apps;
 import com.launcher.model.Shortcut;
 import com.launcher.utils.Constants;
@@ -505,7 +506,16 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     public boolean onLongClick(View view) {
         if (view instanceof AppTextView) {
             // show app setting
-            showPopup((String) view.getTag(), (AppTextView) view);
+//            showPopup((String) view.getTag(), (AppTextView) view);
+            dialogs = new AppSettingsDialog(this, this);
+            dialogs.show();
+
+            Window window = dialogs.getWindow();
+            if (window != null) {
+                window.setGravity(Gravity.BOTTOM);
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            }
         } else if (view instanceof FlowLayout) {
             // show launcher setting
             dialogs = new GlobalSettingsDialog(this, this);
@@ -520,7 +530,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }
         return true;
     }
-
     private void showPopup(String activityName, AppTextView view) {
 
         Context context;

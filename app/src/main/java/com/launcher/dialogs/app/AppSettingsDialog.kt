@@ -24,7 +24,7 @@ class AppSettingsDialog(
     mContext: Context,
     private val launcherActivity: LauncherActivity,
     private val activityName: String,
-    val appTextView: AppTextView,
+    val view: AppTextView,
 ) : Dialog(mContext), View.OnClickListener {
     private lateinit var binding: DlgAppSettingsBinding
 
@@ -41,7 +41,7 @@ class AppSettingsDialog(
         if (isAppFrozen(activityName)) {
             binding.menuFreezeSize.setText(R.string.unfreeze_size)
         }
-        if (appTextView.isShortcut) {
+        if (view.isShortcut) {
             binding.menuUninstall.setText(R.string.remove)
             binding.menuHide.isEnabled = false
             binding.menuRename.isEnabled = false
@@ -49,12 +49,16 @@ class AppSettingsDialog(
         }
 
         binding.menuColor.setOnClickListener(this)
+        binding.menuRename.setOnClickListener(this)
     }
 
-    override fun onClick(view: View) {
-        when (view) {
+    override fun onClick(v: View) {
+        when (v) {
             binding.menuColor -> {
-                changeColorSize(activityName, appTextView)
+                changeColorSize(activityName, view)
+            }
+            binding.menuRename -> {
+                renameApp(activityName, view.text.toString())
             }
         }
     }
@@ -83,6 +87,20 @@ class AppSettingsDialog(
             window.setBackgroundDrawableResource(android.R.color.transparent)
             window.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+    }
+
+    private fun renameApp(activityName: String, appName: String) {
+        val dialogs = RenameInputDialogs(context, activityName, appName, launcherActivity)
+        val window = dialogs.window
+        dialogs.show()
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
     }

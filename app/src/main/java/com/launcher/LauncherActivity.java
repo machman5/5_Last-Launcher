@@ -587,9 +587,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             int itemId = menuItem.getItemId();
             if (itemId == R.id.menuColor) {
-                changeColorSize(activityName, view);
             } else if (itemId == R.id.menuRename) {
-                renameApp(activityName, view.getText().toString());
+//                renameApp(activityName, view.getText().toString());
             } else if (itemId == R.id.menuFreezeSize) {
                 freezeAppSize(activityName);
             } else if (itemId == R.id.menuHide) {

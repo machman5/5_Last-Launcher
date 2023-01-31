@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Window
+import android.view.WindowManager
 import android.widget.TextView
 import com.R
 import com.launcher.utils.DbUtils
@@ -33,18 +34,14 @@ class ColorSizeDialog     // boolean change=false;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        // no title please
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dlg_color_size)
         window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val colorSlider1 = findViewById<ColorSeekBar>(R.id.colorSlider1)
         colorSlider1.setMaxPosition(100)
-        //colorSeekBar.setColorSeeds(R.array.material_colors);
         colorSlider1.isShowAlphaBar = true
         colorSlider1.setBarHeight(8f)
-
 
         // todo: is this still correct?
         if (appColor != DbUtils.NULL_TEXT_COLOR) {
@@ -59,7 +56,6 @@ class ColorSizeDialog     // boolean change=false;
                 appColor = color
             }
         })
-
 
         // size related
         val btnPlus = findViewById<TextView>(R.id.btn_plus)

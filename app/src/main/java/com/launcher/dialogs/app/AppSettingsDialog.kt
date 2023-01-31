@@ -50,6 +50,7 @@ class AppSettingsDialog(
 
         binding.menuColor.setOnClickListener(this)
         binding.menuRename.setOnClickListener(this)
+        binding.menuFreezeSize.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -59,6 +60,9 @@ class AppSettingsDialog(
             }
             binding.menuRename -> {
                 renameApp(activityName, view.text.toString())
+            }
+            binding.menuFreezeSize -> {
+                freezeAppSize(activityName)
             }
         }
     }
@@ -99,9 +103,20 @@ class AppSettingsDialog(
             window.setGravity(Gravity.BOTTOM)
             window.setBackgroundDrawableResource(android.R.color.transparent)
             window.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
+    }
+
+    private fun freezeAppSize(activityName: String) {
+        val b = isAppFrozen(activityName)
+        synchronized(LauncherActivity.mAppsList) {
+            for (apps in LauncherActivity.mAppsList) {
+                if (activityName.equals(apps.activityName, ignoreCase = true)) {
+                    apps.setFreeze(!b)
+                }
+            }
+        }
+        dismiss()
     }
 }

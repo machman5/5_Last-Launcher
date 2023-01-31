@@ -590,7 +590,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             } else if (itemId == R.id.menuRename) {
 //                renameApp(activityName, view.getText().toString());
             } else if (itemId == R.id.menuFreezeSize) {
-                freezeAppSize(activityName);
+//                freezeAppSize(activityName);
             } else if (itemId == R.id.menuHide) {
                 hideApp(activityName);
             } else if (itemId == R.id.menuUninstall) {

@@ -22,9 +22,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsThemes"
@@ -37,11 +35,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsColorSize"
@@ -54,11 +50,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsAlignment"
@@ -71,11 +65,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsPadding"
@@ -88,11 +80,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsColorSniffer"
@@ -105,11 +95,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsSortAppBy"
@@ -122,11 +110,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsSortAppReverse"
@@ -139,11 +125,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsFreezeSize"
@@ -156,11 +140,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsHiddenApps"
@@ -173,11 +155,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsFrozenApps"
@@ -190,11 +170,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsBackup"
@@ -207,11 +185,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsRestore"
@@ -224,11 +200,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsResetToDefaults"
@@ -241,11 +215,9 @@
             android:textSize="20sp" />
 
         <View
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="#DEDEDE"
-            android:foregroundGravity="center_vertical|center_horizontal" />
+            android:background="#DEDEDE" />
 
         <TextView
             android:id="@+id/settingsRestartLauncher"

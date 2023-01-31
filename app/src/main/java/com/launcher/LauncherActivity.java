@@ -26,11 +26,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.util.ArrayMap;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,20 +38,17 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.BuildConfig;
 import com.R;
-import com.launcher.dialogs.app.ColorSizeDialog;
+import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.dialogs.launcher.FrozenAppsDialogs;
 import com.launcher.dialogs.launcher.GlobalColorSizeDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
 import com.launcher.dialogs.launcher.HiddenAppsDialogs;
 import com.launcher.dialogs.launcher.PaddingDialog;
-import com.launcher.dialogs.app.RenameInputDialogs;
-import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.model.Apps;
 import com.launcher.model.Shortcut;
 import com.launcher.utils.Constants;
@@ -908,7 +902,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         } else {
             //TODO: show no hidden apps
             Toast tst = Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT);
-            TextView tv = (TextView) tst.getView().findViewById(android.R.id.message);
+            TextView tv = tst.getView().findViewById(android.R.id.message);
             tv.setTextColor(Color.parseColor("#d5e0e2"));
             tst.show();
         }
@@ -922,7 +916,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         } else {
             //TODO: show no frozen apps
             Toast tst = Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT);
-            TextView tv = (TextView) tst.getView().findViewById(android.R.id.message);
+            TextView tv = tst.getView().findViewById(android.R.id.message);
             tv.setTextColor(Color.parseColor("#d5e0e2"));
             tst.show();
         }

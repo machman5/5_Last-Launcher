@@ -51,6 +51,7 @@ class AppSettingsDialog(
         binding.menuColor.setOnClickListener(this)
         binding.menuRename.setOnClickListener(this)
         binding.menuFreezeSize.setOnClickListener(this)
+        binding.menuHide.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -63,6 +64,9 @@ class AppSettingsDialog(
             }
             binding.menuFreezeSize -> {
                 freezeAppSize(activityName)
+            }
+            binding.menuHide -> {
+                hideApp(activityName)
             }
         }
     }
@@ -114,6 +118,17 @@ class AppSettingsDialog(
             for (apps in LauncherActivity.mAppsList) {
                 if (activityName.equals(apps.activityName, ignoreCase = true)) {
                     apps.setFreeze(!b)
+                }
+            }
+        }
+        dismiss()
+    }
+
+    private fun hideApp(activityName: String) {
+        synchronized(LauncherActivity.mAppsList) {
+            for (apps in LauncherActivity.mAppsList) {
+                if (activityName.equals(apps.activityName, ignoreCase = true)) {
+                    apps.setAppHidden(true)
                 }
             }
         }

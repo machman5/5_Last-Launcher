@@ -30,7 +30,7 @@ class ColorSizeDialog     // boolean change=false;
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);

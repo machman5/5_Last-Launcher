@@ -9,21 +9,21 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
-import android.widget.TextView
 import com.BuildConfig
 import com.R
+import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.LauncherActivity
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.appSortReverseOrder
 import com.launcher.utils.DbUtils.clearDB
-import com.launcher.utils.DbUtils.freezeSize
 import com.launcher.utils.DbUtils.getAppColor
 import com.launcher.utils.DbUtils.isFontExists
 import com.launcher.utils.DbUtils.isRandomColor
 import com.launcher.utils.DbUtils.isSizeFrozen
 import com.launcher.utils.DbUtils.randomColor
 import com.launcher.utils.DbUtils.removeFont
+import com.launcher.utils.DbUtils.settingsFreezeSize
 import com.launcher.utils.DbUtils.sortsTypes
 import com.launcher.utils.DbUtils.theme
 import com.launcher.utils.Utils.Companion.generateColorFromString
@@ -37,100 +37,98 @@ class GlobalSettingsDialog(
     mContext: Context,
     private val launcherActivity: LauncherActivity
 ) : Dialog(mContext), View.OnClickListener {
-    private var freezeSize: TextView? = null
+    private lateinit var binding: DlgGlobalSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // no old title: Last Launcher use Activity class not AppCompatActivity so it show very old title
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dlg_global_settings)
-        findViewById<View>(R.id.settingsThemes).setOnClickListener(this)
-        freezeSize = findViewById(R.id.settingsFreezeSize)
-        freezeSize?.setOnClickListener(this)
-        findViewById<View>(R.id.settingsFonts).setOnClickListener(this)
-        val reset = findViewById<TextView>(R.id.settingsResetToDefaults)
-        reset.setOnClickListener(this)
-        reset.setTextColor(Color.parseColor("#E53935"))
-        findViewById<View>(R.id.settingsBackup).setOnClickListener(this)
-        findViewById<View>(R.id.settingsRestore).setOnClickListener(this)
-        findViewById<View>(R.id.settingsAlignment).setOnClickListener(this)
-        findViewById<View>(R.id.settingsPadding).setOnClickListener(this)
-        findViewById<View>(R.id.settingsColorSize).setOnClickListener(this)
-        findViewById<View>(R.id.settingsSortAppBy).setOnClickListener(this)
-        findViewById<View>(R.id.settingsSortAppReverse).setOnClickListener(this)
-        findViewById<View>(R.id.settingsRestartLauncher).setOnClickListener(this)
 
-        //TODO: remove this var
-        val colorSniffer = findViewById<TextView>(R.id.settingsColorSniffer)
-        colorSniffer.setOnClickListener(this)
+        binding = DlgGlobalSettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.settingsThemes.setOnClickListener(this)
+        binding.settingsFreezeSize.setOnClickListener(this)
+        binding.settingsFonts.setOnClickListener(this)
+        binding.settingsResetToDefaults.setOnClickListener(this)
+        binding.settingsResetToDefaults.setTextColor(Color.parseColor("#E53935"))
+        binding.settingsBackup.setOnClickListener(this)
+        binding.settingsRestore.setOnClickListener(this)
+        binding.settingsAlignment.setOnClickListener(this)
+        binding.settingsPadding.setOnClickListener(this)
+        binding.settingsColorSize.setOnClickListener(this)
+        binding.settingsSortAppBy.setOnClickListener(this)
+        binding.settingsSortAppReverse.setOnClickListener(this)
+        binding.settingsRestartLauncher.setOnClickListener(this)
+        binding.settingsColorSniffer.setOnClickListener(this)
         if (!BuildConfig.enableColorSniffer) {
             if (isRandomColor) {
-                colorSniffer.setText(R.string.fixed_colors)
+                binding.settingsColorSniffer.setText(R.string.fixed_colors)
             } else {
-                colorSniffer.setText(R.string.random_colors)
+                binding.settingsColorSniffer.setText(R.string.random_colors)
             }
         }
-        findViewById<View>(R.id.settingsFrozenApps).setOnClickListener(this)
-        findViewById<View>(R.id.settingsHiddenApps).setOnClickListener(this)
+        binding.settingsFrozenApps.setOnClickListener(this)
+        binding.settingsHiddenApps.setOnClickListener(this)
 
         //reflect the DB value
         if (isSizeFrozen) {
-            freezeSize?.setText(R.string.unfreeze_app_size)
+            binding.settingsFreezeSize.setText(R.string.unfreeze_app_size)
         } else {
-            freezeSize?.setText(R.string.freeze_apps_size)
+            binding.settingsFreezeSize.setText(R.string.freeze_apps_size)
         }
     }
 
     override fun onClick(view: View) {
-        when (view.id) {
-            R.id.settingsFonts -> {
+        when (view) {
+            binding.settingsFonts -> {
                 fontSelection(view)
             }
-            R.id.settingsThemes -> {
+            binding.settingsThemes -> {
                 showThemeDialog()
             }
-            R.id.settingsColorSniffer -> {
+            binding.settingsColorSniffer -> {
                 if (BuildConfig.enableColorSniffer) {
                     showColorSnifferDialog()
                 } else {
                     randomColor()
                 }
             }
-            R.id.settingsSortAppBy -> {
+            binding.settingsSortAppBy -> {
                 sortApps(view)
             }
-            R.id.settingsSortAppReverse -> {
+            binding.settingsSortAppReverse -> {
                 sortAppsReverseOrder()
             }
-            R.id.settingsColorSize -> {
+            binding.settingsColorSize -> {
                 showColorAndSizeDialog()
             }
-            R.id.settingsFreezeSize -> {
+            binding.settingsFreezeSize -> {
                 freezeAppsSize()
             }
-            R.id.settingsHiddenApps -> {
+            binding.settingsHiddenApps -> {
                 hiddenApps()
             }
-            R.id.settingsFrozenApps -> {
+            binding.settingsFrozenApps -> {
                 frozenApps()
             }
-            R.id.settingsBackup -> {
+            binding.settingsBackup -> {
                 backup()
             }
-            R.id.settingsRestore -> {
+            binding.settingsRestore -> {
                 restore()
             }
-            R.id.settingsResetToDefaults -> {
+            binding.settingsResetToDefaults -> {
                 defaultSettings()
             }
-            R.id.settingsAlignment -> {
+            binding.settingsAlignment -> {
                 setFlowLayoutAlignment(view)
             }
-            R.id.settingsPadding -> {
+            binding.settingsPadding -> {
                 launcherActivity.setPadding()
                 cancel()
             }
-            R.id.settingsRestartLauncher -> {
+            binding.settingsRestartLauncher -> {
                 launcherActivity.recreate()
             }
         }
@@ -242,11 +240,11 @@ class GlobalSettingsDialog(
 
     private fun freezeAppsSize() {
         val b = isSizeFrozen
-        freezeSize(!b)
+        settingsFreezeSize(!b)
         if (!b) {
-            freezeSize?.setText(R.string.unfreeze_app_size)
+            binding.settingsFreezeSize.setText(R.string.unfreeze_app_size)
         } else {
-            freezeSize?.setText(R.string.freeze_apps_size)
+            binding.settingsFreezeSize.setText(R.string.freeze_apps_size)
         }
     }
 

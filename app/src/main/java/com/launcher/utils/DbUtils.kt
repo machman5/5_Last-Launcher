@@ -246,7 +246,7 @@ object DbUtils {
     }
 
     @JvmStatic
-    fun freezeSize(b: Boolean) {
+    fun settingsFreezeSize(b: Boolean) {
         SpUtils.instance.putBoolean(LAUNCHER_FREEZE_SIZE, b)
     }
 

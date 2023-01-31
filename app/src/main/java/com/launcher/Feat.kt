@@ -10,6 +10,7 @@ package com.launcher
 
 //TODO build release, keystore
 //TODO firebase
+//TODO rate, more app
 //TODO show set default launcher
 //TODO scroll up to search
 //TODO setting launch store by pkg name

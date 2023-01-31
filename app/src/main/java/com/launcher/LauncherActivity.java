@@ -1,5 +1,10 @@
 package com.launcher;
 
+import static android.content.Intent.ACTION_PACKAGE_ADDED;
+import static android.content.Intent.ACTION_PACKAGE_CHANGED;
+import static android.content.Intent.ACTION_PACKAGE_REMOVED;
+import static android.content.Intent.ACTION_PACKAGE_REPLACED;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,16 +18,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -43,7 +45,26 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.BuildConfig;
+import com.R;
+import com.launcher.dialogs.ColorSizeDialog;
+import com.launcher.dialogs.FrozenAppsDialogs;
+import com.launcher.dialogs.GlobalColorSizeDialog;
+import com.launcher.dialogs.GlobalSettingsDialog;
+import com.launcher.dialogs.HiddenAppsDialogs;
+import com.launcher.dialogs.PaddingDialog;
+import com.launcher.dialogs.RenameInputDialogs;
+import com.launcher.model.Apps;
+import com.launcher.model.Shortcut;
+import com.launcher.utils.Constants;
+import com.launcher.utils.CrashUtils;
+import com.launcher.utils.DbUtils;
+import com.launcher.utils.Gestures;
+import com.launcher.utils.PinYinSearchUtils;
+import com.launcher.utils.ShortcutUtils;
+import com.launcher.utils.Utils;
 import com.launcher.views.flowLayout.FlowLayout;
+import com.launcher.views.textview.AppTextView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,44 +80,9 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
-import com.BuildConfig;
-import com.R;
-import com.launcher.dialogs.ColorSizeDialog;
-import com.launcher.dialogs.FrozenAppsDialogs;
-import com.launcher.dialogs.GlobalColorSizeDialog;
-import com.launcher.dialogs.GlobalSettingsDialog;
-import com.launcher.dialogs.HiddenAppsDialogs;
-import com.launcher.dialogs.PaddingDialog;
-import com.launcher.dialogs.RenameInputDialogs;
-import com.launcher.model.Apps;
-import com.launcher.model.Shortcut;
-import com.launcher.utils.CrashUtils;
-import com.launcher.utils.DbUtils;
-import com.launcher.utils.Gestures;
-import com.launcher.utils.PinYinSearchUtils;
-import com.launcher.utils.ShortcutUtils;
-import com.launcher.utils.Utils;
-import com.launcher.views.textview.AppTextView;
-
-import static android.content.Intent.ACTION_PACKAGE_ADDED;
-import static android.content.Intent.ACTION_PACKAGE_CHANGED;
-import static android.content.Intent.ACTION_PACKAGE_REMOVED;
-import static android.content.Intent.ACTION_PACKAGE_REPLACED;
-
-import com.launcher.utils.Constants;
-
-//TODO build release, keystore
-//TODO firebase
-//TODO show set default launcher
-
-//done
-//package name
-//ic launcher
-
 public class LauncherActivity extends Activity implements View.OnClickListener,
         View.OnLongClickListener,
         Gestures.OnSwipeListener {
-
 
     //region Field declarations
     public static List<Apps> mAppsList;
@@ -241,12 +227,12 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            switch (theme) {
-                case R.style.White:
-                case R.style.WhiteOnGrey:
-                case R.style.BlackOnGrey: {
-                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                }
+            if (theme == R.style.White) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else if (theme == R.style.WhiteOnGrey) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else if (theme == R.style.BlackOnGrey) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         }
     }

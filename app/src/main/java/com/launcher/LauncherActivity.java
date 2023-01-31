@@ -45,7 +45,7 @@ import com.BuildConfig;
 import com.R;
 import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.dialogs.launcher.FrozenAppsDialogs;
-import com.launcher.dialogs.launcher.GlobalColorSizeDialog;
+import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
 import com.launcher.dialogs.launcher.HiddenAppsDialogs;
 import com.launcher.dialogs.launcher.PaddingDialog;

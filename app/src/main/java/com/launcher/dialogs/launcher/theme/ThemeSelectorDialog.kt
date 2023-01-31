@@ -1,4 +1,4 @@
-package com.launcher.dialogs.launcher
+package com.launcher.dialogs.launcher.theme
 
 import android.app.Dialog
 import android.os.Bundle

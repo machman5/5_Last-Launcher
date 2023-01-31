@@ -14,6 +14,7 @@ import com.R
 import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.LauncherActivity
 import com.launcher.dialogs.launcher.font.FontDialog
+import com.launcher.dialogs.launcher.theme.ThemeSelectorDialog
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.appSortReverseOrder
@@ -177,8 +178,6 @@ class GlobalSettingsDialog(
     }
 
     private fun setFlowLayoutAlignment(view: View) {
-        // set theme
-        // if theme is  wallpaper i.e. transparent then we have to show other theme:
         val context: Context = if (theme == R.style.Wallpaper) {
             ContextThemeWrapper(
                 context,

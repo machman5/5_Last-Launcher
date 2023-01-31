@@ -9,7 +9,7 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:id="@+id/theme_linear_layout"
+        android:id="@+id/themeLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -19,88 +19,104 @@
             style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="AppTheme"
             android:text="@string/default_theme"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/t2"
             style="@style/Wallpaper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="@style/Wallpaper"
             android:text="@string/background_wallpaper"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/t3"
             style="@style/Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="@style/Black"
             android:text="@string/white_on_black"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/t4"
             style="@style/White"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="@style/White"
             android:text="@string/black_on_white"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/t5"
             style="@style/WhiteOnGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="@style/WhiteOnGrey"
             android:text="@string/white_on_grey"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/t6"
             style="@style/BlackOnGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="@style/BlackOnGrey"
             android:text="@string/black_on_grey"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/t35"
             style="@style/Hacker.green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="@style/Hacker.green"
             android:text="@string/hacker_green"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/t36"
             style="@style/Hacker.red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/actionBarItemBackground"
             android:gravity="center"
             android:padding="@dimen/margin_padding_small"
             android:tag="@style/Hacker.red"
             android:text="@string/hacker_red"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
 

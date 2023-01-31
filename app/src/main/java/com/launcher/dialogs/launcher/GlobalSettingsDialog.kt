@@ -13,8 +13,6 @@ import com.BuildConfig
 import com.R
 import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.LauncherActivity
-import com.launcher.dialogs.ColorSnifferDialog
-import com.launcher.dialogs.ThemeSelectorDialog
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.appSortReverseOrder

@@ -1,4 +1,4 @@
-package com.launcher.dialogs
+package com.launcher.dialogs.app
 
 import android.app.Dialog
 import android.content.Context

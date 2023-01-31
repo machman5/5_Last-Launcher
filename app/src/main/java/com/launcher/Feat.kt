@@ -15,6 +15,7 @@ package com.launcher
 //TODO scroll up to search
 //TODO setting launch store by pkg name
 //TODO vibrate when menu item action
+//TODO efx scroll like ios
 
 //done
 //package name

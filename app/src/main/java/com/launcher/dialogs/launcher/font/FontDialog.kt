@@ -44,6 +44,7 @@ class FontDialog(
                     launcherActivity.loadApps()
                     cancel()
                 }
+                dismiss()
             }
         }
     }

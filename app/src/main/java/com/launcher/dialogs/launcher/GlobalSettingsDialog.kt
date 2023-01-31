@@ -260,7 +260,17 @@ class GlobalSettingsDialog(
 
     private fun showThemeDialog() {
         cancel()
-        ThemeSelectorDialog(launcherActivity).show()
+        val dialogs = ThemeSelectorDialog(launcherActivity)
+        dialogs.show()
+        val window = dialogs.window
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
     }
 
     private fun defaultSettings() {

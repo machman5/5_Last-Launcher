@@ -1,6 +1,26 @@
 <resources>
-    <dimen name="activity_horizontal_margin">20dp</dimen>
-    <dimen name="flowlayout_horizontal_padding">5dp</dimen>
-    <dimen name="flowlayout_vertical_padding">0dp</dimen>
-    <dimen name="default_app_text_size">20dp</dimen>
+<!--    <dimen name="activity_horizontal_margin">20dp</dimen>-->
+<!--    <dimen name="flowlayout_horizontal_padding">5dp</dimen>-->
+<!--    <dimen name="flowlayout_vertical_padding">0dp</dimen>-->
+<!--    <dimen name="default_app_text_size">20dp</dimen>-->
+
+    <dimen name="margin_padding_tiny">4dp</dimen>
+    <dimen name="margin_padding_small">8dp</dimen>
+    <dimen name="margin_padding_medium">16dp</dimen>
+    <dimen name="margin_padding_large">25dp</dimen>
+
+    <dimen name="txt_tiny">8sp</dimen>
+    <dimen name="txt_small">12sp</dimen>
+    <dimen name="txt_medium">16sp</dimen>
+    <dimen name="txt_large">22sp</dimen>
+    <dimen name="txt_larger">28sp</dimen>
+    <dimen name="txt_largest">32sp</dimen>
+    <dimen name="txt_50">50sp</dimen>
+
+    <dimen name="round_tiny">4dp</dimen>
+    <dimen name="round_small">8dp</dimen>
+    <dimen name="round_medium">16dp</dimen>
+    <dimen name="round_large">32dp</dimen>
+    <dimen name="round_larger">45dp</dimen>
+    <dimen name="round_largest">90dp</dimen>
 </resources>

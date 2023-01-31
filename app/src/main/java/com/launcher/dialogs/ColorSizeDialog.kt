@@ -7,13 +7,12 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Window
 import android.widget.TextView
-import com.R
+import com.databinding.DlgColorSizeBinding
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.maxAppSize
 import com.launcher.utils.DbUtils.minAppSize
 import com.launcher.utils.DbUtils.putAppColor
 import com.launcher.utils.DbUtils.putAppSize
-import com.launcher.views.colorSeekBar.ColorSeekBar
 import com.launcher.views.colorSeekBar.ColorSeekBar.OnColorChangeListener
 
 // choose color Dialog
@@ -27,6 +26,7 @@ class ColorSizeDialog     // boolean change=false;
 ) : Dialog(
     context
 ) {
+    private lateinit var binding: DlgColorSizeBinding
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
 
@@ -34,20 +34,22 @@ class ColorSizeDialog     // boolean change=false;
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dlg_color_size)
+
+        binding = DlgColorSizeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        val colorSlider1 = findViewById<ColorSeekBar>(R.id.colorSlider1)
-        colorSlider1.setMaxPosition(100)
-        colorSlider1.isShowAlphaBar = true
-        colorSlider1.setBarHeight(8f)
+        binding.colorSlider1.setMaxPosition(100)
+        binding.colorSlider1.isShowAlphaBar = true
+        binding.colorSlider1.setBarHeight(8f)
 
         // todo: is this still correct?
         if (appColor != DbUtils.NULL_TEXT_COLOR) {
-            colorSlider1.color = appColor
+            binding.colorSlider1.color = appColor
         }
         // set the color and save this to database
-        colorSlider1.setOnColorChangeListener(object : OnColorChangeListener {
+        binding.colorSlider1.setOnColorChangeListener(object : OnColorChangeListener {
             override fun onColorChangeListener(
                 colorBarPosition: Int, alphaBarPosition: Int, color: Int
             ) {
@@ -57,11 +59,8 @@ class ColorSizeDialog     // boolean change=false;
         })
 
         // size related
-        val btnPlus = findViewById<TextView>(R.id.btnPlus)
-        val btnMinus = findViewById<TextView>(R.id.btnMinus)
-        val tvSize = findViewById<TextView>(R.id.tvSize)
-        tvSize.text = appSize.toString()
-        btnPlus.setOnClickListener {
+        binding.tvSize.text = appSize.toString()
+        binding.btnPlus.setOnClickListener {
 
             // change=true;
             appSize++
@@ -69,21 +68,21 @@ class ColorSizeDialog     // boolean change=false;
                 appSize = DEFAULT_MAX_TEXT_SIZE
                 //   plus.setClickable(false);
             }
-            tvSize.text = appSize.toString()
+            binding.tvSize.text = appSize.toString()
             textView.textSize = appSize.toFloat()
         }
-        btnMinus.setOnClickListener {
+        binding.btnMinus.setOnClickListener {
             //change=true;
             --appSize
             if (appSize < DEFAULT_MIN_TEXT_SIZE) {
                 appSize = DEFAULT_MIN_TEXT_SIZE
             }
-            tvSize.text = appSize.toString()
+            binding.tvSize.text = appSize.toString()
             textView.textSize = appSize.toFloat()
         }
-        btnPlus.setOnLongClickListener {
+        binding.btnPlus.setOnLongClickListener {
             runnable = Runnable {
-                if (!btnPlus.isPressed) {
+                if (!binding.btnPlus.isPressed) {
                     runnable?.apply {
                         handler.removeCallbacks(this)
                     }
@@ -96,7 +95,7 @@ class ColorSizeDialog     // boolean change=false;
                     appSize = DEFAULT_MAX_TEXT_SIZE
                     //   plus.setClickable(false);
                 }
-                tvSize.text = appSize.toString()
+                binding.tvSize.text = appSize.toString()
                 textView.textSize = appSize.toFloat()
                 runnable?.apply {
                     handler.postDelayed(this, DELAY.toLong())
@@ -108,9 +107,9 @@ class ColorSizeDialog     // boolean change=false;
             }
             true
         }
-        btnMinus.setOnLongClickListener {
+        binding.btnMinus.setOnLongClickListener {
             runnable = Runnable {
-                if (!btnMinus.isPressed) {
+                if (!binding.btnMinus.isPressed) {
                     runnable?.apply {
                         handler.removeCallbacks(this)
                     }
@@ -122,7 +121,7 @@ class ColorSizeDialog     // boolean change=false;
                 if (appSize < DEFAULT_MIN_TEXT_SIZE) {
                     appSize = DEFAULT_MIN_TEXT_SIZE
                 }
-                tvSize.text = appSize.toString()
+                binding.tvSize.text = appSize.toString()
                 textView.textSize = appSize.toFloat()
                 runnable?.apply {
                     handler.postDelayed(this, DELAY.toLong())

@@ -60,6 +60,9 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+    buildFeatures {
+        viewBinding true
+    }
     namespace 'com'
 }
 

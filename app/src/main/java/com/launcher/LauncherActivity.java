@@ -939,14 +939,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
     public void setColorsAndSize() {
         dialogs = new GlobalColorSizeDialog(this, mAppsList);
-
+        dialogs.show();
         Window window = dialogs.getWindow();
         if (window != null) {
             window.setGravity(Gravity.BOTTOM);
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         }
-        dialogs.show();
     }
 
     private void addShortcut(String uri, String appName) {

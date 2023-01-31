@@ -23,7 +23,8 @@ import com.launcher.views.colorSeekBar.ColorSeekBar
 import com.launcher.views.colorSeekBar.ColorSeekBar.OnColorChangeListener
 
 class GlobalColorSizeDialog(
-    context: Context, private val mAppsList: List<Apps>
+    context: Context,
+    private val mAppsList: List<Apps>
 ) : Dialog(
     context
 ) {

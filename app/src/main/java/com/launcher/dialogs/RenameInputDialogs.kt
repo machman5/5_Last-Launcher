@@ -6,9 +6,8 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.TextView.OnEditorActionListener
-import com.R
+import com.databinding.DlgRenameInputBinding
 import com.launcher.LauncherActivity
 import com.launcher.ext.showKeyboard
 import com.launcher.utils.DbUtils.putAppName
@@ -22,20 +21,22 @@ class RenameInputDialogs(
     context
 ) {
 
-    private var etInput: EditText? = null
+    private lateinit var binding: DlgRenameInputBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dlg_rename_input)
-        etInput = findViewById(R.id.etInput)
-        etInput?.let { et ->
+
+        binding = DlgRenameInputBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.etInput.let { et ->
             et.setText(oldAppName)
             et.setOnEditorActionListener(OnEditorActionListener { _, i, _ ->
                 var handled = false
                 if (i == EditorInfo.IME_ACTION_DONE) {
-                    val temp = etInput?.text.toString()
+                    val temp = binding.etInput.text.toString()
                     if (temp.isNotEmpty()) {
                         putAppName(activityName = appPackage, value = temp)
                         //reflect this on screen immediately
@@ -55,8 +56,8 @@ class RenameInputDialogs(
             this.setBackgroundDrawableResource(android.R.color.transparent)
         }
 
-        etInput?.postDelayed(
-            { etInput?.showKeyboard() }, 100
+        binding.etInput.postDelayed(
+            { binding.etInput.showKeyboard() }, 100
         )
     }
 

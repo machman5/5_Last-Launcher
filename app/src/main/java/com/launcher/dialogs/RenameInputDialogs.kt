@@ -7,6 +7,7 @@ import android.view.KeyEvent
 import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
@@ -42,6 +43,9 @@ class RenameInputDialogs(
             this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             this.setBackgroundDrawableResource(android.R.color.transparent)
         }
+
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
     override fun onEditorAction(

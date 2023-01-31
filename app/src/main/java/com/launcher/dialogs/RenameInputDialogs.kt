@@ -30,7 +30,7 @@ class RenameInputDialogs(
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dlg_rename_input)
-        etInput = findViewById(R.id.ed_input)
+        etInput = findViewById(R.id.etInput)
         etInput?.let { et ->
             et.setText(oldAppName)
             et.setOnEditorActionListener(this)

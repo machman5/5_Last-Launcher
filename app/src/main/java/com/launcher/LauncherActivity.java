@@ -659,14 +659,12 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     private void renameApp(String activityName, String appName) {
         dialogs = new RenameInputDialogs(this, activityName, appName, this);
         Window window = dialogs.getWindow();
+        dialogs.show();
         if (window != null) {
             window.setGravity(Gravity.BOTTOM);
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         }
-
-        dialogs.show();
-
     }
 
     // this is called by RenameInput.class Dialog when user set the name and sort the apps

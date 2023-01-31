@@ -724,15 +724,15 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             }
         }
         dialogs = new ColorSizeDialog(this, activityName, color, view, size);
-
+        dialogs.show();
         Window window = dialogs.getWindow();
         if (window != null) {
             window.setGravity(Gravity.BOTTOM);
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         }
 
-        dialogs.show();
+
     }
 
     //TODO: multi thread check for memory leaks if any, or check any bad behaviour;

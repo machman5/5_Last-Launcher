@@ -506,7 +506,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     public boolean onLongClick(View view) {
         if (view instanceof AppTextView) {
             // show app setting
-//            showPopup((String) view.getTag(), (AppTextView) view);
             dialogs = new AppSettingsDialog(
                     this,
                     this,
@@ -534,90 +533,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             }
         }
         return true;
-    }
-
-    private void showPopup(String activityName, AppTextView view) {
-
-        Context context;
-        // set theme
-        // if theme wallpaper ie transparent then we have to show other theme
-        if (DbUtils.getTheme() == R.style.Wallpaper)
-            context = new ContextThemeWrapper(this, R.style.AppTheme);
-        else
-            context = new ContextThemeWrapper(this, DbUtils.getTheme());
-
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
-
-        int color = Color.parseColor("#E53935");
-
-        SpannableString s = new SpannableString(getString(R.string.hide));
-
-        s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
-        popupMenu.getMenu().findItem(R.id.menuHide).setTitle(s);
-
-        s = new SpannableString(getString(R.string.uninstall));
-        s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
-        popupMenu.getMenu().findItem(R.id.menuUninstall).setTitle(s);
-
-        s = new SpannableString(getString(R.string.reset_to_default));
-        s.setSpan(new ForegroundColorSpan(color), 0, s.length(), 0);
-        popupMenu.getMenu().findItem(R.id.menuResetToDefault).setTitle(s);
-
-        // set proper item based on Db value
-        if (DbUtils.isAppFrozen(activityName)) {
-            popupMenu.getMenu().findItem(R.id.menuFreezeSize).setTitle(R.string.unfreeze_size);
-        }
-
-        //disable some item for shortcut
-        // and change the uninstall to remove
-        if (view.isShortcut()) {
-
-            SpannableString s1 = new SpannableString(getString(R.string.remove));
-            s1.setSpan(new ForegroundColorSpan(Color.parseColor("#E53935")), 0, s1.length(), 0);
-            popupMenu.getMenu().findItem(R.id.menuUninstall).setTitle(s1);
-
-            popupMenu.getMenu().findItem(R.id.menuHide).setVisible(false);
-            //renaming is also disabled;
-            // consider it later
-            popupMenu.getMenu().findItem(R.id.menuRename).setVisible(false);
-            popupMenu.getMenu().findItem(R.id.menuAppInfo).setVisible(false);
-        }
-
-        popupMenu.setOnMenuItemClickListener(menuItem -> {
-            int itemId = menuItem.getItemId();
-            if (itemId == R.id.menuColor) {
-                changeColorSize(activityName, view);
-            } else if (itemId == R.id.menuRename) {
-//                renameApp(activityName, view.getText().toString());
-            } else if (itemId == R.id.menuFreezeSize) {
-//                freezeAppSize(activityName);
-            } else if (itemId == R.id.menuHide) {
-//                hideApp(activityName);
-            } else if (itemId == R.id.menuUninstall) {
-                if (view.isShortcut()) {
-//                    removeShortcut(view);
-                } else {
-//                    uninstallApp(activityName);
-                }
-            } else if (itemId == R.id.menuAppInfo) {
-//                showAppInfo(activityName);
-            } else if (itemId == R.id.menuResetToDefault) {
-                resetApp(activityName);
-            } else if (itemId == R.id.menuResetColor) {
-                resetAppColor(activityName);
-            }
-            return true;
-        });
-        // not forget to show popup
-        popupMenu.show();
-    }
-
-    //reset the app color to default color;
-    private void resetAppColor(String activityName) {
-        DbUtils.removeColor(activityName);
-        boolean sortNeeded = (DbUtils.getSortsTypes() == Constants.SORT_BY_COLOR);
-        addAppAfterReset(activityName, sortNeeded);
     }
 
     //  add a new app: generally called after reset
@@ -652,43 +567,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }
     }
 
-    // as method name suggest
-    private void freezeAppSize(String activityName) {
-        boolean b = DbUtils.isAppFrozen(activityName);
-        synchronized (mAppsList) {
-            for (Apps apps : mAppsList) {
-                if (activityName.equalsIgnoreCase(apps.getActivityName())) {
-                    apps.setFreeze(!b);
-                }
-            }
-        }
-
-    }
-
-    // as method name suggest
-    private void hideApp(String activityName) {
-        synchronized (mAppsList) {
-            for (Apps apps : mAppsList) {
-                if (activityName.equalsIgnoreCase(apps.getActivityName())) {
-                    apps.setAppHidden(true);
-                }
-            }
-        }
-
-    }
-
-    // show the app rename Dialog
-    private void renameApp(String activityName, String appName) {
-        dialogs = new RenameInputDialogs(this, activityName, appName, this);
-        Window window = dialogs.getWindow();
-        dialogs.show();
-        if (window != null) {
-            window.setGravity(Gravity.BOTTOM);
-            window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        }
-    }
-
     // this is called by RenameInput.class Dialog when user set the name and sort the apps
     public void onAppRenamed(String activityName, String appNewName) {
         synchronized (mAppsList) {
@@ -702,56 +580,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 }
             }
         }
-    }
-
-    // reset the app
-    private void resetApp(String activityName) {
-        DbUtils.removeAppName(activityName);
-        DbUtils.removeColor(activityName);
-        DbUtils.removeSize(activityName);
-        addAppAfterReset(activityName, true);
-    }
-
-    private void showAppInfo(String activityName) {
-        Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse("package:" + activityName.split("/")[0]));
-        startActivity(intent);
-    }
-
-    private void uninstallApp(String activityName) {
-        Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
-        intent.setData(Uri.parse("package:" + activityName.split("/")[0]));
-        intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
-        startActivityForResult(intent, 97);
-    }
-
-    //show dialog(i.e a color seek bar) for change color
-    private void changeColorSize(String activityName, TextView view) {
-        int color = DbUtils.getAppColor(activityName);
-        if (color == DbUtils.NULL_TEXT_COLOR) {
-            color = view.getCurrentTextColor();
-        }
-
-        int size = DbUtils.getAppSize(activityName);
-        if (size == DbUtils.NULL_TEXT_SIZE) {
-            synchronized (mAppsList) {
-                for (Apps apps : mAppsList) {
-                    if (apps.getActivityName() != null && apps.getActivityName().equals(activityName)) {
-                        size = apps.getSize();
-                        break;
-                    }
-                }
-            }
-        }
-        dialogs = new ColorSizeDialog(this, activityName, color, view, size);
-        dialogs.show();
-        Window window = dialogs.getWindow();
-        if (window != null) {
-            window.setGravity(Gravity.BOTTOM);
-            window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        }
-
     }
 
     //TODO: multi thread check for memory leaks if any, or check any bad behaviour;
@@ -1133,18 +961,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         shortcutUtils.addShortcut(new Shortcut(appName, uri));
         // Log.d(TAG, "addShortcut: shortcut name==" + appName);
         sortApps(DbUtils.getSortsTypes());
-    }
-
-    /**
-     * remove the shortcut
-     * <p>
-     * view shortcut view to be removed...
-     */
-    private void removeShortcut(AppTextView view) {
-        if (view.getUri() != null) {
-            shortcutUtils.removeShortcut(new Shortcut(view.getText().toString(), view.getUri()));
-        }
-        loadApps();
     }
 
     @Override

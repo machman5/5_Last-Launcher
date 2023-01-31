@@ -620,7 +620,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     }
 
     //  add a new app: generally called after reset
-    private void addAppAfterReset(String activityName, boolean sortNeeded) {
+    public void addAppAfterReset(String activityName, boolean sortNeeded) {
         synchronized (mAppsList) {
             for (ListIterator<Apps> iterator = mAppsList.listIterator(); iterator.hasNext(); ) {
                 Apps app = iterator.next();

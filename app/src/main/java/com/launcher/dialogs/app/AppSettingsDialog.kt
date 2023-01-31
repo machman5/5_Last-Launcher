@@ -19,6 +19,9 @@ import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.getAppColor
 import com.launcher.utils.DbUtils.getAppSize
 import com.launcher.utils.DbUtils.isAppFrozen
+import com.launcher.utils.DbUtils.removeAppName
+import com.launcher.utils.DbUtils.removeColor
+import com.launcher.utils.DbUtils.removeSize
 import com.launcher.views.textview.AppTextView
 
 /**
@@ -58,6 +61,7 @@ class AppSettingsDialog(
         binding.menuHide.setOnClickListener(this)
         binding.menuUninstall.setOnClickListener(this)
         binding.menuAppInfo.setOnClickListener(this)
+        binding.menuResetToDefault.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -84,6 +88,9 @@ class AppSettingsDialog(
             }
             binding.menuAppInfo -> {
                 showAppInfo(activityName)
+            }
+            binding.menuResetToDefault -> {
+                resetApp(activityName)
             }
         }
     }
@@ -179,6 +186,14 @@ class AppSettingsDialog(
             it.isEmpty()
         }.toTypedArray()[0])
         launcherActivity.startActivity(intent)
+    }
+
+    private fun resetApp(activityName: String) {
+        removeAppName(activityName)
+        removeColor(activityName)
+        removeSize(activityName)
+        launcherActivity.addAppAfterReset(activityName, true)
+        dismiss()
     }
 
 }

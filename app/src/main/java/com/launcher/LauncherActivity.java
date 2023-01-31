@@ -563,38 +563,27 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }
 
         popupMenu.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.menuColor:
-                    changeColorSize(activityName, view);
-                    break;
-                case R.id.menuRename:
-                    renameApp(activityName, view.getText().toString());
-                    break;
-                case R.id.menuFreezeSize:
-                    freezeAppSize(activityName);
-                    break;
-                case R.id.menuHide:
-                    hideApp(activityName);
-                    break;
-                case R.id.menuUninstall:
-                    if (view.isShortcut()) {
-                        removeShortcut(view);
-                    } else {
-                        uninstallApp(activityName);
-                    }
-                    break;
-                case R.id.menuAppInfo:
-                    showAppInfo(activityName);
-                    break;
-                case R.id.menuResetToDefault:
-                    resetApp(activityName);
-                    break;
-                case R.id.menuResetColor:
-                    resetAppColor(activityName);
-                    break;
-
-                default:
-                    return true;
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.menuColor) {
+                changeColorSize(activityName, view);
+            } else if (itemId == R.id.menuRename) {
+                renameApp(activityName, view.getText().toString());
+            } else if (itemId == R.id.menuFreezeSize) {
+                freezeAppSize(activityName);
+            } else if (itemId == R.id.menuHide) {
+                hideApp(activityName);
+            } else if (itemId == R.id.menuUninstall) {
+                if (view.isShortcut()) {
+                    removeShortcut(view);
+                } else {
+                    uninstallApp(activityName);
+                }
+            } else if (itemId == R.id.menuAppInfo) {
+                showAppInfo(activityName);
+            } else if (itemId == R.id.menuResetToDefault) {
+                resetApp(activityName);
+            } else if (itemId == R.id.menuResetColor) {
+                resetAppColor(activityName);
             }
             return true;
         });

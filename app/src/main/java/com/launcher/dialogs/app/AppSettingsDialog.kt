@@ -15,6 +15,7 @@ import com.R
 import com.databinding.DlgAppSettingsBinding
 import com.launcher.LauncherActivity
 import com.launcher.model.Shortcut
+import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.getAppColor
 import com.launcher.utils.DbUtils.getAppSize
@@ -22,6 +23,7 @@ import com.launcher.utils.DbUtils.isAppFrozen
 import com.launcher.utils.DbUtils.removeAppName
 import com.launcher.utils.DbUtils.removeColor
 import com.launcher.utils.DbUtils.removeSize
+import com.launcher.utils.DbUtils.sortsTypes
 import com.launcher.views.textview.AppTextView
 
 /**
@@ -62,6 +64,7 @@ class AppSettingsDialog(
         binding.menuUninstall.setOnClickListener(this)
         binding.menuAppInfo.setOnClickListener(this)
         binding.menuResetToDefault.setOnClickListener(this)
+        binding.menuResetColor.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {
@@ -91,6 +94,9 @@ class AppSettingsDialog(
             }
             binding.menuResetToDefault -> {
                 resetApp(activityName)
+            }
+            binding.menuResetColor -> {
+                resetAppColor(activityName)
             }
         }
     }
@@ -193,6 +199,13 @@ class AppSettingsDialog(
         removeColor(activityName)
         removeSize(activityName)
         launcherActivity.addAppAfterReset(activityName, true)
+        dismiss()
+    }
+
+    private fun resetAppColor(activityName: String) {
+        removeColor(activityName)
+        val sortNeeded = sortsTypes == Constants.SORT_BY_COLOR
+        launcherActivity.addAppAfterReset(activityName, sortNeeded)
         dismiss()
     }
 

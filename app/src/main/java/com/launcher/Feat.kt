@@ -11,6 +11,8 @@ package com.launcher
 //TODO build release, keystore
 //TODO firebase
 //TODO show set default launcher
+//TODO scroll up to search
+//TODO setting launch store by pkg name
 
 //done
 //package name

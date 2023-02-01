@@ -8,6 +8,7 @@ package com.launcher
  * freuss47@gmail.com
  */
 
+//TODO remove cardview -> 9 patch
 //TODO firebase
 //TODO setting launch store by pkg name
 //TODO vibrate when menu item action

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:foreground="?android:attr/actionBarItemBackground"
             android:padding="@dimen/margin_padding_medium"
-            android:text="@string/setting"
+            android:text="@string/fonts"
             android:textSize="@dimen/txt_large"
             android:textStyle="bold"
             tools:ignore="UnusedAttribute" />

@@ -232,6 +232,7 @@ class GlobalSettingsDialog(
         } else {
             binding.settingsFreezeSize.setText(R.string.freeze_apps_size)
         }
+        dismiss()
     }
 
     private fun frozenApps() {

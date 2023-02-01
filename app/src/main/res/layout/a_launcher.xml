@@ -19,21 +19,30 @@
 
     </ScrollView>
 
-    <EditText
-        android:id="@+id/search_box"
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cv_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:background="@drawable/bkg_search_box"
-        android:drawableStart="@drawable/baseline_search_black_48"
-        android:drawablePadding="@dimen/margin_padding_small"
-        android:foregroundGravity="center"
-        android:hint="@string/search"
-        android:imeOptions="actionDone|actionSend"
-        android:inputType="textPersonName"
-        android:padding="@dimen/margin_padding_small"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
         android:visibility="gone"
-        tools:visibility="visible" />
+        app:cardCornerRadius="@dimen/round_medium"
+        app:cardElevation="@dimen/margin_padding_small"
+        app:cardUseCompatPadding="true"
+        tools:visibility="visible">
+
+        <EditText
+            android:id="@+id/search_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/baseline_search_black_48"
+            android:drawablePadding="@dimen/margin_padding_small"
+            android:foregroundGravity="center"
+            android:hint="@string/search"
+            android:imeOptions="actionDone|actionSend"
+            android:inputType="textPersonName"
+            android:padding="@dimen/margin_padding_small"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -41,6 +41,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+
 import com.BuildConfig;
 import com.R;
 import com.launcher.dialogs.app.AppSettingsDialog;
@@ -95,6 +97,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     private Dialog dialogs;
     //search box
     private EditText mSearchBox;
+    private CardView cvSearch;
 
     private InputMethodManager imm;
     // gesture detector
@@ -170,6 +173,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
         //our search box
         mSearchBox = findViewById(R.id.search_box);
+        cvSearch = findViewById(R.id.cv_search);
         //setup listeners on mSearchBox
         setSearchBoxListeners();
 
@@ -195,7 +199,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         mSearchBox.addTextChangedListener(mTextWatcher);
         mSearchBox.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                mSearchBox.setVisibility(View.GONE);
+                cvSearch.setVisibility(View.GONE);
                 imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
                 //do something on clicking enter
                 return true;
@@ -430,7 +434,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             if (searching) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                mSearchBox.setVisibility(View.GONE);
+                cvSearch.setVisibility(View.GONE);
             }
 
             if (appTextView.isShortcut()) {
@@ -467,7 +471,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         super.onResume();
 
         if (searching) {
-            mSearchBox.setVisibility(View.GONE);
+            cvSearch.setVisibility(View.GONE);
             searching = false;
             imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
             mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), DbUtils.getPaddingBottom());
@@ -613,7 +617,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        mSearchBox.setVisibility(View.GONE);
+        cvSearch.setVisibility(View.GONE);
 
         if (searching) {
             //check this line
@@ -970,12 +974,12 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         if (direction == Gestures.Direction.SWIPE_RIGHT) {
             searching = true;
             mSearchBox.setText("");
-            mSearchBox.setVisibility(View.VISIBLE);
+            cvSearch.setVisibility(View.VISIBLE);
             mSearchBox.requestFocus();
             imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
         } else if (direction == Gestures.Direction.SWIPE_LEFT) {
             if (searching) {
-                mSearchBox.setVisibility(View.GONE);
+                cvSearch.setVisibility(View.GONE);
                 imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
                 onResume();
             }

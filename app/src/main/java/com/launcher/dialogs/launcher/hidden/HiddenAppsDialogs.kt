@@ -26,6 +26,7 @@ class HiddenAppsDialogs(
 ) {
     private lateinit var binding: DlgHiddenAppsBinding
     private var hiddenApps = ArrayList<Apps>()
+    private var adapter: UniversalAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,9 @@ class HiddenAppsDialogs(
         binding = DlgHiddenAppsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val adapter = UniversalAdapter(context, hiddenApps)
+        adapter = UniversalAdapter(context, hiddenApps)
         binding.lvHiddenApp.adapter = adapter
-        adapter.setOnClickListener(object : UniversalAdapter.OnClickListener {
+        adapter?.setOnClickListener(object : UniversalAdapter.OnClickListener {
             override fun onClick(apps: Apps?, view: View) {
                 apps?.apply {
                     confirmationAndRemove(
@@ -70,6 +71,10 @@ class HiddenAppsDialogs(
             if (menuItem.itemId == R.id.menuRemoveThis) {
                 apps.setAppHidden(false)
                 updateHiddenList()
+                adapter?.notifyDataSetChanged()
+                if (hiddenApps.isEmpty()) {
+                    dismiss()
+                }
             } else if (menuItem.itemId == R.id.menuRunThisApp) {
                 if (!apps.isShortcut) {
                     apps.activityName?.let { name ->
@@ -90,6 +95,7 @@ class HiddenAppsDialogs(
 
     fun updateHiddenList(): Int {
         synchronized(mAppsList) {
+            hiddenApps.clear()
             for (apps in mAppsList) {
                 if (apps.isHidden) {
                     hiddenApps.add(apps)

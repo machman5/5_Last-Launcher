@@ -12,6 +12,7 @@ import android.view.Window
 import android.widget.ListView
 import android.widget.PopupMenu
 import com.R
+import com.databinding.DlgHiddenAppsBinding
 import com.launcher.adapters.UniversalAdapter
 import com.launcher.model.Apps
 import com.launcher.utils.DbUtils.theme
@@ -23,16 +24,19 @@ class HiddenAppsDialogs(
 ) : Dialog(
     mContext
 ) {
+    private lateinit var binding: DlgHiddenAppsBinding
     private var hiddenApps = ArrayList<Apps>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.dlg_hidden_apps)
-        val lvHiddenApp = findViewById<ListView>(R.id.lvHiddenApp)
+
+        binding = DlgHiddenAppsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         val adapter = UniversalAdapter(context, hiddenApps)
-        lvHiddenApp.adapter = adapter
+        binding.lvHiddenApp.adapter = adapter
         adapter.setOnClickListener(object : UniversalAdapter.OnClickListener {
             override fun onClick(apps: Apps?, view: View) {
                 apps?.apply {
@@ -42,7 +46,6 @@ class HiddenAppsDialogs(
                     )
                 }
             }
-
         })
     }
 

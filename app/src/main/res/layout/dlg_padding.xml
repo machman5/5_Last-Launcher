@@ -1,240 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical">
+    app:cardCornerRadius="@dimen/round_medium"
+    app:cardElevation="@dimen/margin_padding_small"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="2dp">
-
-        <TextView
-            android:id="@+id/btn_left_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:foregroundGravity="center"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="-"
-            android:textSize="42sp" />
+        android:orientation="vertical"
+        android:padding="@dimen/margin_padding_medium">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/tv_left_padding"
+                android:id="@+id/btnLeftMinus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
+                android:foregroundGravity="center"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:text="-"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvLeftPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="@string/_34"
+                    android:textSize="42sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="@string/left"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btnLeftPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_horizontal|center_vertical"
                 android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
+                android:text="+"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
 
-                android:padding="2dp"
-                android:text="34"
-                android:textSize="42sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center|center_horizontal|center_vertical"
-                android:padding="2dp"
-                android:text="Left"
-                android:textSize="16sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/btn_left_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="+"
-            android:textSize="42sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dp">
-
-        <TextView
-            android:id="@+id/btn_top_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="-"
-            android:textSize="42sp" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/tv_top_padding"
+                android:id="@+id/btnTopMinus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
+                android:text="-"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
 
-                android:text="34"
-                android:textSize="42sp" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Top" />
-        </LinearLayout>
+                android:gravity="center|center_horizontal|center_vertical"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/btn_top_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="+"
-            android:textSize="42sp" />
+                <TextView
+                    android:id="@+id/tvTopPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="@string/_34"
+                    android:textSize="42sp" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center|center_horizontal|center_vertical"
-        android:padding="2dp">
-
-        <TextView
-            android:id="@+id/btn_right_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="-"
-            android:textSize="42sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/top" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_right_padding"
+                android:id="@+id/btnTopPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
+                android:text="+"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
 
-                android:text="34"
-                android:textSize="42sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Right" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/btn_right_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="+"
-            android:textSize="42sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center|center_horizontal|center_vertical"
-        android:padding="2dp">
-
-        <TextView
-            android:id="@+id/btn_bottom_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="-"
-            android:textSize="42sp" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
+            android:gravity="center|center_horizontal|center_vertical">
 
             <TextView
-                android:id="@+id/tv_bottom_padding"
+                android:id="@+id/btnRightMinus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
+                android:text="-"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
 
-                android:text="34"
-                android:textSize="42sp" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bottom" />
+                android:gravity="center|center_horizontal|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvRightPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="@string/_34"
+                    android:textSize="42sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/right" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btnRightPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:text="+"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/btn_bottom_plus"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|center_horizontal|center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="+"
-            android:textSize="42sp" />
+            android:gravity="center|center_horizontal|center_vertical">
 
+            <TextView
+                android:id="@+id/btnBottomMinus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:text="-"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBottomPadding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center|center_horizontal|center_vertical"
+                    android:text="@string/_34"
+                    android:textSize="42sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bottom" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btnBottomPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:foreground="?android:attr/actionBarItemBackground"
+                android:gravity="center|center_horizontal|center_vertical"
+                android:text="+"
+                android:textSize="42sp"
+                tools:ignore="UnusedAttribute" />
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>
+

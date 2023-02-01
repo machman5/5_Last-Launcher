@@ -62,4 +62,9 @@
     <string name="sym_plus">+</string>
     <string name="sym_minus">-</string>
     <string name="space" />
+    <string name="_34">34</string>
+    <string name="left">Left</string>
+    <string name="top">Top</string>
+    <string name="right">Right</string>
+    <string name="bottom">Bottom</string>
 </resources>

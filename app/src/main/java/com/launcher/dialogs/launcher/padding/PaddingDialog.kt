@@ -1,4 +1,4 @@
-package com.launcher.dialogs.launcher
+package com.launcher.dialogs.launcher.padding
 
 import android.app.Dialog
 import android.content.Context
@@ -44,34 +44,34 @@ class PaddingDialog(
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dlg_padding)
-        val btnLeftMinus = findViewById<TextView>(R.id.btn_left_minus)
+        val btnLeftMinus = findViewById<TextView>(R.id.btnLeftMinus)
         btnLeftMinus.setOnLongClickListener(this)
         btnLeftMinus.setOnClickListener(this)
-        val btnRightMinus = findViewById<TextView>(R.id.btn_right_minus)
+        val btnRightMinus = findViewById<TextView>(R.id.btnRightMinus)
         btnRightMinus.setOnLongClickListener(this)
         btnRightMinus.setOnClickListener(this)
-        val btnTopMinus = findViewById<TextView>(R.id.btn_top_minus)
+        val btnTopMinus = findViewById<TextView>(R.id.btnTopMinus)
         btnTopMinus.setOnLongClickListener(this)
         btnTopMinus.setOnClickListener(this)
-        val btnBottomMinus = findViewById<TextView>(R.id.btn_bottom_minus)
+        val btnBottomMinus = findViewById<TextView>(R.id.btnBottomMinus)
         btnBottomMinus.setOnLongClickListener(this)
         btnBottomMinus.setOnClickListener(this)
-        val btnLeftPlus = findViewById<TextView>(R.id.btn_left_plus)
+        val btnLeftPlus = findViewById<TextView>(R.id.btnLeftPlus)
         btnLeftPlus.setOnLongClickListener(this)
         btnLeftPlus.setOnClickListener(this)
-        val btnRightPlus = findViewById<TextView>(R.id.btn_right_plus)
+        val btnRightPlus = findViewById<TextView>(R.id.btnRightPlus)
         btnRightPlus.setOnLongClickListener(this)
         btnRightPlus.setOnClickListener(this)
-        val btnTopPlus = findViewById<TextView>(R.id.btn_top_plus)
+        val btnTopPlus = findViewById<TextView>(R.id.btnTopPlus)
         btnTopPlus.setOnLongClickListener(this)
         btnTopPlus.setOnClickListener(this)
-        val btnBottomPlus = findViewById<TextView>(R.id.btn_bottom_plus)
+        val btnBottomPlus = findViewById<TextView>(R.id.btnBottomPlus)
         btnBottomPlus.setOnLongClickListener(this)
         btnBottomPlus.setOnClickListener(this)
-        tvLeftPadding = findViewById(R.id.tv_left_padding)
-        tvRightPadding = findViewById(R.id.tv_right_padding)
-        tvTopPadding = findViewById(R.id.tv_top_padding)
-        tvBottomPadding = findViewById(R.id.tv_bottom_padding)
+        tvLeftPadding = findViewById(R.id.tvLeftPadding)
+        tvRightPadding = findViewById(R.id.tvRightPadding)
+        tvTopPadding = findViewById(R.id.tvTopPadding)
+        tvBottomPadding = findViewById(R.id.tvBottomPadding)
         leftInt = paddingLeft
         rightInt = paddingRight
         topInt = paddingTop
@@ -94,21 +94,21 @@ class PaddingDialog(
 
     override fun onLongClick(button: View): Boolean {
         when (button.id) {
-            R.id.btn_left_minus -> runner(button as TextView, tvLeftPadding, -2, Padding.LEFT)
-            R.id.btn_left_plus -> runner(button as TextView, tvLeftPadding, 2, Padding.LEFT)
-            R.id.btn_right_minus -> runner(button as TextView, tvRightPadding, -2, Padding.RIGHT)
-            R.id.btn_right_plus -> runner(button as TextView, tvRightPadding, 2, Padding.RIGHT)
-            R.id.btn_top_minus -> runner(button as TextView, tvTopPadding, -2, Padding.TOP)
-            R.id.btn_top_plus -> runner(button as TextView, tvTopPadding, 2, Padding.TOP)
-            R.id.btn_bottom_minus -> runner(button as TextView, tvBottomPadding, -2, Padding.BOTTOM)
-            R.id.btn_bottom_plus -> runner(button as TextView, tvBottomPadding, 2, Padding.BOTTOM)
+            R.id.btnLeftMinus -> runner(button as TextView, tvLeftPadding, -2, Padding.LEFT)
+            R.id.btnLeftPlus -> runner(button as TextView, tvLeftPadding, 2, Padding.LEFT)
+            R.id.btnRightMinus -> runner(button as TextView, tvRightPadding, -2, Padding.RIGHT)
+            R.id.btnRightPlus -> runner(button as TextView, tvRightPadding, 2, Padding.RIGHT)
+            R.id.btnTopMinus -> runner(button as TextView, tvTopPadding, -2, Padding.TOP)
+            R.id.btnTopPlus -> runner(button as TextView, tvTopPadding, 2, Padding.TOP)
+            R.id.btnBottomMinus -> runner(button as TextView, tvBottomPadding, -2, Padding.BOTTOM)
+            R.id.btnBottomPlus -> runner(button as TextView, tvBottomPadding, 2, Padding.BOTTOM)
         }
         return true
     }
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.btn_left_minus -> {
+            R.id.btnLeftMinus -> {
                 //decrease the value as minus button is pressed
                 leftInt--
                 // check the lower limit i.e. 0
@@ -118,7 +118,7 @@ class PaddingDialog(
                 //reflect it on screen
                 tvLeftPadding?.text = leftInt.toString()
             }
-            R.id.btn_left_plus -> {
+            R.id.btnLeftPlus -> {
                 leftInt++
                 // check the upper limit
                 if (leftInt > MAX_PADDING_LEFT) {
@@ -126,42 +126,42 @@ class PaddingDialog(
                 }
                 tvLeftPadding?.text = leftInt.toString()
             }
-            R.id.btn_right_minus -> {
+            R.id.btnRightMinus -> {
                 rightInt--
                 if (rightInt < MIN_PADDING) {
                     rightInt = MIN_PADDING
                 }
                 tvRightPadding?.text = rightInt.toString()
             }
-            R.id.btn_right_plus -> {
+            R.id.btnRightPlus -> {
                 rightInt++
                 if (rightInt > MAX_PADDING_RIGHT) {
                     rightInt = MAX_PADDING_RIGHT
                 }
                 tvRightPadding?.text = rightInt.toString()
             }
-            R.id.btn_top_minus -> {
+            R.id.btnTopMinus -> {
                 topInt--
                 if (topInt < MIN_PADDING) {
                     topInt = MIN_PADDING
                 }
                 tvTopPadding?.text = topInt.toString()
             }
-            R.id.btn_top_plus -> {
+            R.id.btnTopPlus -> {
                 topInt++
                 if (topInt > MAX_PADDING_TOP) {
                     topInt = MAX_PADDING_TOP
                 }
                 tvTopPadding?.text = topInt.toString()
             }
-            R.id.btn_bottom_minus -> {
+            R.id.btnBottomMinus -> {
                 bottomInt--
                 if (bottomInt < MIN_PADDING) {
                     bottomInt = MIN_PADDING
                 }
                 tvBottomPadding?.text = bottomInt.toString()
             }
-            R.id.btn_bottom_plus -> {
+            R.id.btnBottomPlus -> {
                 bottomInt++
                 if (bottomInt > MAX_PADDING_BOTTOM) {
                     bottomInt = MAX_PADDING_BOTTOM

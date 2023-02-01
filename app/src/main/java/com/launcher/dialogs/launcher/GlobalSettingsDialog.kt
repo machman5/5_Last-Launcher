@@ -241,9 +241,9 @@ class GlobalSettingsDialog(
         dismiss()
         val dialogs = YesNoDialog(
             mContext = context,
-            msg = "msg",
-            yes = "Yes",
-            no = "No",
+            msg = context.getString(R.string.reset_to_default_settings),
+            yes = context.getString(R.string.yes),
+            no = context.getString(R.string.no),
             onClickYes = {
                 clearDB()
                 launcherActivity.recreate()

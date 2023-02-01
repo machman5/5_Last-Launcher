@@ -8,7 +8,6 @@ package com.launcher
  * freuss47@gmail.com
  */
 
-//TODO build release, keystore
 //TODO firebase
 //TODO rate, more app
 //TODO show set default launcher
@@ -25,5 +24,6 @@ package com.launcher
 //done
 //package name
 //ic launcher
+//build release, keystore
 
 //android:background="?android:attr/actionBarItemBackground"

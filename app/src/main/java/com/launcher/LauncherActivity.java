@@ -442,7 +442,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     Intent intent = Intent.parseUri(appTextView.getUri(), 0);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     appOpened(activity);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -456,7 +456,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     intent.setComponent(new ComponentName(strings[0], strings[1]));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                     // tell the our db that app is opened
                     appOpened(activity);
                 } catch (Exception e) {

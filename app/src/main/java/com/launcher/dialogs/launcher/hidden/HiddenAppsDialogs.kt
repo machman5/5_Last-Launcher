@@ -5,18 +5,13 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.ContextThemeWrapper
-import android.view.MenuItem
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
-import android.widget.ListView
-import android.widget.PopupMenu
-import com.R
 import com.databinding.DlgHiddenAppsBinding
 import com.launcher.adapters.UniversalAdapter
 import com.launcher.model.Apps
-import com.launcher.utils.DbUtils.theme
-import java.util.*
 
 class HiddenAppsDialogs(
     mContext: Context,
@@ -42,8 +37,7 @@ class HiddenAppsDialogs(
             override fun onClick(apps: Apps?, view: View) {
                 apps?.apply {
                     confirmationAndRemove(
-                        apps = this,
-                        view = view
+                        apps = this
                     )
                 }
             }
@@ -51,31 +45,19 @@ class HiddenAppsDialogs(
     }
 
     private fun confirmationAndRemove(
-        apps: Apps,
-        view: View
+        apps: Apps
     ) {
-        val ctx: Context = if (theme == R.style.Wallpaper) {
-            ContextThemeWrapper(
-                /* base = */ context,
-                /* themeResId = */ R.style.AppTheme
-            )
-        } else {
-            ContextThemeWrapper(
-                /* base = */ context,
-                /* themeResId = */ theme
-            )
-        }
-        val popupMenu = PopupMenu(/* context = */ ctx, /* anchor = */ view)
-        popupMenu.menuInflater.inflate(R.menu.popup_remove, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            if (menuItem.itemId == R.id.menuRemoveThis) {
+        val dialogs = RemoveDialog(
+            mContext = context,
+            onClickRemove = {
                 apps.setAppHidden(false)
                 updateHiddenList()
                 adapter?.notifyDataSetChanged()
                 if (hiddenApps.isEmpty()) {
                     dismiss()
                 }
-            } else if (menuItem.itemId == R.id.menuRunThisApp) {
+            },
+            onClickRun = {
                 if (!apps.isShortcut) {
                     apps.activityName?.let { name ->
                         val strings = name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
@@ -88,9 +70,17 @@ class HiddenAppsDialogs(
                     }
                 }
             }
-            true
+        )
+        dialogs.show()
+        val window = dialogs.window
+        if (window != null) {
+            window.setGravity(Gravity.TOP)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
         }
-        popupMenu.show()
     }
 
     fun updateHiddenList(): Int {

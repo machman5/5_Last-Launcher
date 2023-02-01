@@ -62,12 +62,10 @@ class GlobalSettingsDialog(
         binding.settingsSortAppReverse.setOnClickListener(this)
         binding.settingsRestartLauncher.setOnClickListener(this)
         binding.settingsColorSniffer.setOnClickListener(this)
-        if (!BuildConfig.enableColorSniffer) {
-            if (isRandomColor) {
-                binding.settingsColorSniffer.setText(R.string.fixed_colors)
-            } else {
-                binding.settingsColorSniffer.setText(R.string.random_colors)
-            }
+        if (isRandomColor) {
+            binding.settingsColorSniffer.setText(R.string.fixed_colors)
+        } else {
+            binding.settingsColorSniffer.setText(R.string.random_colors)
         }
         binding.settingsFrozenApps.setOnClickListener(this)
         binding.settingsHiddenApps.setOnClickListener(this)
@@ -89,11 +87,7 @@ class GlobalSettingsDialog(
                 showThemeDialog()
             }
             binding.settingsColorSniffer -> {
-                if (BuildConfig.enableColorSniffer) {
-                    showColorSnifferDialog()
-                } else {
-                    randomColor()
-                }
+                randomColor()
             }
             binding.settingsSortAppBy -> {
                 sortApps(view)

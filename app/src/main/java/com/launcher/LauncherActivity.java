@@ -330,14 +330,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             // this is a separate implementation of ColorSniffer app
             // if User set the color from external app like ColorSniffer
             // then use that colors
-            if (BuildConfig.enableColorSniffer) {
-                if (DbUtils.isExternalSourceColor() && color == DbUtils.NULL_TEXT_COLOR) {
-                    color = DbUtils.getAppColorExternalSource(activity);
-                }
-            } else if (DbUtils.isRandomColor() && color == DbUtils.NULL_TEXT_COLOR) {
+            if (DbUtils.isRandomColor() && color == DbUtils.NULL_TEXT_COLOR) {
                 color = Utils.generateColorFromString(appName);
             }
-
 
             int openingCounts = DbUtils.getOpeningCounts(activity);
 

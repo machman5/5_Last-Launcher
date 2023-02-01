@@ -9,7 +9,7 @@ package com.launcher
  */
 
 //TODO firebase
-//TODO rate, more app
+//TODO rate, more app, share app
 //TODO show set default launcher
 //TODO scroll up to search
 //TODO setting launch store by pkg name
@@ -20,6 +20,7 @@ package com.launcher
 //TODO double tap to lock
 //TODO policy
 //TODO lock app
+//TODO intro
 
 //done
 //package name

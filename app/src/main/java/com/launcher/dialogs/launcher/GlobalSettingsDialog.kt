@@ -18,6 +18,9 @@ import com.launcher.dialogs.launcher.alignment.AlignmentDialog
 import com.launcher.dialogs.launcher.font.FontDialog
 import com.launcher.dialogs.launcher.sort.SortDialog
 import com.launcher.dialogs.launcher.theme.ThemeSelectorDialog
+import com.launcher.ext.moreApp
+import com.launcher.ext.rateApp
+import com.launcher.ext.shareApp
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.appSortReverseOrder
@@ -69,6 +72,9 @@ class GlobalSettingsDialog(
         }
         binding.settingsFrozenApps.setOnClickListener(this)
         binding.settingsHiddenApps.setOnClickListener(this)
+        binding.tvRateApp.setOnClickListener(this)
+        binding.tvMoreApp.setOnClickListener(this)
+        binding.tvShareApp.setOnClickListener(this)
 
         //reflect the DB value
         if (isSizeFrozen) {
@@ -125,6 +131,15 @@ class GlobalSettingsDialog(
             }
             binding.settingsRestartLauncher -> {
                 launcherActivity.recreate()
+            }
+            binding.tvRateApp -> {
+                launcherActivity.rateApp(launcherActivity.packageName)
+            }
+            binding.tvMoreApp -> {
+                launcherActivity.moreApp()
+            }
+            binding.tvShareApp -> {
+                launcherActivity.shareApp()
             }
         }
     }

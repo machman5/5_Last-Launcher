@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -207,23 +206,6 @@ class GlobalSettingsDialog(
             }
         } else {
             launcherActivity.recreate()
-        }
-    }
-
-    private fun showColorSnifferDialog() {
-        cancel()
-        val intent = context.packageManager.getLaunchIntentForPackage("ryey.colorsniffer")
-
-        // if color snifer app is not installed then send user to install it
-        // else show color sniffer option
-        if (intent == null) {
-            //Change this to proper url , currently this also show BASTARD PLAY STORE
-            val uri = Uri.parse("market://details?id=ryey.colorsniffer")
-            val i = Intent(Intent.ACTION_VIEW, uri)
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(i)
-        } else {
-            ColorSnifferDialog(context, launcherActivity).show()
         }
     }
 

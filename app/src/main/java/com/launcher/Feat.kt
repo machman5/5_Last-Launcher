@@ -17,6 +17,7 @@ package com.launcher
 //TODO vibrate when menu item action
 //TODO efx scroll like ios
 //TODO anim layout changes
+//TODO customize toast
 
 //done
 //package name

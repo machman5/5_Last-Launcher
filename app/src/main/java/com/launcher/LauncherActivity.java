@@ -47,7 +47,7 @@ import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.dialogs.launcher.FrozenAppsDialogs;
 import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
-import com.launcher.dialogs.launcher.HiddenAppsDialogs;
+import com.launcher.dialogs.launcher.hidden.HiddenAppsDialogs;
 import com.launcher.dialogs.launcher.padding.PaddingDialog;
 import com.launcher.model.Apps;
 import com.launcher.model.Shortcut;
@@ -894,12 +894,18 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         HiddenAppsDialogs dialogs = new HiddenAppsDialogs(this, mAppsList);
         if (dialogs.updateHiddenList() != 0) {
             dialogs.show();
+
+            Window window = dialogs.getWindow();
+            if (window != null) {
+                window.setGravity(Gravity.BOTTOM);
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                window.setLayout(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+            }
         } else {
-            //TODO: show no hidden apps
-            Toast tst = Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT);
-            TextView tv = tst.getView().findViewById(android.R.id.message);
-            tv.setTextColor(Color.parseColor("#d5e0e2"));
-            tst.show();
+            Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT).show();
         }
     }
 

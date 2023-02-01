@@ -982,6 +982,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         } else if (direction == Gestures.Direction.SWIPE_LEFT) {
             if (searching) {
                 cvSearch.setVisibility(View.GONE);
+                mSearchBox.clearFocus();
                 imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
                 onResume();
             }

@@ -30,9 +30,9 @@ class HiddenAppsDialogs(
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dlg_hidden_apps)
-        val listView = findViewById<ListView>(R.id.hidden_app_list)
+        val lvHiddenApp = findViewById<ListView>(R.id.lvHiddenApp)
         val adapter = UniversalAdapter(context, hiddenApps)
-        listView.adapter = adapter
+        lvHiddenApp.adapter = adapter
         adapter.setOnClickListener(object : UniversalAdapter.OnClickListener {
             override fun onClick(apps: Apps?, view: View) {
                 apps?.apply {

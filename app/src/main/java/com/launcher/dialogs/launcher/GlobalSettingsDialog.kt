@@ -14,6 +14,7 @@ import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.LauncherActivity
 import com.launcher.dialogs.launcher.alignment.AlignmentDialog
 import com.launcher.dialogs.launcher.font.FontDialog
+import com.launcher.dialogs.launcher.sort.SortDialog
 import com.launcher.dialogs.launcher.theme.ThemeSelectorDialog
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
@@ -133,31 +134,45 @@ class GlobalSettingsDialog(
      * The code block we added is to give the newly added buttons the ability to sort them by name.
      */
     private fun sortApps(view: View) {
-        // set theme
-        // if theme wallpaper ie transparent then we have to show other theme
-        val context: Context = if (theme == R.style.Wallpaper) {
-            ContextThemeWrapper(
-                context,
-                R.style.AppTheme
+        dismiss()
+        val dialogs = SortDialog(
+            mContext = context,
+            launcherActivity = launcherActivity
+        )
+        dialogs.show()
+        val window = dialogs.window
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
-        } else {
-            ContextThemeWrapper(context, theme)
         }
-        val popupMenu = PopupMenu(context, view)
-        popupMenu.menuInflater.inflate(R.menu.popup_sort_apps, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            cancel()
-            when (menuItem.itemId) {
-                R.id.menuSortByName -> launcherActivity.sortApps(Constants.SORT_BY_NAME)
-                R.id.menuSortByOpeningCounts -> launcherActivity.sortApps(Constants.SORT_BY_OPENING_COUNTS)
-                R.id.menuSortByColor -> launcherActivity.sortApps(Constants.SORT_BY_COLOR)
-                R.id.menuSortBySize -> launcherActivity.sortApps(Constants.SORT_BY_SIZE)
-                R.id.menuSortByUpdateTime -> launcherActivity.sortApps(Constants.SORT_BY_UPDATE_TIME)
-                R.id.menuSortByRecentUse -> launcherActivity.sortApps(Constants.SORT_BY_RECENT_OPEN)
-            }
-            true
-        }
-        popupMenu.show()
+
+//        val context: Context = if (theme == R.style.Wallpaper) {
+//            ContextThemeWrapper(
+//                context,
+//                R.style.AppTheme
+//            )
+//        } else {
+//            ContextThemeWrapper(context, theme)
+//        }
+//        val popupMenu = PopupMenu(context, view)
+//        popupMenu.menuInflater.inflate(R.menu.popup_sort_apps, popupMenu.menu)
+//        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+//            cancel()
+//            when (menuItem.itemId) {
+//                R.id.menuSortByName -> launcherActivity.sortApps(Constants.SORT_BY_NAME)
+//                R.id.menuSortByOpeningCounts -> launcherActivity.sortApps(Constants.SORT_BY_OPENING_COUNTS)
+//                R.id.menuSortByColor -> launcherActivity.sortApps(Constants.SORT_BY_COLOR)
+//                R.id.menuSortBySize -> launcherActivity.sortApps(Constants.SORT_BY_SIZE)
+//                R.id.menuSortByUpdateTime -> launcherActivity.sortApps(Constants.SORT_BY_UPDATE_TIME)
+//                R.id.menuSortByRecentUse -> launcherActivity.sortApps(Constants.SORT_BY_RECENT_OPEN)
+//            }
+//            true
+//        }
+//        popupMenu.show()
     }
 
     private fun sortAppsReverseOrder() {

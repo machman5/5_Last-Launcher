@@ -16,12 +16,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:padding="@dimen/margin_padding_medium"
             android:text="@string/setting"
             android:textSize="@dimen/txt_large"
-            android:textStyle="bold"
-            tools:ignore="UnusedAttribute" />
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"

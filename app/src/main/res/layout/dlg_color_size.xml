@@ -13,10 +13,18 @@
         android:orientation="vertical"
         android:padding="@dimen/margin_padding_medium">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/color_for_this_entry"
+            android:textSize="@dimen/txt_large"
+            android:textStyle="bold" />
+
         <com.launcher.views.colorSeekBar.ColorSeekBar
             android:id="@+id/colorSlider1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_medium"
             android:paddingBottom="@dimen/margin_padding_medium"
             app:colorSeeds="@array/material_colors1" />
 

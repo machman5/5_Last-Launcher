@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -20,15 +21,19 @@
 
     <EditText
         android:id="@+id/search_box"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:autofillHints=""
         android:background="@drawable/bkg_search_box"
+        android:drawableStart="@drawable/baseline_search_black_48"
+        android:drawablePadding="@dimen/margin_padding_small"
         android:foregroundGravity="center"
-        android:gravity="center"
+        android:hint="@string/search"
         android:imeOptions="actionDone|actionSend"
         android:inputType="textPersonName"
+        android:padding="@dimen/margin_padding_small"
         android:textColor="@android:color/black"
         android:textSize="20sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 </LinearLayout>

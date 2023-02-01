@@ -18,6 +18,8 @@ package com.launcher
 //TODO efx scroll like ios
 //TODO anim layout changes
 //TODO customize toast
+//TODO double tap to lock
+//TODO policy
 
 //done
 //package name

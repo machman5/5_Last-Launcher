@@ -44,7 +44,7 @@ import android.widget.Toast;
 import com.BuildConfig;
 import com.R;
 import com.launcher.dialogs.app.AppSettingsDialog;
-import com.launcher.dialogs.launcher.FrozenAppsDialogs;
+import com.launcher.dialogs.launcher.frozen.FrozenAppsDialogs;
 import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
 import com.launcher.dialogs.launcher.hidden.HiddenAppsDialogs;
@@ -914,12 +914,18 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         FrozenAppsDialogs dialogs = new FrozenAppsDialogs(this, mAppsList);
         if (dialogs.updateFrozenList() != 0) {
             dialogs.show();
+
+            Window window = dialogs.getWindow();
+            if (window != null) {
+                window.setGravity(Gravity.BOTTOM);
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                window.setLayout(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+            }
         } else {
-            //TODO: show no frozen apps
-            Toast tst = Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT);
-            TextView tv = tst.getView().findViewById(android.R.id.message);
-            tv.setTextColor(Color.parseColor("#d5e0e2"));
-            tst.show();
+            Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -38,7 +38,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="AppTheme"
             android:text="@string/default_theme"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Wallpaper"
             android:text="@string/background_wallpaper"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Black"
             android:text="@string/white_on_black"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -77,7 +77,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/White"
             android:text="@string/black_on_white"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -90,7 +90,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/WhiteOnGrey"
             android:text="@string/white_on_grey"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -103,7 +103,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/BlackOnGrey"
             android:text="@string/black_on_grey"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -116,7 +116,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Hacker.green"
             android:text="@string/hacker_green"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
         <TextView
@@ -129,7 +129,7 @@
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Hacker.red"
             android:text="@string/hacker_red"
-            android:textSize="22sp"
+            android:textSize="@dimen/txt_medium"
             tools:ignore="UnusedAttribute" />
 
     </LinearLayout>

@@ -19,15 +19,28 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_padding_medium"
+                android:text="@string/sort_apps_by"
+                android:textSize="@dimen/txt_large"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
+
+            <TextView
                 android:id="@+id/menuSortByName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_name"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
 
             <View
@@ -40,11 +53,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_opening_counts"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
 
             <View
@@ -57,11 +70,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_size"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
 
             <View
@@ -74,11 +87,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_color"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
 
             <View
@@ -91,11 +104,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/update_time"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
 
             <View
@@ -108,11 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/recently_first"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
         </LinearLayout>
     </ScrollView>

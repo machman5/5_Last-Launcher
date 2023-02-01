@@ -13,6 +13,7 @@ import com.BuildConfig
 import com.R
 import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.LauncherActivity
+import com.launcher.dialogs.launcher.alignment.AlignmentDialog
 import com.launcher.dialogs.launcher.font.FontDialog
 import com.launcher.dialogs.launcher.theme.ThemeSelectorDialog
 import com.launcher.utils.Constants
@@ -178,25 +179,42 @@ class GlobalSettingsDialog(
     }
 
     private fun setFlowLayoutAlignment(view: View) {
-        val context: Context = if (theme == R.style.Wallpaper) {
-            ContextThemeWrapper(
-                context,
-                R.style.AppTheme
+        dismiss()
+        val dialogs = AlignmentDialog(
+            mContext = context,
+            launcherActivity = launcherActivity
+        )
+        dialogs.show()
+        val window = dialogs.window
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
-        } else {
-            ContextThemeWrapper(context, theme)
         }
-        val popupMenu = PopupMenu(context, view)
-        popupMenu.menuInflater.inflate(R.menu.popup_alignment, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-                R.id.menuCenter -> launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
-                R.id.menuEnd -> launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
-                R.id.menuStart -> launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
-            }
-            true
-        }
-        popupMenu.show()
+
+//        val context: Context = if (theme == R.style.Wallpaper) {
+//            ContextThemeWrapper(
+//                context,
+//                R.style.AppTheme
+//            )
+//        } else {
+//            ContextThemeWrapper(context, theme)
+//        }
+//
+//        val popupMenu = PopupMenu(context, view)
+//        popupMenu.menuInflater.inflate(R.menu.popup_alignment, popupMenu.menu)
+//        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+//            when (menuItem.itemId) {
+//                R.id.menuCenter -> launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
+//                R.id.menuEnd -> launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
+//                R.id.menuStart -> launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
+//            }
+//            true
+//        }
+//        popupMenu.show()
     }
 
     private fun randomColor() {

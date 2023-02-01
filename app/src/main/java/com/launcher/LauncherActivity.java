@@ -1028,9 +1028,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
             mHomeLayout.removeAllViews();
             mHomeLayout.removeAllViewsInLayout();
-            // now add the app textView to home
-            // FlowLayoutManager.LayoutParams params = new FlowLayoutManager.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-            // params.setNewLine(true);
 
             synchronized (mAppsList) {
                 for (Apps app : mAppsList) {
@@ -1038,7 +1035,10 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     if (textView.getParent() != null) {
                         ((ViewGroup) textView.getParent()).removeView(textView);
                     }
-                    mHomeLayout.addView(textView, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                    mHomeLayout.addView(
+                            textView,
+                            new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+                    );
                 }
             }
         }

@@ -59,6 +59,7 @@ class HiddenAppsDialogs(
             },
             onClickRun = {
                 if (!apps.isShortcut) {
+                    dismiss()
                     apps.activityName?.let { name ->
                         val strings = name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
                             .toTypedArray()

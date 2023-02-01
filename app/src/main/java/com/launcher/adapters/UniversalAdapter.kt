@@ -12,9 +12,12 @@ import com.launcher.model.Apps
 
 // this adapter class is used for Frozen app list and Hidden app list
 class UniversalAdapter(
-    mContext: Context, private val list: ArrayList<Apps>
+    mContext: Context,
+    private val list: ArrayList<Apps>
 ) : ArrayAdapter<Apps>(
-    mContext, R.layout.v_list_item, list
+    mContext,
+    R.layout.v_list_item,
+    list
 ) {
 
     private var listener: OnClickListener? = null
@@ -28,7 +31,7 @@ class UniversalAdapter(
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val row = inflater.inflate(R.layout.v_list_item, parent, false)
         row.tag = position
-        val tvAppLabel = row.findViewById<TextView>(R.id.app_label)
+        val tvAppLabel = row.findViewById<TextView>(R.id.tvAppLabel)
         tvAppLabel.text = list[position].getAppName()
         tvAppLabel.tag = position
 

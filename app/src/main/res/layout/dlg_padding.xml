@@ -36,15 +36,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvLeftPadding"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:layout_weight="1"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:text="@string/_34"
                     android:textSize="42sp" />
@@ -91,14 +91,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvTopPadding"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:text="@string/_34"
                     android:textSize="42sp" />
@@ -141,14 +141,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvRightPadding"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:text="@string/_34"
                     android:textSize="42sp" />
@@ -191,14 +191,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvBottomPadding"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:gravity="center|center_horizontal|center_vertical"
                     android:text="@string/_34"
                     android:textSize="42sp" />

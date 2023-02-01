@@ -17,13 +17,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/btnLeftMinus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
@@ -60,8 +59,8 @@
 
             <TextView
                 android:id="@+id/btnLeftPlus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center|center_horizontal|center_vertical"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
@@ -74,13 +73,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/btnTopMinus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
@@ -111,8 +109,8 @@
 
             <TextView
                 android:id="@+id/btnTopPlus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
@@ -124,13 +122,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|center_horizontal|center_vertical">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/btnRightMinus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
@@ -161,8 +158,8 @@
 
             <TextView
                 android:id="@+id/btnRightPlus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
@@ -174,13 +171,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|center_horizontal|center_vertical">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/btnBottomMinus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
@@ -211,8 +207,8 @@
 
             <TextView
                 android:id="@+id/btnBottomPlus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"

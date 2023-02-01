@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import com.BuildConfig
 import com.R
 import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.FakeLauncherActivity
@@ -52,6 +53,8 @@ class GlobalSettingsDialog(
 
         binding = DlgGlobalSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.tvVersion.text = "Version ${BuildConfig.VERSION_NAME}"
 
         binding.tvDefaultLauncher.setOnClickListener(this)
         binding.settingsThemes.setOnClickListener(this)

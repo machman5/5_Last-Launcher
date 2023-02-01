@@ -240,6 +240,7 @@ class GlobalSettingsDialog(
     private fun defaultSettings() {
         if (!BuildConfig.DEBUG) {
             dismiss()
+            //TODO dialog confirm
             clearDB()
             launcherActivity.recreate()
         } //DO SOME ESTER EGG.. FOR DEBUG BUILD..

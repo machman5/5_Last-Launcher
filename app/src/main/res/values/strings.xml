@@ -67,4 +67,6 @@
     <string name="top">Top</string>
     <string name="right">Right</string>
     <string name="bottom">Bottom</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

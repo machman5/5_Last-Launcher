@@ -3,7 +3,6 @@ package com.launcher.dialogs.launcher
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -14,6 +13,7 @@ import com.BuildConfig
 import com.R
 import com.databinding.DlgGlobalSettingsBinding
 import com.launcher.LauncherActivity
+import com.launcher.dialogs.YesNoDialog
 import com.launcher.dialogs.launcher.alignment.AlignmentDialog
 import com.launcher.dialogs.launcher.font.FontDialog
 import com.launcher.dialogs.launcher.sort.SortDialog
@@ -238,12 +238,30 @@ class GlobalSettingsDialog(
     }
 
     private fun defaultSettings() {
-        if (!BuildConfig.DEBUG) {
-            dismiss()
-            //TODO dialog confirm
-            clearDB()
-            launcherActivity.recreate()
-        } //DO SOME ESTER EGG.. FOR DEBUG BUILD..
+        dismiss()
+        val dialogs = YesNoDialog(
+            mContext = context,
+            msg = "msg",
+            yes = "Yes",
+            no = "No",
+            onClickYes = {
+                clearDB()
+                launcherActivity.recreate()
+            },
+            onClickNo = {
+                //do nothing
+            }
+        )
+        dialogs.show()
+        val window = dialogs.window
+        if (window != null) {
+            window.setGravity(Gravity.TOP)
+            window.setBackgroundDrawableResource(android.R.color.transparent)
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
     }
 
     private fun backup() {

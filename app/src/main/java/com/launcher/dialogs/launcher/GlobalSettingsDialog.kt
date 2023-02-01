@@ -53,7 +53,6 @@ class GlobalSettingsDialog(
         binding.settingsFreezeSize.setOnClickListener(this)
         binding.settingsFonts.setOnClickListener(this)
         binding.settingsResetToDefaults.setOnClickListener(this)
-        binding.settingsResetToDefaults.setTextColor(Color.parseColor("#E53935"))
         binding.settingsBackup.setOnClickListener(this)
         binding.settingsRestore.setOnClickListener(this)
         binding.settingsAlignment.setOnClickListener(this)
@@ -240,6 +239,7 @@ class GlobalSettingsDialog(
 
     private fun defaultSettings() {
         if (!BuildConfig.DEBUG) {
+            dismiss()
             clearDB()
             launcherActivity.recreate()
         } //DO SOME ESTER EGG.. FOR DEBUG BUILD..

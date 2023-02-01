@@ -972,11 +972,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     @Override
     public void onSwipe(Gestures.Direction direction) {
         if (direction == Gestures.Direction.SWIPE_RIGHT) {
-            searching = true;
-            mSearchBox.setText("");
-            cvSearch.setVisibility(View.VISIBLE);
-            mSearchBox.requestFocus();
-            imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
+            if (!searching) {
+                searching = true;
+                mSearchBox.setText("");
+                cvSearch.setVisibility(View.VISIBLE);
+                mSearchBox.requestFocus();
+                imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
+            }
         } else if (direction == Gestures.Direction.SWIPE_LEFT) {
             if (searching) {
                 cvSearch.setVisibility(View.GONE);

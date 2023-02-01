@@ -20,6 +20,7 @@ package com.launcher
 //TODO customize toast
 //TODO double tap to lock
 //TODO policy
+//TODO lock app
 
 //done
 //package name

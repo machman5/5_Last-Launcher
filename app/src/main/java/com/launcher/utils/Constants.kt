@@ -11,6 +11,7 @@ object Constants {
     const val SORT_BY_SIZE = 2
     const val SORT_BY_COLOR = 3
     const val SORT_BY_OPENING_COUNTS = 4
+
     @Suppress("unused")
     const val SORT_BY_CUSTOM = 5
     const val SORT_BY_UPDATE_TIME = 6
@@ -25,8 +26,6 @@ object Constants {
     const val MAX_PADDING_TOP = 999
     const val MAX_PADDING_BOTTOM = 999
     const val MIN_PADDING = 0
-
-    //TODO: Dynamic height
     var dynamicHeight = 20
 
     @JvmField

@@ -9,7 +9,6 @@ package com.launcher
  */
 
 //TODO firebase
-//TODO show set default launcher
 //TODO scroll up to search
 //TODO setting launch store by pkg name
 //TODO vibrate when menu item action
@@ -26,5 +25,6 @@ package com.launcher
 //ic launcher
 //build release, keystore
 //rate, more app, share app
+//show set default launcher
 
 //android:background="?android:attr/actionBarItemBackground"

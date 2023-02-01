@@ -11,6 +11,14 @@ android {
         versionCode 20230127
         versionName "2023.01.27"
     }
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword KS_PW
+            keyAlias KS_ALIAS
+            keyPassword KS_PW
+        }
+    }
     buildTypes {
         debug {
             def workingBranch = getGitWorkingBranch()
@@ -37,6 +45,7 @@ android {
             shrinkResources true
             zipAlignEnabled true
             resValue "string", "app_name", "Quick Launcher"
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

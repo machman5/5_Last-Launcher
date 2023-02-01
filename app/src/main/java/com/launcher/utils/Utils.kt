@@ -11,14 +11,14 @@ import android.graphics.drawable.Drawable
 import java.util.*
 
 class Utils {
-    @Suppress("unused")
-    private fun isDefaultLauncher(ctx: Context): Boolean {
-        val intent = Intent(Intent.ACTION_MAIN)
-        intent.addCategory(Intent.CATEGORY_HOME)
-        val resolveInfo =
-            ctx.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
-        return resolveInfo != null && ctx.packageName == resolveInfo.activityInfo.packageName
-    }
+//    @Suppress("unused")
+//    private fun isDefaultLauncher(ctx: Context): Boolean {
+//        val intent = Intent(Intent.ACTION_MAIN)
+//        intent.addCategory(Intent.CATEGORY_HOME)
+//        val resolveInfo =
+//            ctx.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
+//        return resolveInfo != null && ctx.packageName == resolveInfo.activityInfo.packageName
+//    }
 
     companion object {
         //map

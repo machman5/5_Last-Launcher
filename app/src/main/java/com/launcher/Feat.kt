@@ -9,11 +9,9 @@ package com.launcher
  */
 
 //TODO firebase
-//TODO scroll up to search
 //TODO setting launch store by pkg name
 //TODO vibrate when menu item action
 //TODO efx scroll like ios
-//TODO anim layout changes
 //TODO customize toast
 //TODO double tap to lock
 //TODO policy
@@ -26,5 +24,6 @@ package com.launcher
 //build release, keystore
 //rate, more app, share app
 //show set default launcher
+//anim layout changes
 
 //android:background="?android:attr/actionBarItemBackground"

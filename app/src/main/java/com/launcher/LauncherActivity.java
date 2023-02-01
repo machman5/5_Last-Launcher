@@ -4,13 +4,13 @@ import static android.content.Intent.ACTION_PACKAGE_ADDED;
 import static android.content.Intent.ACTION_PACKAGE_CHANGED;
 import static android.content.Intent.ACTION_PACKAGE_REMOVED;
 import static android.content.Intent.ACTION_PACKAGE_REPLACED;
+import static com.launcher.ext.ActivityKt.chooseLauncher;
+import static com.launcher.ext.ActivityKt.isDefaultLauncher;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,9 +45,9 @@ import androidx.cardview.widget.CardView;
 import com.BuildConfig;
 import com.R;
 import com.launcher.dialogs.app.AppSettingsDialog;
-import com.launcher.dialogs.launcher.frozen.FrozenAppsDialogs;
-import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
+import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
+import com.launcher.dialogs.launcher.frozen.FrozenAppsDialogs;
 import com.launcher.dialogs.launcher.hidden.HiddenAppsDialogs;
 import com.launcher.dialogs.launcher.padding.PaddingDialog;
 import com.launcher.model.Apps;
@@ -476,6 +475,10 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
             mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), DbUtils.getPaddingBottom());
             sortApps(DbUtils.getSortsTypes());
+        }
+
+        if (!isDefaultLauncher(getBaseContext())) {
+            chooseLauncher(this, FakeLauncherActivity.class);
         }
     }
 

@@ -3,28 +3,37 @@ package com.launcher.ext
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ComponentName
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Point
 import android.net.Uri
 import android.os.Build
-import android.provider.AlarmClock
-import android.provider.CalendarContract
-import android.provider.Settings
-import android.provider.Telephony
-import android.util.ArrayMap
 import android.view.*
-import android.view.inputmethod.InputMethodManager
-import android.widget.PopupMenu
 import com.R
 
+fun Context.isDefaultLauncher(): Boolean {
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.addCategory(Intent.CATEGORY_HOME)
+    val resolveInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        this.packageManager.resolveActivity(
+            intent,
+            PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY.toLong())
+        )
+    } else {
+        @Suppress("DEPRECATION")
+        this.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)
+    }
+
+    val currentLauncherName = resolveInfo?.activityInfo?.packageName
+    if (currentLauncherName == this.packageName) {
+        return true
+    }
+    return false
+}
+
 //mo hop thoai de select launcher default
-@Suppress("unused")
 fun Activity.chooseLauncher(cls: Class<*>) {
     val componentName = ComponentName(this, cls)
     this.packageManager.setComponentEnabledSetting(

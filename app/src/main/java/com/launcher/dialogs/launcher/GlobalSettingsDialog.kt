@@ -6,8 +6,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.*
-import android.widget.PopupMenu
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import com.BuildConfig
 import com.R
 import com.databinding.DlgGlobalSettingsBinding
@@ -26,7 +28,6 @@ import com.launcher.utils.DbUtils.isSizeFrozen
 import com.launcher.utils.DbUtils.randomColor
 import com.launcher.utils.DbUtils.settingsFreezeSize
 import com.launcher.utils.DbUtils.sortsTypes
-import com.launcher.utils.DbUtils.theme
 import com.launcher.utils.Utils.Companion.generateColorFromString
 import java.text.SimpleDateFormat
 import java.util.*

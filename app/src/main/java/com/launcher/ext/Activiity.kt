@@ -98,7 +98,7 @@ fun Activity.shareApp(
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.app_name))
-        var sAux = "\nỨng dụng này rất bổ ích, thân mời bạn tải về cài đặt để trải nghiệm\n\n"
+        var sAux = "\n${this.getString(R.string.more_app_loitpp)}\n\n"
         sAux = sAux + "https://play.google.com/store/apps/details?id=" + this.packageName
         intent.putExtra(Intent.EXTRA_TEXT, sAux)
         this.startActivity(Intent.createChooser(intent, "Vui lòng chọn"))

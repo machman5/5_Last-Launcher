@@ -9,15 +9,16 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import com.BuildConfig
 import com.R
 import com.databinding.DlgGlobalSettingsBinding
+import com.launcher.FakeLauncherActivity
 import com.launcher.LauncherActivity
 import com.launcher.dialogs.YesNoDialog
 import com.launcher.dialogs.launcher.alignment.AlignmentDialog
 import com.launcher.dialogs.launcher.font.FontDialog
 import com.launcher.dialogs.launcher.sort.SortDialog
 import com.launcher.dialogs.launcher.theme.ThemeSelectorDialog
+import com.launcher.ext.chooseLauncher
 import com.launcher.ext.moreApp
 import com.launcher.ext.rateApp
 import com.launcher.ext.shareApp
@@ -52,6 +53,7 @@ class GlobalSettingsDialog(
         binding = DlgGlobalSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvDefaultLauncher.setOnClickListener(this)
         binding.settingsThemes.setOnClickListener(this)
         binding.settingsFreezeSize.setOnClickListener(this)
         binding.settingsFonts.setOnClickListener(this)
@@ -86,6 +88,9 @@ class GlobalSettingsDialog(
 
     override fun onClick(view: View) {
         when (view) {
+            binding.tvDefaultLauncher -> {
+                launcherActivity.chooseLauncher(FakeLauncherActivity::class.java)
+            }
             binding.settingsFonts -> {
                 fontSelection()
             }

@@ -129,7 +129,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         if (!searching) return;
 
         mHomeLayout.removeAllViews();
-        mHomeLayout.setPadding(0, 150, 0, 0);
+//        mHomeLayout.setPadding(0, 150, 0, 0);
         for (Apps apps : filteredApps) {
             mHomeLayout.addView(apps.getTextView(), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         }
@@ -835,41 +835,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 }//else do nothing theme default color will apply
             }
         }
-    }
-
-    //Clipboard manager
-    public Map<String, Integer> clipboardData() {
-        Map<String, Integer> result = null;
-        // Log.d(TAG, "clipboardData: ");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            try {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = clipboardManager.getPrimaryClip();
-                if (clipData.getItemCount() > 0) {
-                    ClipData.Item item = clipData.getItemAt(0);
-                    String tabSeparatedData = item.getText().toString();
-
-                    //validate tab Separated Data and get its data
-                    //unique id bae73ae068dacc6cb659d1fb231e7b11 i.e LastLauncher-ColorSniffer MD5-128
-
-                    String[] line = tabSeparatedData.split("\n");//get each line
-
-                    Map<String, Integer> colorsAndId = new ArrayMap<>(); // map to put all values in key and values format
-                    // iterate over every line
-                    for (String entry : line) {
-                        String[] activityIdAndColor = entry.split("\t");// split line into id and color
-                        int color = Color.parseColor(activityIdAndColor[1]);
-                        colorsAndId.put(activityIdAndColor[0], color);// put id and color to map
-
-                    }
-                    setAppsColorFromClipboard(colorsAndId);
-                    result = colorsAndId;// return map
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
     }
 
     private void setAppsColorFromClipboard(Map<String, Integer> colorsAndId) {

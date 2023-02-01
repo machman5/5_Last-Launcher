@@ -930,11 +930,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
     public void setPadding() {
         dialogs = new PaddingDialog(this, mHomeLayout);
-        // Window window = dialogs.getWindow();
-        // window.setGravity(Gravity.BOTTOM);
-        // window.setBackgroundDrawableResource(android.R.color.transparent);
-        // window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         dialogs.show();
+        Window window = dialogs.getWindow();
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        }
     }
 
     public void setColorsAndSize() {

@@ -194,27 +194,6 @@ class GlobalSettingsDialog(
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
-
-//        val context: Context = if (theme == R.style.Wallpaper) {
-//            ContextThemeWrapper(
-//                context,
-//                R.style.AppTheme
-//            )
-//        } else {
-//            ContextThemeWrapper(context, theme)
-//        }
-//
-//        val popupMenu = PopupMenu(context, view)
-//        popupMenu.menuInflater.inflate(R.menu.popup_alignment, popupMenu.menu)
-//        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-//            when (menuItem.itemId) {
-//                R.id.menuCenter -> launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
-//                R.id.menuEnd -> launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
-//                R.id.menuStart -> launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
-//            }
-//            true
-//        }
-//        popupMenu.show()
     }
 
     private fun randomColor() {

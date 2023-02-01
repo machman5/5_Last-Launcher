@@ -19,7 +19,7 @@
             android:foreground="?android:attr/actionBarItemBackground"
             android:padding="@dimen/margin_padding_medium"
             android:text="@string/setting"
-            android:textSize="20sp"
+            android:textSize="@dimen/txt_large"
             android:textStyle="bold"
             tools:ignore="UnusedAttribute" />
 
@@ -47,7 +47,7 @@
                     android:paddingTop="@dimen/margin_padding_small"
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute"
                     tools:text="Version 1.2.3" />
 
@@ -66,7 +66,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/choose_launcher"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -84,7 +84,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/fonts"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -102,7 +102,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/themes"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -120,7 +120,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/color_for_this_entry"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -138,7 +138,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/alignment"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -156,7 +156,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/padding"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -174,7 +174,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/customize_with_color_sniffer"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -192,7 +192,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/sort_apps_by"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -210,7 +210,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/sort_apps_reverse"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -228,7 +228,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/freeze_apps_size"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -246,7 +246,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/hidden_apps"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -264,7 +264,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/frozen_apps"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -282,7 +282,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/backup"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -300,7 +300,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/restore"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -318,7 +318,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/reset_to_default_settings"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -336,7 +336,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/restart_launcher"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -354,7 +354,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/rate_app"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -372,7 +372,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/more_apps"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
                 <View
@@ -390,7 +390,7 @@
                     android:paddingEnd="@dimen/margin_padding_medium"
                     android:paddingBottom="@dimen/margin_padding_small"
                     android:text="@string/share"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/txt_medium"
                     tools:ignore="UnusedAttribute" />
 
             </LinearLayout>

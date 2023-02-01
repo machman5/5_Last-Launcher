@@ -91,7 +91,7 @@ class GlobalSettingsDialog(
                 randomColor()
             }
             binding.settingsSortAppBy -> {
-                sortApps(view)
+                sortApps()
             }
             binding.settingsSortAppReverse -> {
                 sortAppsReverseOrder()
@@ -118,7 +118,7 @@ class GlobalSettingsDialog(
                 defaultSettings()
             }
             binding.settingsAlignment -> {
-                setFlowLayoutAlignment(view)
+                setFlowLayoutAlignment()
             }
             binding.settingsPadding -> {
                 launcherActivity.setPadding()
@@ -134,7 +134,7 @@ class GlobalSettingsDialog(
      * This method is used to control the order of apps.
      * The code block we added is to give the newly added buttons the ability to sort them by name.
      */
-    private fun sortApps(view: View) {
+    private fun sortApps() {
         dismiss()
         val dialogs = SortDialog(
             mContext = context,
@@ -150,30 +150,6 @@ class GlobalSettingsDialog(
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
         }
-
-//        val context: Context = if (theme == R.style.Wallpaper) {
-//            ContextThemeWrapper(
-//                context,
-//                R.style.AppTheme
-//            )
-//        } else {
-//            ContextThemeWrapper(context, theme)
-//        }
-//        val popupMenu = PopupMenu(context, view)
-//        popupMenu.menuInflater.inflate(R.menu.popup_sort_apps, popupMenu.menu)
-//        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-//            cancel()
-//            when (menuItem.itemId) {
-//                R.id.menuSortByName -> launcherActivity.sortApps(Constants.SORT_BY_NAME)
-//                R.id.menuSortByOpeningCounts -> launcherActivity.sortApps(Constants.SORT_BY_OPENING_COUNTS)
-//                R.id.menuSortByColor -> launcherActivity.sortApps(Constants.SORT_BY_COLOR)
-//                R.id.menuSortBySize -> launcherActivity.sortApps(Constants.SORT_BY_SIZE)
-//                R.id.menuSortByUpdateTime -> launcherActivity.sortApps(Constants.SORT_BY_UPDATE_TIME)
-//                R.id.menuSortByRecentUse -> launcherActivity.sortApps(Constants.SORT_BY_RECENT_OPEN)
-//            }
-//            true
-//        }
-//        popupMenu.show()
     }
 
     private fun sortAppsReverseOrder() {
@@ -187,7 +163,7 @@ class GlobalSettingsDialog(
         cancel()
     }
 
-    private fun setFlowLayoutAlignment(view: View) {
+    private fun setFlowLayoutAlignment() {
         dismiss()
         val dialogs = AlignmentDialog(
             mContext = context,

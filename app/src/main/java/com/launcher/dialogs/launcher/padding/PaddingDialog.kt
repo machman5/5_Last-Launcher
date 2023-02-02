@@ -11,6 +11,7 @@ import android.view.Window
 import android.widget.TextView
 import com.R
 import com.databinding.DlgPaddingBinding
+import com.launcher.ext.click
 import com.launcher.utils.Constants.MAX_PADDING_BOTTOM
 import com.launcher.utils.Constants.MAX_PADDING_LEFT
 import com.launcher.utils.Constants.MAX_PADDING_RIGHT
@@ -28,7 +29,7 @@ class PaddingDialog(
 ) : Dialog(
     context,
     R.style.DialogSlideUpAnim
-), OnLongClickListener, View.OnClickListener {
+), OnLongClickListener {
 
     companion object {
         private const val DELAY: Long = 10
@@ -51,28 +52,88 @@ class PaddingDialog(
         setContentView(binding.root)
 
         binding.btnLeftMinus.setOnLongClickListener(this)
-        binding.btnLeftMinus.setOnClickListener(this)
+        binding.btnLeftMinus.click {
+            //decrease the value as minus button is pressed
+            leftInt--
+            // check the lower limit i.e. 0
+            if (leftInt < MIN_PADDING) {
+                leftInt = MIN_PADDING
+            }
+            //reflect it on screen
+            binding.tvLeftPadding.text = leftInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         binding.btnRightMinus.setOnLongClickListener(this)
-        binding.btnRightMinus.setOnClickListener(this)
+        binding.btnRightMinus.click {
+            rightInt--
+            if (rightInt < MIN_PADDING) {
+                rightInt = MIN_PADDING
+            }
+            binding.tvRightPadding.text = rightInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         binding.btnTopMinus.setOnLongClickListener(this)
-        binding.btnTopMinus.setOnClickListener(this)
+        binding.btnTopMinus.click {
+            topInt--
+            if (topInt < MIN_PADDING) {
+                topInt = MIN_PADDING
+            }
+            binding.tvTopPadding.text = topInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         binding.btnBottomMinus.setOnLongClickListener(this)
-        binding.btnBottomMinus.setOnClickListener(this)
+        binding.btnBottomMinus.click {
+            bottomInt--
+            if (bottomInt < MIN_PADDING) {
+                bottomInt = MIN_PADDING
+            }
+            binding.tvBottomPadding.text = bottomInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         binding.btnLeftPlus.setOnLongClickListener(this)
-        binding.btnLeftPlus.setOnClickListener(this)
+        binding.btnLeftPlus.click {
+            leftInt++
+            // check the upper limit
+            if (leftInt > MAX_PADDING_LEFT) {
+                leftInt = MAX_PADDING_LEFT
+            }
+            binding.tvLeftPadding.text = leftInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         binding.btnRightPlus.setOnLongClickListener(this)
-        binding.btnRightPlus.setOnClickListener(this)
+        binding.btnRightPlus.click {
+            rightInt++
+            if (rightInt > MAX_PADDING_RIGHT) {
+                rightInt = MAX_PADDING_RIGHT
+            }
+            binding.tvRightPadding.text = rightInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         binding.btnTopPlus.setOnLongClickListener(this)
-        binding.btnTopPlus.setOnClickListener(this)
+        binding.btnTopPlus.click {
+            topInt++
+            if (topInt > MAX_PADDING_TOP) {
+                topInt = MAX_PADDING_TOP
+            }
+            binding.tvTopPadding.text = topInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         binding.btnBottomPlus.setOnLongClickListener(this)
-        binding.btnBottomPlus.setOnClickListener(this)
+        binding.btnBottomPlus.click {
+            bottomInt++
+            if (bottomInt > MAX_PADDING_BOTTOM) {
+                bottomInt = MAX_PADDING_BOTTOM
+            }
+            binding.tvBottomPadding.text = bottomInt.toString()
+            homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
+        }
 
         leftInt = paddingLeft
         rightInt = paddingRight
@@ -147,73 +208,6 @@ class PaddingDialog(
             )
         }
         return true
-    }
-
-    override fun onClick(view: View) {
-        when (view) {
-            binding.btnLeftMinus -> {
-                //decrease the value as minus button is pressed
-                leftInt--
-                // check the lower limit i.e. 0
-                if (leftInt < MIN_PADDING) {
-                    leftInt = MIN_PADDING
-                }
-                //reflect it on screen
-                binding.tvLeftPadding.text = leftInt.toString()
-            }
-            binding.btnLeftPlus -> {
-                leftInt++
-                // check the upper limit
-                if (leftInt > MAX_PADDING_LEFT) {
-                    leftInt = MAX_PADDING_LEFT
-                }
-                binding.tvLeftPadding.text = leftInt.toString()
-            }
-            binding.btnRightMinus -> {
-                rightInt--
-                if (rightInt < MIN_PADDING) {
-                    rightInt = MIN_PADDING
-                }
-                binding.tvRightPadding.text = rightInt.toString()
-            }
-            binding.btnRightPlus -> {
-                rightInt++
-                if (rightInt > MAX_PADDING_RIGHT) {
-                    rightInt = MAX_PADDING_RIGHT
-                }
-                binding.tvRightPadding.text = rightInt.toString()
-            }
-            binding.btnTopMinus -> {
-                topInt--
-                if (topInt < MIN_PADDING) {
-                    topInt = MIN_PADDING
-                }
-                binding.tvTopPadding.text = topInt.toString()
-            }
-            binding.btnTopPlus -> {
-                topInt++
-                if (topInt > MAX_PADDING_TOP) {
-                    topInt = MAX_PADDING_TOP
-                }
-                binding.tvTopPadding.text = topInt.toString()
-            }
-            binding.btnBottomMinus -> {
-                bottomInt--
-                if (bottomInt < MIN_PADDING) {
-                    bottomInt = MIN_PADDING
-                }
-                binding.tvBottomPadding.text = bottomInt.toString()
-            }
-            binding.btnBottomPlus -> {
-                bottomInt++
-                if (bottomInt > MAX_PADDING_BOTTOM) {
-                    bottomInt = MAX_PADDING_BOTTOM
-                }
-                binding.tvBottomPadding.text = bottomInt.toString()
-            }
-        }
-        // apply all padding to home layout
-        homeLayout.setPadding(leftInt, topInt, rightInt, bottomInt)
     }
 
     /**

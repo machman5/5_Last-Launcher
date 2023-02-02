@@ -10,6 +10,7 @@ import com.R
 import com.databinding.DlgAppFontBinding
 import com.databinding.DlgAppRemoveBinding
 import com.launcher.LauncherActivity
+import com.launcher.ext.click
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 
@@ -22,7 +23,7 @@ class RemoveDialog(
 ) : Dialog(
     mContext,
     R.style.DialogSlideUpAnim
-), View.OnClickListener {
+) {
     private lateinit var binding: DlgAppRemoveBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,20 +43,14 @@ class RemoveDialog(
             binding.tvMsg.visibility = View.VISIBLE
         }
 
-        binding.menuRemoveThis.setOnClickListener(this)
-        binding.menuRunThisApp.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v) {
-            binding.menuRemoveThis -> {
-                onClickRemove.invoke(Unit)
-            }
-            binding.menuRunThisApp -> {
-                onClickRun.invoke(Unit)
-            }
+        binding.menuRemoveThis.click {
+            onClickRemove.invoke(Unit)
+            dismiss()
         }
-        dismiss()
+        binding.menuRunThisApp.click {
+            onClickRun.invoke(Unit)
+            dismiss()
+        }
     }
 
 }

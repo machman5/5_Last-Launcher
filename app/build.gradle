@@ -83,6 +83,7 @@ dependencies {
     api 'org.jetbrains.kotlin:kotlin-stdlib:1.8.0'
 //    implementation 'com.github.rtugeek:colorseekbar:2.0.3'
     api 'androidx.cardview:cardview:1.0.0'
+    api 'com.github.valkriaine:Bouncy:2.3'
 }
 
 static String getGitWorkingBranch() {

@@ -10,7 +10,6 @@ package com.launcher
 
 //TODO firebase
 //TODO vibrate when menu item action
-//TODO efx scroll like ios
 //TODO customize toast
 //TODO double tap to lock
 //TODO policy
@@ -26,3 +25,4 @@ package com.launcher
 //anim layout changes
 //ripple
 //setting launch store by pkg name
+//efx scroll like ios bouncy

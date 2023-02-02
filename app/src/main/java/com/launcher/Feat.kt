@@ -9,7 +9,6 @@ package com.launcher
  */
 
 //TODO firebase
-//TODO
 //TODO vibrate when menu item action
 //TODO efx scroll like ios
 //TODO customize toast

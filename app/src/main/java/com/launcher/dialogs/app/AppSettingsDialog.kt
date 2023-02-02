@@ -35,7 +35,7 @@ class AppSettingsDialog(
     private val launcherActivity: LauncherActivity,
     private val activityName: String,
     val view: AppTextView,
-) : Dialog(mContext), View.OnClickListener {
+) : Dialog(mContext, R.style.DialogSlideUpAnim), View.OnClickListener {
     private lateinit var binding: DlgAppSettingsBinding
 
     @SuppressLint("SetTextI18n")

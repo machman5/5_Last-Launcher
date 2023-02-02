@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:autofillHints="App Name"
         android:background="@color/transparent"
-        android:gravity="center"
+        android:gravity="start"
         android:hint="@string/space"
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
@@ -22,10 +22,6 @@
         android:paddingRight="@dimen/margin_padding_medium"
         android:textColor="@android:color/black"
         android:textCursorDrawable="@drawable/cursor"
-        android:textIsSelectable="false"
-        android:textSelectHandle="@drawable/bkg_edit_text_select_handle"
-        android:textSelectHandleLeft="@drawable/bkg_edit_text_select_handle"
-        android:textSelectHandleRight="@drawable/bkg_edit_text_select_handle"
-        android:textSize="20sp" />
+        android:textSize="@dimen/txt_medium" />
 
 </androidx.cardview.widget.CardView>

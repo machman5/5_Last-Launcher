@@ -2,7 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fl"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,16 +25,23 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    tools:text="@string/app_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/margin_padding_medium"
                     android:textSize="@dimen/txt_large"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="@string/app_name" />
 
                 <TextView
-                    android:id="@+id/tvMsg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_padding_medium"
+                    android:text="@string/user_agreement_and_privacy_policy"
+                    android:textSize="@dimen/txt_medium" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -49,13 +55,30 @@
                     android:background="#DEDEDE" />
 
                 <TextView
+                    android:id="@+id/tvNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
-                    android:text="@string/okay"
-                    android:textSize="@dimen/txt_medium" />
+                    android:text="@string/disagree"
+                    android:textSize="@dimen/txt_large" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
+
+                <TextView
+                    android:id="@+id/tvYes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/agree_and_continue"
+                    android:textSize="@dimen/txt_large"
+                    android:textStyle="bold" />
             </LinearLayout>
         </com.factor.bouncy.BouncyNestedScrollView>
     </androidx.cardview.widget.CardView>

@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.view.Window
 import com.R
 import com.databinding.DlgPolicyBinding
-import com.databinding.DlgYesNoBinding
 import com.launcher.ext.click
 
 class PolicyDialog(
@@ -31,7 +29,11 @@ class PolicyDialog(
 
         binding.tvTitle.text = "Welcome to ${context.getString(R.string.app_name)}"
 
-        binding.fl.click {
+        binding.tvNo.click {
+            onClick?.onNo()
+            dismiss()
+        }
+        binding.tvYes.click {
             onClick?.onYes()
             dismiss()
         }
@@ -39,5 +41,6 @@ class PolicyDialog(
 
     interface OnClick {
         fun onYes()
+        fun onNo()
     }
 }

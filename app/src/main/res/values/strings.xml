@@ -86,6 +86,10 @@
     <string name="warning">Warning</string>
     <string name="rate_this_app">Rate this app</string>
     <string name="term_amp_policy"><![CDATA[Term & Policy]]></string>
-    <string name="read_policy">Please read Quick launcher privacy policy</string>
+    <string name="read_policy">Thank you for your trust and choosing our products and services.\n
+        By selecting "Agree and Continue", you certify that you have read and agree to our User Agreement and Privacy and accept that we collect, use and process your personal information in accordance with the terms of the Privacy policy</string>
     <string name="okay">Okay</string>
+    <string name="user_agreement_and_privacy_policy">User Agreement and Privacy Policy</string>
+    <string name="agree_and_continue">Agree and Continue</string>
+    <string name="disagree">Disagree</string>
 </resources>

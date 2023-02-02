@@ -77,6 +77,7 @@ class AppSettingsDialog(
             }
             binding.menuRename -> {
                 renameApp(activityName, view.text.toString())
+                dismiss()
             }
             binding.menuFreezeSize -> {
                 freezeAppSize(activityName)

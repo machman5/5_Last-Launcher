@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import com.databinding.DlgFrozenAppsBinding
 import com.databinding.DlgHiddenAppsBinding
 import com.launcher.adapters.UniversalAdapter
 import com.launcher.dialogs.launcher.hidden.RemoveDialog
@@ -16,7 +17,7 @@ class FrozenAppsDialogs(
 ) : Dialog(
     mContext
 ) {
-    private lateinit var binding: DlgHiddenAppsBinding
+    private lateinit var binding: DlgFrozenAppsBinding
     private var frozenApps = ArrayList<Apps>()
     private var adapter: UniversalAdapter? = null
 
@@ -25,7 +26,7 @@ class FrozenAppsDialogs(
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
 
-        binding = DlgHiddenAppsBinding.inflate(layoutInflater)
+        binding = DlgFrozenAppsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         adapter = UniversalAdapter(context, frozenApps)

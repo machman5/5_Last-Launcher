@@ -2,11 +2,11 @@ package com.launcher.dialogs.launcher.theme
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import android.view.Window
 import com.R
 import com.databinding.DlgThemeSelectorBinding
 import com.launcher.LauncherActivity
+import com.launcher.ext.click
 import com.launcher.utils.DbUtils.externalSourceColor
 import com.launcher.utils.DbUtils.theme
 
@@ -15,7 +15,7 @@ class ThemeSelectorDialog internal constructor(
 ) : Dialog(
     launcherActivity,
     R.style.DialogSlideUpAnim,
-), View.OnClickListener {
+) {
 
     private lateinit var binding: DlgThemeSelectorBinding
 
@@ -27,22 +27,31 @@ class ThemeSelectorDialog internal constructor(
         binding = DlgThemeSelectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        for (i in 0 until binding.themeLinearLayout.childCount) {
-            binding.themeLinearLayout.getChildAt(i).setOnClickListener(this)
+        binding.t1.click {
+            setTheme(R.style.AppTheme)
         }
-    }
+        binding.t2.click {
+            setTheme(R.style.Wallpaper)
+        }
+        binding.t3.click {
+            setTheme(R.style.Black)
+        }
+        binding.t4.click {
+            setTheme(R.style.White)
+        }
+        binding.t5.click {
+            setTheme(R.style.WhiteOnGrey)
+        }
+        binding.t6.click {
+            setTheme(R.style.BlackOnGrey)
+        }
+        binding.t35.click {
+            setTheme(R.style.Hacker_green)
+        }
+        binding.t36.click {
+            setTheme(R.style.Hacker_red)
+        }
 
-    override fun onClick(view: View) {
-        when (view) {
-            binding.t1 -> setTheme(R.style.AppTheme)
-            binding.t2 -> setTheme(R.style.Wallpaper)
-            binding.t3 -> setTheme(R.style.Black)
-            binding.t4 -> setTheme(R.style.White)
-            binding.t5 -> setTheme(R.style.WhiteOnGrey)
-            binding.t6 -> setTheme(R.style.BlackOnGrey)
-            binding.t35 -> setTheme(R.style.Hacker_green)
-            binding.t36 -> setTheme(R.style.Hacker_red)
-        }
     }
 
     private fun setTheme(appTheme: Int) {

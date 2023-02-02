@@ -55,6 +55,23 @@
                     android:background="#DEDEDE" />
 
                 <TextView
+                    android:id="@+id/tvPolicy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/margin_padding_medium"
+                    android:paddingTop="@dimen/margin_padding_small"
+                    android:paddingEnd="@dimen/margin_padding_medium"
+                    android:paddingBottom="@dimen/margin_padding_small"
+                    android:text="@string/term_amp_policy"
+                    android:textSize="@dimen/txt_medium" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
+
+                <TextView
                     android:id="@+id/tvDefaultLauncher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

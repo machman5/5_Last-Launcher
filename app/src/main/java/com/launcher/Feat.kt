@@ -12,7 +12,6 @@ package com.launcher
 //TODO vibrate when menu item action
 //TODO customize toast
 //TODO double tap to lock
-//TODO policy
 //TODO lock app
 //TODO intro
 
@@ -26,3 +25,4 @@ package com.launcher
 //ripple
 //setting launch store by pkg name
 //efx scroll like ios bouncy
+//policy

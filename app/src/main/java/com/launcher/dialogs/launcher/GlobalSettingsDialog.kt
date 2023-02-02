@@ -57,6 +57,9 @@ class GlobalSettingsDialog(
 
         binding.tvVersion.text = "Version ${BuildConfig.VERSION_NAME}"
 
+        binding.tvPolicy.click{
+            launcherActivity.openBrowserPolicy()
+        }
         binding.tvDefaultLauncher.click {
             launcherActivity.chooseLauncher(FakeLauncherActivity::class.java)
         }

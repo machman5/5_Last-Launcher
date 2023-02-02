@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.Window
 import com.R
 import com.databinding.DlgColorSizeBinding
+import com.launcher.ext.click
 import com.launcher.model.Apps
 import com.launcher.utils.Constants.DEFAULT_MAX_TEXT_SIZE
 import com.launcher.utils.Constants.DEFAULT_MIN_TEXT_SIZE
@@ -82,7 +83,7 @@ class GlobalColorSizeDialog(
 
         appSize = globalSizeAdditionExtra
         binding.tvSize.text = appSize.toString()
-        binding.btnPlus.setOnClickListener {
+        binding.btnPlus.click {
             appSize++
             if (appSize >= DEFAULT_MAX_TEXT_SIZE) {
                 appSize = DEFAULT_MAX_TEXT_SIZE
@@ -112,7 +113,7 @@ class GlobalColorSizeDialog(
             }
             binding.tvSize.text = appSize.toString()
         }
-        binding.btnMinus.setOnClickListener {
+        binding.btnMinus.click {
             --appSize
             if (appSize < DEFAULT_MIN_TEXT_SIZE) {
                 appSize = DEFAULT_MIN_TEXT_SIZE

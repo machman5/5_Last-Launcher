@@ -19,16 +19,23 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/margin_padding_medium"
+                android:text="@string/warning"
+                android:textSize="@dimen/txt_large"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/tvMsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_medium"
-                android:paddingBottom="@dimen/margin_padding_medium"
-                android:text="@string/app_name"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                android:padding="@dimen/margin_padding_medium"
+                android:textSize="@dimen/txt_medium"
+                tools:text="Message" />
 
             <View
                 android:layout_width="match_parent"
@@ -41,10 +48,10 @@
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
+                android:paddingVertical="@dimen/margin_padding_small"
                 android:text="@string/yes"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
 
             <View
@@ -58,10 +65,10 @@
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
+                android:paddingVertical="@dimen/margin_padding_small"
                 android:text="@string/no"
-                android:textSize="20sp"
+                android:textSize="@dimen/txt_medium"
                 tools:ignore="UnusedAttribute" />
         </LinearLayout>
     </ScrollView>

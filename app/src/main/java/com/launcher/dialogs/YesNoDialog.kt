@@ -9,6 +9,7 @@ import com.databinding.DlgYesNoBinding
 
 class YesNoDialog(
     mContext: Context,
+    private val title: String,
     private val msg: String,
     private val yes: String,
     private val no: String,
@@ -25,6 +26,7 @@ class YesNoDialog(
         binding = DlgYesNoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvTitle.text = title
         binding.tvMsg.text = msg
         binding.tvYes.text = yes
         binding.tvNo.text = no

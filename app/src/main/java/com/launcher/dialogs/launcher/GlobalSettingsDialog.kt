@@ -264,6 +264,7 @@ class GlobalSettingsDialog(
         dismiss()
         val dialogs = YesNoDialog(
             mContext = context,
+            title = context.getString(R.string.warning),
             msg = context.getString(R.string.reset_to_default_settings),
             yes = context.getString(R.string.yes),
             no = context.getString(R.string.no),

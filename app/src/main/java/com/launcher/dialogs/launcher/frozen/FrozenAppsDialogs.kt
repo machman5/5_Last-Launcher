@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import com.R
 import com.databinding.DlgFrozenAppsBinding
 import com.databinding.DlgHiddenAppsBinding
 import com.launcher.adapters.UniversalAdapter
@@ -46,27 +47,31 @@ class FrozenAppsDialogs(
     private fun confirmationAndRemove(
         apps: Apps
     ) {
-        val dialogs = RemoveDialog(mContext = context, onClickRemove = {
-            apps.setFreeze(false)
-            updateFrozenList()
-            adapter?.notifyDataSetChanged()
-            if (frozenApps.isEmpty()) {
-                dismiss()
-            }
-        }, onClickRun = {
-            if (!apps.isShortcut) {
-                dismiss()
-                apps.activityName?.let { name ->
-                    val strings = name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
-                        .toTypedArray()
-                    val intent = Intent(Intent.ACTION_MAIN, null)
-                    intent.setClassName(strings[0], strings[1])
-                    intent.component = ComponentName(strings[0], strings[1])
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    context.startActivity(intent)
+        val dialogs = RemoveDialog(
+            mContext = context,
+            title = context.getString(R.string.warning),
+            msg = apps.getAppName(),
+            onClickRemove = {
+                apps.setFreeze(false)
+                updateFrozenList()
+                adapter?.notifyDataSetChanged()
+                if (frozenApps.isEmpty()) {
+                    dismiss()
                 }
-            }
-        })
+            }, onClickRun = {
+                if (!apps.isShortcut) {
+                    dismiss()
+                    apps.activityName?.let { name ->
+                        val strings = name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
+                            .toTypedArray()
+                        val intent = Intent(Intent.ACTION_MAIN, null)
+                        intent.setClassName(strings[0], strings[1])
+                        intent.component = ComponentName(strings[0], strings[1])
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(intent)
+                    }
+                }
+            })
         dialogs.show()
         val window = dialogs.window
         if (window != null) {

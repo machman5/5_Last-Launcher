@@ -83,4 +83,5 @@
 \nhttps://play.google.com/store/apps/dev?id=9198084038765766736</string>
     <string name="choose_launcher">Choose launcher</string>
     <string name="setting">Setting</string>
+    <string name="warning">Warning</string>
 </resources>

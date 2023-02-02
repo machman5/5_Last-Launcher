@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import com.R
 import com.databinding.DlgHiddenAppsBinding
 import com.launcher.adapters.UniversalAdapter
 import com.launcher.model.Apps
@@ -49,6 +50,8 @@ class HiddenAppsDialogs(
     ) {
         val dialogs = RemoveDialog(
             mContext = context,
+            title = context.getString(R.string.warning),
+            msg = apps.getAppName(),
             onClickRemove = {
                 apps.setAppHidden(false)
                 updateHiddenList()

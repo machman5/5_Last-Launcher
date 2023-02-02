@@ -14,6 +14,8 @@ import com.launcher.utils.DbUtils
 
 class RemoveDialog(
     mContext: Context,
+    private val title: String? = null,
+    private val msg: String? = null,
     private val onClickRemove: ((Unit) -> Unit),
     private val onClickRun: ((Unit) -> Unit),
 ) : Dialog(mContext), View.OnClickListener {
@@ -26,6 +28,15 @@ class RemoveDialog(
 
         binding = DlgAppRemoveBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        title?.let {
+            binding.tvTitle.text = it
+            binding.tvTitle.visibility = View.VISIBLE
+        }
+        msg?.let {
+            binding.tvMsg.text = it
+            binding.tvMsg.visibility = View.VISIBLE
+        }
 
         binding.menuRemoveThis.setOnClickListener(this)
         binding.menuRunThisApp.setOnClickListener(this)

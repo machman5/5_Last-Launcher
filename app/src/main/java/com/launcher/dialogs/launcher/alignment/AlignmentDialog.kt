@@ -2,17 +2,13 @@ package com.launcher.dialogs.launcher.alignment
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
-import android.view.View
 import android.view.Window
 import com.R
-import com.databinding.DlgAppFontBinding
 import com.databinding.DlgGlobalAlignmentBinding
 import com.launcher.LauncherActivity
-import com.launcher.utils.Constants
-import com.launcher.utils.DbUtils
+import com.launcher.ext.click
 
 class AlignmentDialog(
     mContext: Context,
@@ -20,7 +16,7 @@ class AlignmentDialog(
 ) : Dialog(
     mContext,
     R.style.DialogSlideUpAnim
-), View.OnClickListener {
+) {
     private lateinit var binding: DlgGlobalAlignmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,23 +27,17 @@ class AlignmentDialog(
         binding = DlgGlobalAlignmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.menuCenter.setOnClickListener(this)
-        binding.menuEnd.setOnClickListener(this)
-        binding.menuStart.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v) {
-            binding.menuCenter -> {
-                launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
-            }
-            binding.menuEnd -> {
-                launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
-            }
-            binding.menuStart -> {
-                launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
-            }
+        binding.menuCenter.click {
+            launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
+            dismiss()
         }
-        dismiss()
+        binding.menuEnd.click {
+            launcherActivity.setFlowLayoutAlignment(Gravity.END or Gravity.CENTER_VERTICAL)
+            dismiss()
+        }
+        binding.menuStart.click {
+            launcherActivity.setFlowLayoutAlignment(Gravity.START or Gravity.CENTER_VERTICAL)
+            dismiss()
+        }
     }
 }

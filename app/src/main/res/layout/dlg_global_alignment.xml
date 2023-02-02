@@ -21,6 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:padding="@dimen/margin_padding_medium"
                 android:text="@string/alignment"
                 android:textSize="@dimen/txt_large"
@@ -35,6 +36,7 @@
                 android:id="@+id/menuStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
@@ -50,11 +52,12 @@
                 android:id="@+id/menuCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/center"
-                android:textSize="@dimen/txt_medium"/>
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -65,11 +68,12 @@
                 android:id="@+id/menuEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/end"
-                android:textSize="@dimen/txt_medium"/>
+                android:textSize="@dimen/txt_medium" />
         </LinearLayout>
     </ScrollView>
 

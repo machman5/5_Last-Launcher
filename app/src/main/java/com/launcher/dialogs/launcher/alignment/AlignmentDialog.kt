@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.Window
+import com.R
 import com.databinding.DlgAppFontBinding
 import com.databinding.DlgGlobalAlignmentBinding
 import com.launcher.LauncherActivity
@@ -16,7 +17,10 @@ import com.launcher.utils.DbUtils
 class AlignmentDialog(
     mContext: Context,
     private val launcherActivity: LauncherActivity
-) : Dialog(mContext), View.OnClickListener {
+) : Dialog(
+    mContext,
+    R.style.DialogSlideUpAnim
+), View.OnClickListener {
     private lateinit var binding: DlgGlobalAlignmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

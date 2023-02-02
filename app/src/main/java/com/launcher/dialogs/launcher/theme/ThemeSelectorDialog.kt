@@ -12,7 +12,10 @@ import com.launcher.utils.DbUtils.theme
 
 class ThemeSelectorDialog internal constructor(
     private val launcherActivity: LauncherActivity
-) : Dialog(launcherActivity), View.OnClickListener {
+) : Dialog(
+    launcherActivity,
+    R.style.DialogSlideUpAnim,
+), View.OnClickListener {
 
     private lateinit var binding: DlgThemeSelectorBinding
 

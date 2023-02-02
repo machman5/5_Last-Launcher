@@ -1,5 +1,6 @@
 package com.launcher.dialogs.launcher
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -43,9 +44,13 @@ import java.util.*
 class GlobalSettingsDialog(
     mContext: Context,
     private val launcherActivity: LauncherActivity
-) : Dialog(mContext), View.OnClickListener {
+) : Dialog(
+    mContext,
+    R.style.DialogSlideUpAnim,
+), View.OnClickListener {
     private lateinit var binding: DlgGlobalSettingsBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // no old title: Last Launcher use Activity class not AppCompatActivity so it show very old title

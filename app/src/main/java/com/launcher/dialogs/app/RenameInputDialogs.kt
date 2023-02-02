@@ -7,6 +7,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
+import com.R
 import com.databinding.DlgRenameInputBinding
 import com.launcher.LauncherActivity
 import com.launcher.ext.showKeyboard
@@ -18,7 +19,8 @@ class RenameInputDialogs(
     private val oldAppName: String,
     private val launcherActivity: LauncherActivity
 ) : Dialog(
-    context
+    context,
+    R.style.DialogSlideUpAnim
 ) {
 
     private lateinit var binding: DlgRenameInputBinding

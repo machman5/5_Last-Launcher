@@ -9,6 +9,7 @@ import android.view.View
 import android.view.View.OnLongClickListener
 import android.view.Window
 import android.widget.TextView
+import com.R
 import com.databinding.DlgPaddingBinding
 import com.launcher.utils.Constants.MAX_PADDING_BOTTOM
 import com.launcher.utils.Constants.MAX_PADDING_LEFT
@@ -25,7 +26,8 @@ class PaddingDialog(
     context: Context,
     private val homeLayout: FlowLayout
 ) : Dialog(
-    context
+    context,
+    R.style.DialogSlideUpAnim
 ), OnLongClickListener, View.OnClickListener {
 
     companion object {

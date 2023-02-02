@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Window
+import com.R
 import com.databinding.DlgColorSizeBinding
 import com.launcher.model.Apps
 import com.launcher.utils.Constants.DEFAULT_MAX_TEXT_SIZE
@@ -23,7 +24,8 @@ import com.launcher.views.colorSeekBar.ColorSeekBar.OnColorChangeListener
 class GlobalColorSizeDialog(
     context: Context, private val mAppsList: List<Apps>
 ) : Dialog(
-    context
+    context,
+    R.style.DialogSlideUpAnim,
 ) {
 
     companion object {
@@ -93,8 +95,9 @@ class GlobalColorSizeDialog(
                             // check if text size is null then set the size to default size
                             // size is null(-1) when user installed this app
                             if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                                textSize = if (oftenApps.contains(name.split("/".toRegex())
-                                        .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+                                textSize = if (oftenApps.contains(
+                                        name.split("/".toRegex())
+                                            .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
                                     )
                                 ) {
                                     DEFAULT_TEXT_SIZE_OFTEN_APPS
@@ -121,8 +124,9 @@ class GlobalColorSizeDialog(
                             // check if text size is null then set the size to default size
                             // size is null(-1) when user installed this app
                             if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                                textSize = if (oftenApps.contains(name.split("/".toRegex())
-                                        .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+                                textSize = if (oftenApps.contains(
+                                        name.split("/".toRegex())
+                                            .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
                                     )
                                 ) {
                                     DEFAULT_TEXT_SIZE_OFTEN_APPS
@@ -160,8 +164,9 @@ class GlobalColorSizeDialog(
                                 // check if text size is null then set the size to default size
                                 // size is null(-1) when user installed this app
                                 if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                                    textSize = if (oftenApps.contains(name.split("/".toRegex())
-                                            .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+                                    textSize = if (oftenApps.contains(
+                                            name.split("/".toRegex())
+                                                .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
                                         )
                                     ) {
                                         DEFAULT_TEXT_SIZE_OFTEN_APPS
@@ -207,8 +212,9 @@ class GlobalColorSizeDialog(
                                 // check if text size is null then set the size to default size
                                 // size is null(-1) when user installed this app
                                 if (textSize == DbUtils.NULL_TEXT_SIZE) {
-                                    textSize = if (oftenApps.contains(name.split("/".toRegex())
-                                            .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+                                    textSize = if (oftenApps.contains(
+                                            name.split("/".toRegex())
+                                                .dropLastWhile { it.isEmpty() }.toTypedArray()[0]
                                         )
                                     ) {
                                         DEFAULT_TEXT_SIZE_OFTEN_APPS

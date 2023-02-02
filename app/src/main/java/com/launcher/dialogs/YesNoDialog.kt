@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.Window
+import com.R
 import com.databinding.DlgYesNoBinding
 
 class YesNoDialog(
@@ -15,7 +16,10 @@ class YesNoDialog(
     private val no: String,
     private val onClickYes: ((Unit) -> Unit),
     private val onClickNo: ((Unit) -> Unit),
-) : Dialog(mContext), View.OnClickListener {
+) : Dialog(
+    mContext,
+    R.style.DialogSlideUpAnim,
+), View.OnClickListener {
     private lateinit var binding: DlgYesNoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

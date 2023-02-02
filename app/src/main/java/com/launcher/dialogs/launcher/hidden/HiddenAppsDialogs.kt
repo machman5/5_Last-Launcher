@@ -18,7 +18,8 @@ class HiddenAppsDialogs(
     mContext: Context,
     private val mAppsList: List<Apps>
 ) : Dialog(
-    mContext
+    mContext,
+    R.style.DialogSlideUpAnim,
 ) {
     private lateinit var binding: DlgHiddenAppsBinding
     private var hiddenApps = ArrayList<Apps>()

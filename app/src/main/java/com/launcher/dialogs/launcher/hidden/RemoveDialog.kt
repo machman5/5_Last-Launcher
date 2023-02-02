@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.Window
+import com.R
 import com.databinding.DlgAppFontBinding
 import com.databinding.DlgAppRemoveBinding
 import com.launcher.LauncherActivity
@@ -18,7 +19,10 @@ class RemoveDialog(
     private val msg: String? = null,
     private val onClickRemove: ((Unit) -> Unit),
     private val onClickRun: ((Unit) -> Unit),
-) : Dialog(mContext), View.OnClickListener {
+) : Dialog(
+    mContext,
+    R.style.DialogSlideUpAnim
+), View.OnClickListener {
     private lateinit var binding: DlgAppRemoveBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

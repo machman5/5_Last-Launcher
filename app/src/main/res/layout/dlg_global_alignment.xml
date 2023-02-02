@@ -35,13 +35,11 @@
                 android:id="@+id/menuStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/start"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -52,13 +50,11 @@
                 android:id="@+id/menuCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/center"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium"/>
 
             <View
                 android:layout_width="match_parent"
@@ -69,13 +65,11 @@
                 android:id="@+id/menuEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/end"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium"/>
         </LinearLayout>
     </ScrollView>
 

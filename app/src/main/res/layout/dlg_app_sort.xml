@@ -35,13 +35,11 @@
                 android:id="@+id/menuSortByName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_name"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -52,13 +50,11 @@
                 android:id="@+id/menuSortByOpeningCounts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_opening_counts"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -69,13 +65,11 @@
                 android:id="@+id/menuSortBySize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_size"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -86,13 +80,11 @@
                 android:id="@+id/menuSortByColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/by_color"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -103,13 +95,11 @@
                 android:id="@+id/menuSortByUpdateTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/update_time"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -120,13 +110,11 @@
                 android:id="@+id/menuSortByRecentUse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingTop="@dimen/margin_padding_small"
                 android:paddingBottom="@dimen/margin_padding_small"
                 android:text="@string/recently_first"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
         </LinearLayout>
     </ScrollView>
 

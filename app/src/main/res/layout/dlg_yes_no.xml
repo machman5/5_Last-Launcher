@@ -46,13 +46,11 @@
                 android:id="@+id/tvYes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingVertical="@dimen/margin_padding_small"
                 android:text="@string/yes"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -63,13 +61,11 @@
                 android:id="@+id/tvNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingVertical="@dimen/margin_padding_small"
                 android:text="@string/no"
-                android:textSize="@dimen/txt_medium"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="@dimen/txt_medium" />
         </LinearLayout>
     </ScrollView>
 

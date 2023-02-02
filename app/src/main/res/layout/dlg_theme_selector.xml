@@ -20,8 +20,7 @@
             android:padding="@dimen/margin_padding_medium"
             android:text="@string/themes"
             android:textSize="@dimen/txt_large"
-            android:textStyle="bold"
-            tools:ignore="UnusedAttribute" />
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
@@ -33,104 +32,88 @@
             style="@style/AppTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="AppTheme"
             android:text="@string/default_theme"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
         <TextView
             android:id="@+id/t2"
             style="@style/Wallpaper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Wallpaper"
             android:text="@string/background_wallpaper"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
         <TextView
             android:id="@+id/t3"
             style="@style/Black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Black"
             android:text="@string/white_on_black"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
         <TextView
             android:id="@+id/t4"
             style="@style/White"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/White"
             android:text="@string/black_on_white"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
         <TextView
             android:id="@+id/t5"
             style="@style/WhiteOnGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/WhiteOnGrey"
             android:text="@string/white_on_grey"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
         <TextView
             android:id="@+id/t6"
             style="@style/BlackOnGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/BlackOnGrey"
             android:text="@string/black_on_grey"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
         <TextView
             android:id="@+id/t35"
             style="@style/Hacker.green"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Hacker.green"
             android:text="@string/hacker_green"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
         <TextView
             android:id="@+id/t36"
             style="@style/Hacker.red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/actionBarItemBackground"
             android:paddingHorizontal="@dimen/margin_padding_medium"
             android:paddingVertical="@dimen/margin_padding_small"
             android:tag="@style/Hacker.red"
             android:text="@string/hacker_red"
-            android:textSize="@dimen/txt_medium"
-            tools:ignore="UnusedAttribute" />
+            android:textSize="@dimen/txt_medium" />
 
     </LinearLayout>
 

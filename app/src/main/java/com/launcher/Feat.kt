@@ -27,5 +27,3 @@ package com.launcher
 //rate, more app, share app
 //show set default launcher
 //anim layout changes
-
-//android:background="?android:attr/actionBarItemBackground"

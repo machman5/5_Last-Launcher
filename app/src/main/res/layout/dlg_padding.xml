@@ -25,8 +25,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="@dimen/margin_padding_medium"
             android:layout_marginTop="@dimen/margin_padding_medium"
+            android:layout_marginBottom="@dimen/margin_padding_medium"
             android:background="#DEDEDE" />
 
         <LinearLayout
@@ -39,12 +39,10 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:foregroundGravity="center"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="-"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -77,11 +75,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center|center_horizontal|center_vertical"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="+"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
         </LinearLayout>
 
@@ -94,11 +90,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="-"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -126,11 +120,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="+"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
         </LinearLayout>
 
@@ -143,11 +135,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="-"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -175,11 +165,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="+"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
         </LinearLayout>
 
@@ -192,11 +180,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="-"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -224,11 +210,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:foreground="?android:attr/actionBarItemBackground"
                 android:gravity="center|center_horizontal|center_vertical"
                 android:text="+"
-                android:textSize="42sp"
-                tools:ignore="UnusedAttribute" />
+                android:textSize="42sp" />
 
         </LinearLayout>
     </LinearLayout>

@@ -528,7 +528,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 window.setBackgroundDrawableResource(android.R.color.transparent);
                 window.setLayout(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
+                        ViewGroup.LayoutParams.MATCH_PARENT
                 );
             }
         }

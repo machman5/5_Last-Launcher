@@ -8,13 +8,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
 import com.R
 import com.databinding.DlgAppSettingsBinding
 import com.launcher.LauncherActivity
+import com.launcher.ext.click
 import com.launcher.model.Shortcut
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
@@ -35,7 +35,7 @@ class AppSettingsDialog(
     private val launcherActivity: LauncherActivity,
     private val activityName: String,
     val view: AppTextView,
-) : Dialog(mContext, R.style.DialogSlideUpAnim), View.OnClickListener {
+) : Dialog(mContext, R.style.DialogSlideUpAnim) {
     private lateinit var binding: DlgAppSettingsBinding
 
     @SuppressLint("SetTextI18n")
@@ -60,48 +60,35 @@ class AppSettingsDialog(
             binding.menuAppInfo.isEnabled = false
         }
 
-        binding.menuColor.setOnClickListener(this)
-        binding.menuRename.setOnClickListener(this)
-        binding.menuFreezeSize.setOnClickListener(this)
-        binding.menuHide.setOnClickListener(this)
-        binding.menuUninstall.setOnClickListener(this)
-        binding.menuAppInfo.setOnClickListener(this)
-        binding.menuResetToDefault.setOnClickListener(this)
-        binding.menuResetColor.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v) {
-            binding.menuColor -> {
-                changeColorSize(activityName, view)
+        binding.menuColor.click {
+            changeColorSize(activityName, view)
+        }
+        binding.menuRename.click {
+            renameApp(activityName, view.text.toString())
+            dismiss()
+        }
+        binding.menuFreezeSize.click {
+            freezeAppSize(activityName)
+        }
+        binding.menuHide.click {
+            hideApp(activityName)
+        }
+        binding.menuUninstall.click {
+            if (view.isShortcut) {
+                removeShortcut(view)
+            } else {
+                uninstallApp(activityName)
             }
-            binding.menuRename -> {
-                renameApp(activityName, view.text.toString())
-                dismiss()
-            }
-            binding.menuFreezeSize -> {
-                freezeAppSize(activityName)
-            }
-            binding.menuHide -> {
-                hideApp(activityName)
-            }
-            binding.menuUninstall -> {
-                if (view.isShortcut) {
-                    removeShortcut(view)
-                } else {
-                    uninstallApp(activityName)
-                }
-                dismiss()
-            }
-            binding.menuAppInfo -> {
-                showAppInfo(activityName)
-            }
-            binding.menuResetToDefault -> {
-                resetApp(activityName)
-            }
-            binding.menuResetColor -> {
-                resetAppColor(activityName)
-            }
+            dismiss()
+        }
+        binding.menuAppInfo.click {
+            showAppInfo(activityName)
+        }
+        binding.menuResetToDefault.click {
+            resetApp(activityName)
+        }
+        binding.menuResetColor.click {
+            resetAppColor(activityName)
         }
     }
 
@@ -182,6 +169,7 @@ class AppSettingsDialog(
     }
 
     private fun uninstallApp(activityName: String) {
+        //TODO deprecated
         val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
         intent.data =
             Uri.parse("package:" + activityName.split("/".toRegex()).dropLastWhile { it.isEmpty() }

@@ -9,7 +9,7 @@ package com.launcher
  */
 
 //TODO firebase
-//TODO setting launch store by pkg name
+//TODO
 //TODO vibrate when menu item action
 //TODO efx scroll like ios
 //TODO customize toast
@@ -26,3 +26,4 @@ package com.launcher
 //show set default launcher
 //anim layout changes
 //ripple
+//setting launch store by pkg name

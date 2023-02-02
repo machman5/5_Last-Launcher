@@ -64,6 +64,7 @@
                     android:textSize="@dimen/txt_medium" />
 
                 <View
+                    android:id="@+id/vRename"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#DEDEDE" />
@@ -94,6 +95,7 @@
                     android:textSize="@dimen/txt_medium" />
 
                 <View
+                    android:id="@+id/vAppInfo"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#DEDEDE" />
@@ -124,6 +126,7 @@
                     android:textSize="@dimen/txt_medium" />
 
                 <View
+                    android:id="@+id/vHide"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#DEDEDE" />

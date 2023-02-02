@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
@@ -57,9 +58,12 @@ class AppSettingsDialog(
         }
         if (view.isShortcut) {
             binding.menuUninstall.setText(R.string.remove)
-            binding.menuHide.isEnabled = false
-            binding.menuRename.isEnabled = false
-            binding.menuAppInfo.isEnabled = false
+            binding.menuHide.visibility = View.GONE
+            binding.vHide.visibility = View.GONE
+            binding.menuRename.visibility = View.GONE
+            binding.vRename.visibility = View.GONE
+            binding.menuAppInfo.visibility = View.GONE
+            binding.vAppInfo.visibility = View.GONE
         }
 
         binding.menuColor.click {

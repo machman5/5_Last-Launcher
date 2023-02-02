@@ -1,4 +1,0 @@
-*Smugkig udgivelse*
-
-* Nødopdateringer
-* Fejlrettelse af App forsvinder fra launcher

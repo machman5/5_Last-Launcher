@@ -1,5 +1,6 @@
 package com.launcher.dialogs.app
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -37,6 +38,7 @@ class AppSettingsDialog(
 ) : Dialog(mContext), View.OnClickListener {
     private lateinit var binding: DlgAppSettingsBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // no old title: Last Launcher use Activity class not AppCompatActivity so it show very old title
@@ -45,6 +47,7 @@ class AppSettingsDialog(
         binding = DlgAppSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvSetting.text = "${context.getString(R.string.setting)}: ${view.text}"
 
         // set proper item based on Db value
         if (isAppFrozen(activityName)) {

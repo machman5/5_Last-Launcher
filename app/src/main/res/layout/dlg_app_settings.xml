@@ -8,148 +8,160 @@
     app:cardElevation="@dimen/margin_padding_small"
     app:cardUseCompatPadding="true">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvSetting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/black"
-            android:orientation="vertical">
+            android:padding="@dimen/margin_padding_medium"
+            android:text="@string/setting"
+            android:textSize="@dimen/txt_large"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/menuColor"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DEDEDE" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/color_for_this_entry"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                android:background="@android:color/black"
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DEDEDE" />
+                <TextView
+                    android:id="@+id/menuColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/color_for_this_entry"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/menuRename"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/rename"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DEDEDE" />
+                <TextView
+                    android:id="@+id/menuRename"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/rename"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/menuFreezeSize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/freeze_size"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DEDEDE" />
+                <TextView
+                    android:id="@+id/menuFreezeSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/freeze_size"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/menuAppInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/app_info"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DEDEDE" />
+                <TextView
+                    android:id="@+id/menuAppInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/app_info"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/menuResetColor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/reset_color"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DEDEDE" />
+                <TextView
+                    android:id="@+id/menuResetColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/reset_color"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/menuHide"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/hide"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DEDEDE" />
+                <TextView
+                    android:id="@+id/menuHide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/hide"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/menuResetToDefault"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/reset_to_default"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#DEDEDE" />
+                <TextView
+                    android:id="@+id/menuResetToDefault"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/reset_to_default"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
 
-            <TextView
-                android:id="@+id/menuUninstall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/actionBarItemBackground"
-                android:gravity="center"
-                android:paddingTop="@dimen/margin_padding_small"
-                android:paddingBottom="@dimen/margin_padding_small"
-                android:text="@string/uninstall"
-                android:textSize="20sp"
-                tools:ignore="UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
 
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/menuUninstall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/actionBarItemBackground"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/uninstall"
+                    android:textSize="@dimen/txt_medium"
+                    tools:ignore="UnusedAttribute" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -54,7 +54,7 @@
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingVertical="@dimen/margin_padding_small"
                 android:text="@string/remove"
-                android:textSize="@dimen/txt_medium"/>
+                android:textSize="@dimen/txt_medium" />
 
             <View
                 android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                 android:paddingHorizontal="@dimen/margin_padding_medium"
                 android:paddingVertical="@dimen/margin_padding_small"
                 android:text="@string/open"
-                android:textSize="@dimen/txt_medium"/>
+                android:textSize="@dimen/txt_medium" />
         </LinearLayout>
     </ScrollView>
 

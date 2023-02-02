@@ -284,7 +284,7 @@ class GlobalSettingsDialog(
         dialogs.show()
         val window = dialogs.window
         if (window != null) {
-            window.setGravity(Gravity.TOP)
+            window.setGravity(Gravity.BOTTOM)
             window.setBackgroundDrawableResource(android.R.color.transparent)
             window.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,

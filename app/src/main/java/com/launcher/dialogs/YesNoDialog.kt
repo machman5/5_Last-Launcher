@@ -7,6 +7,7 @@ import android.view.View
 import android.view.Window
 import com.R
 import com.databinding.DlgYesNoBinding
+import com.launcher.ext.click
 
 class YesNoDialog(
     mContext: Context,
@@ -19,7 +20,7 @@ class YesNoDialog(
 ) : Dialog(
     mContext,
     R.style.DialogSlideUpAnim,
-), View.OnClickListener {
+) {
     private lateinit var binding: DlgYesNoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,20 +36,14 @@ class YesNoDialog(
         binding.tvYes.text = yes
         binding.tvNo.text = no
 
-        binding.tvYes.setOnClickListener(this)
-        binding.tvNo.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v) {
-            binding.tvYes -> {
-                onClickYes.invoke(Unit)
-            }
-            binding.tvNo -> {
-                onClickNo.invoke(Unit)
-            }
+        binding.tvYes.click {
+            onClickYes.invoke(Unit)
+            dismiss()
         }
-        dismiss()
+        binding.tvNo.click {
+            onClickNo.invoke(Unit)
+            dismiss()
+        }
     }
 
 }

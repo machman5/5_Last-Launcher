@@ -1,5 +1,8 @@
 package com.launcher.ext
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.*
@@ -7,6 +10,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+
 
 fun View?.setMargins(
     leftPx: Int, topPx: Int, rightPx: Int, bottomPx: Int
@@ -77,5 +81,26 @@ fun View?.hideSoftInput(
     this?.let {
         val imm = it.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.windowToken, 0)
+    }
+}
+
+fun View.click(
+    runnable: Runnable? = null
+) {
+    this.setOnClickListener {
+        val anim = ValueAnimator.ofFloat(1f, 2.5f)
+        anim.duration = 300
+        anim.addUpdateListener { animation ->
+            this.scaleX = animation.animatedValue as Float
+            this.scaleY = animation.animatedValue as Float
+        }
+        anim.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                runnable?.run()
+            }
+        })
+        anim.repeatCount = 1
+        anim.repeatMode = ValueAnimator.REVERSE
+        anim.start()
     }
 }

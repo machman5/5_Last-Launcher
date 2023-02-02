@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.R
+import com.launcher.ext.click
 import com.launcher.model.Apps
 
 // this adapter class is used for Frozen app list and Hidden app list
@@ -35,14 +36,14 @@ class UniversalAdapter(
         tvAppLabel.text = list[position].getAppName()
         tvAppLabel.tag = position
 
-        row.setOnClickListener { view: View ->
+        row.click {
             listener?.onClick(
-                apps = getItem(view.tag as Int), view = view
+                apps = getItem(row.tag as Int), view = row
             )
         }
-        tvAppLabel.setOnClickListener { view: View ->
+        tvAppLabel.click {
             listener?.onClick(
-                apps = getItem(view.tag as Int), view = view
+                apps = getItem(tvAppLabel.tag as Int), view = tvAppLabel
             )
         }
         return row

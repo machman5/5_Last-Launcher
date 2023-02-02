@@ -8,7 +8,6 @@ package com.launcher
  * freuss47@gmail.com
  */
 
-//TODO ripple
 //TODO firebase
 //TODO setting launch store by pkg name
 //TODO vibrate when menu item action
@@ -26,3 +25,4 @@ package com.launcher
 //rate, more app, share app
 //show set default launcher
 //anim layout changes
+//ripple

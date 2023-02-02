@@ -515,7 +515,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             PolicyDialog dialogs = new PolicyDialog(
                     this,
                     () -> {
-                        SpUtils.Companion.getInstance().putBoolean(KEY_READ_POLICY, true);
+                        if (!BuildConfig.DEBUG) {
+                            SpUtils.Companion.getInstance().putBoolean(KEY_READ_POLICY, true);
+                        }
                         openBrowserPolicy(LauncherActivity.this);
                     }
             );

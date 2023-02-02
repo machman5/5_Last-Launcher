@@ -6,6 +6,8 @@ import static android.content.Intent.ACTION_PACKAGE_REMOVED;
 import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static com.launcher.ext.ActivityKt.chooseLauncher;
 import static com.launcher.ext.ActivityKt.isDefaultLauncher;
+import static com.launcher.ext.ContextKt.openBrowserPolicy;
+import static com.launcher.utils.SpUtilsKt.KEY_READ_POLICY;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,6 +16,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -44,6 +47,8 @@ import androidx.cardview.widget.CardView;
 
 import com.BuildConfig;
 import com.R;
+import com.launcher.dialogs.PolicyDialog;
+import com.launcher.dialogs.YesNoDialog;
 import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
 import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
@@ -58,6 +63,7 @@ import com.launcher.utils.DbUtils;
 import com.launcher.utils.Gestures;
 import com.launcher.utils.PinYinSearchUtils;
 import com.launcher.utils.ShortcutUtils;
+import com.launcher.utils.SpUtils;
 import com.launcher.utils.Utils;
 import com.launcher.views.flowLayout.FlowLayout;
 import com.launcher.views.textview.AppTextView;
@@ -489,7 +495,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     @Override
     protected void onResume() {
         super.onResume();
-
         if (searching) {
             cvSearch.setVisibility(View.GONE);
             searching = false;
@@ -497,9 +502,35 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), DbUtils.getPaddingBottom());
             sortApps(DbUtils.getSortsTypes());
         }
+        checkReadPolicy();
+    }
 
-        if (!isDefaultLauncher(getBaseContext())) {
-            chooseLauncher(this, FakeLauncherActivity.class);
+    private void checkReadPolicy() {
+        boolean isReadPolicy = SpUtils.Companion.getInstance().getBoolean(KEY_READ_POLICY, false);
+        if (isReadPolicy) {
+            if (!isDefaultLauncher(this)) {
+                chooseLauncher(this, FakeLauncherActivity.class);
+            }
+        } else {
+            PolicyDialog dialogs = new PolicyDialog(
+                    this,
+                    () -> {
+                        SpUtils.Companion.getInstance().putBoolean(KEY_READ_POLICY, true);
+                        openBrowserPolicy(LauncherActivity.this);
+                    }
+            );
+            dialogs.setCancelable(false);
+            dialogs.setCanceledOnTouchOutside(false);
+            dialogs.show();
+            Window window = dialogs.getWindow();
+            if (window != null) {
+                window.setGravity(Gravity.CENTER);
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                window.setLayout(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+            }
         }
     }
 

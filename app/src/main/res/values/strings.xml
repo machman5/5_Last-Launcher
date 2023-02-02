@@ -86,4 +86,6 @@
     <string name="warning">Warning</string>
     <string name="rate_this_app">Rate this app</string>
     <string name="term_amp_policy"><![CDATA[Term & Policy]]></string>
+    <string name="read_policy">Please read Quick launcher privacy policy</string>
+    <string name="okay">Okay</string>
 </resources>

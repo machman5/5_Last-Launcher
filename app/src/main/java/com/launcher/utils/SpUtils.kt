@@ -8,6 +8,9 @@ import java.io.InputStream
 import java.io.ObjectInputStream
 
 // utility to handle shared prefs
+
+const val KEY_READ_POLICY = "KEY_READ_POLICY"
+
 internal class SpUtils private constructor() {
 
     companion object {

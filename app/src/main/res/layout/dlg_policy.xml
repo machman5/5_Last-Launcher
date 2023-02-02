@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/round_medium"
+    app:cardElevation="@dimen/margin_padding_small"
+    app:cardUseCompatPadding="true">
+
+    <com.factor.bouncy.BouncyNestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/margin_padding_medium"
+                android:text="@string/app_name"
+                android:textSize="@dimen/txt_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/margin_padding_medium"
+                android:text="@string/read_policy"
+                android:textSize="@dimen/txt_medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#DEDEDE" />
+
+            <TextView
+                android:id="@+id/tvYes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/margin_padding_medium"
+                android:paddingVertical="@dimen/margin_padding_small"
+                android:text="@string/okay"
+                android:textSize="@dimen/txt_medium" />
+        </LinearLayout>
+    </com.factor.bouncy.BouncyNestedScrollView>
+
+</androidx.cardview.widget.CardView>

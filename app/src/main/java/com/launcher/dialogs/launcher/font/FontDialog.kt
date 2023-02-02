@@ -9,6 +9,7 @@ import android.view.Window
 import com.R
 import com.databinding.DlgAppFontBinding
 import com.launcher.LauncherActivity
+import com.launcher.ext.click
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 
@@ -21,7 +22,7 @@ class FontDialog(
 ) : Dialog(
     mContext,
     R.style.DialogSlideUpAnim,
-), View.OnClickListener {
+) {
     private lateinit var binding: DlgAppFontBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,24 +33,17 @@ class FontDialog(
         binding = DlgAppFontBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.menuChooseFonts.setOnClickListener(this)
-        binding.menuDefaultFont.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v) {
-            binding.menuChooseFonts -> {
-                setFonts()
+        binding.menuChooseFonts.click {
+            setFonts()
+        }
+        binding.menuDefaultFont.click {
+            if (DbUtils.isFontExists) {
+                DbUtils.removeFont()
+                launcherActivity.setFont()
+                launcherActivity.loadApps()
+                cancel()
             }
-            binding.menuDefaultFont -> {
-                if (DbUtils.isFontExists) {
-                    DbUtils.removeFont()
-                    launcherActivity.setFont()
-                    launcherActivity.loadApps()
-                    cancel()
-                }
-                dismiss()
-            }
+            dismiss()
         }
     }
 

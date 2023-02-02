@@ -129,6 +129,21 @@
                     android:background="#DEDEDE" />
 
                 <TextView
+                    android:id="@+id/menuRateThisApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin_padding_medium"
+                    android:paddingVertical="@dimen/margin_padding_small"
+                    android:text="@string/rate_this_app"
+                    android:textSize="@dimen/txt_medium" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DEDEDE" />
+
+                <TextView
                     android:id="@+id/menuResetToDefault"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

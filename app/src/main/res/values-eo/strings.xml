@@ -56,4 +56,5 @@
     <string name="choose_old_backup_files">Elektu antaŭan savkopion</string>
     <string name="update_time">Ĝisdatigi tempon</string>
     <string name="restart_launcher">Relanĉi ĉi tiun programon</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

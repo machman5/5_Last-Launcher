@@ -57,4 +57,5 @@
     <string name="color_for_this_entry">Couleur et taille</string>
     <string name="action_settings">Paramètres</string>
     <string name="from_color_sniffer_app">De l’application ColorSniffer</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

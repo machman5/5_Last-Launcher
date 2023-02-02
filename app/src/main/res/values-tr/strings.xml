@@ -56,4 +56,5 @@
     <string name="custom">Özel</string>
     <string name="by_size">Boyut</string>
     <string name="recently_first">Önce ilk</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

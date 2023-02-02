@@ -56,4 +56,5 @@
     <string name="color_for_this_entry">Кольори і розмір</string>
     <string name="action_settings">Налаштування</string>
     <string name="restart_launcher">Перезапустити запускач</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

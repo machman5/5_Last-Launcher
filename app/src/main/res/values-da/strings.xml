@@ -55,4 +55,5 @@
     <string name="reset_to_default">Genstart Alt</string>
     <string name="random_colors">Tilfældige Farver</string>
     <string name="color_for_this_entry">Farver &amp; Størrelse</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

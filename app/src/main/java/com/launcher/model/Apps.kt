@@ -12,6 +12,7 @@ import com.launcher.views.textview.AppTextView
 
 // a model class that hold everything related to an app
 class Apps(// tell whether this is a shortcut or not if this is shortcut then activity field wll holds the Uri not an activity
+    var packageName: String?,
     val isShortcut: Boolean,
     activity: String, // app name to shown on screen
     private var appName: String, // a text view or a subclass of TextView

@@ -350,7 +350,19 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 updateTime = 0;
             }
             // save all and add this is to app list
-            mAppsList.add(new Apps(false, activity, appName, getCustomView(), color, textSize, hide, freeze, openingCounts, updateTime));
+            mAppsList.add(new Apps(
+                    packageName,
+                    false,
+                    activity,
+                    appName,
+                    getCustomView(),
+                    color,
+                    textSize,
+                    hide,
+                    freeze,
+                    openingCounts,
+                    updateTime
+            ));
 
         }
 
@@ -393,8 +405,17 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
             // add this shortcut to list
             // currently shortcut hide is disabled
-            mAppsList.add(new Apps(true, uri, sName, getCustomView(), sColor, sSize, false, sFreeze, sOpeningCount, 0));
-
+            mAppsList.add(new Apps(null,
+                    true,
+                    uri, sName,
+                    getCustomView(),
+                    sColor,
+                    sSize,
+                    false,
+                    sFreeze,
+                    sOpeningCount,
+                    0
+            ));
         }
 
         // now sort the app list
@@ -551,7 +572,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     boolean hide = app.isHidden();
                     boolean freezeSize = app.isSizeFrozen();
                     int appUpdateTime = app.getUpdateTime();
-                    Apps newApp = new Apps(app.isShortcut(), activityName, appName, getCustomView(), color, Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS, hide, freezeSize, openingCounts, appUpdateTime);
+                    Apps newApp = new Apps(app.getPackageName(), app.isShortcut(), activityName, appName, getCustomView(), color, Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS, hide, freezeSize, openingCounts, appUpdateTime);
 
                     //mAppsList.add(newApp);
                     iterator.add(newApp);
@@ -578,12 +599,21 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }
     }
 
+    public Apps getApp(String activity) {
+        Apps a = null;
+        synchronized (mAppsList) {
+            for (Apps apps : mAppsList) {
+                if (apps.getActivityName() != null && apps.getActivityName().equalsIgnoreCase(activity)) {
+                    a = apps;
+                    break;
+                }
+            }
+        }
+        return a;
+    }
+
     //TODO: multi thread check for memory leaks if any, or check any bad behaviour;
     private void appOpened(String activity) {
-        /* new Thread() {
-            @Override
-            public void run() {
-                super.run();*/
         synchronized (mAppsList) {
             for (Apps apps : mAppsList) {
                 if (apps.getActivityName() != null && apps.getActivityName().equalsIgnoreCase(activity)) {
@@ -840,26 +870,26 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
         }
     }
 
-    private void setAppsColorFromClipboard(Map<String, Integer> colorsAndId) {
-        if (colorsAndId == null) return;
-        DbUtils.externalSourceColor(true);
-        synchronized (mAppsList) {
-            for (Apps apps : mAppsList) {
-                try {
-                    TextView textView = apps.getTextView();
-                    String s = apps.getActivityName();
-                    Integer newColor = colorsAndId.get(s);
-                    if (newColor == null) continue;
-                    textView.setTextColor(newColor);
-                    if (s != null) {
-                        DbUtils.putAppColorExternalSource(s, newColor);
-                    }
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+//    private void setAppsColorFromClipboard(Map<String, Integer> colorsAndId) {
+//        if (colorsAndId == null) return;
+//        DbUtils.externalSourceColor(true);
+//        synchronized (mAppsList) {
+//            for (Apps apps : mAppsList) {
+//                try {
+//                    TextView textView = apps.getTextView();
+//                    String s = apps.getActivityName();
+//                    Integer newColor = colorsAndId.get(s);
+//                    if (newColor == null) continue;
+//                    textView.setTextColor(newColor);
+//                    if (s != null) {
+//                        DbUtils.putAppColorExternalSource(s, newColor);
+//                    }
+//                } catch (NullPointerException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
     // show the hidden app dialog
     public void showHiddenApps() {
@@ -931,7 +961,18 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
     private void addShortcut(String uri, String appName) {
         if (mAppsList == null) return;
-        mAppsList.add(new Apps(true, uri, appName, getCustomView(), DbUtils.NULL_TEXT_COLOR, Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS, false, false, 0, (int) System.currentTimeMillis() / 1000));
+        mAppsList.add(new Apps(null,
+                true,
+                uri,
+                appName,
+                getCustomView(),
+                DbUtils.NULL_TEXT_COLOR,
+                Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS,
+                false,
+                false,
+                0,
+                (int) System.currentTimeMillis() / 1000
+        ));
         shortcutUtils.addShortcut(new Shortcut(appName, uri));
         // Log.d(TAG, "addShortcut: shortcut name==" + appName);
         sortApps(DbUtils.getSortsTypes());

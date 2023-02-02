@@ -59,4 +59,5 @@
     <string name="remove">Borrar</string>
     <string name="padding">Espaciado</string>
     <string name="frozen_apps">Aplicaciones congeladas</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

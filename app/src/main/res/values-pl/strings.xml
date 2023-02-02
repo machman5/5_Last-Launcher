@@ -55,4 +55,5 @@
     <string name="rename">Zmień nazwę</string>
     <string name="color_for_this_entry">Kolory i rozmiar</string>
     <string name="action_settings">Ustawienia</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

@@ -56,4 +56,5 @@
     <string name="color_for_this_entry">Colores y tamaño</string>
     <string name="action_settings">Ajustes</string>
     <string name="restart_launcher">Reiniciar Lanzador</string>
+    <string name="rate_this_app">Rate this app</string>
 </resources>

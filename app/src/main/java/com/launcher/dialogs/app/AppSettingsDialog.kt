@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.Window
@@ -15,6 +16,7 @@ import com.R
 import com.databinding.DlgAppSettingsBinding
 import com.launcher.LauncherActivity
 import com.launcher.ext.click
+import com.launcher.ext.rateApp
 import com.launcher.model.Shortcut
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
@@ -72,6 +74,12 @@ class AppSettingsDialog(
         }
         binding.menuHide.click {
             hideApp(activityName)
+        }
+        binding.menuRateThisApp.click {
+            val apps = launcherActivity.getApp(activityName)
+            apps.packageName?.let {
+                launcherActivity.rateApp(it)
+            }
         }
         binding.menuUninstall.click {
             if (view.isShortcut) {
@@ -200,5 +208,4 @@ class AppSettingsDialog(
         launcherActivity.addAppAfterReset(activityName, sortNeeded)
         dismiss()
     }
-
 }

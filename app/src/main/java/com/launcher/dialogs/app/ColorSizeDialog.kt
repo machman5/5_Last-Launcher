@@ -9,6 +9,7 @@ import android.view.Window
 import android.widget.TextView
 import com.R
 import com.databinding.DlgColorSizeBinding
+import com.launcher.ext.click
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.maxAppSize
 import com.launcher.utils.DbUtils.minAppSize
@@ -62,7 +63,7 @@ class ColorSizeDialog     // boolean change=false;
 
         // size related
         binding.tvSize.text = appSize.toString()
-        binding.btnPlus.setOnClickListener {
+        binding.btnPlus.click {
 
             // change=true;
             appSize++
@@ -73,7 +74,7 @@ class ColorSizeDialog     // boolean change=false;
             binding.tvSize.text = appSize.toString()
             textView.textSize = appSize.toFloat()
         }
-        binding.btnMinus.setOnClickListener {
+        binding.btnMinus.click {
             //change=true;
             --appSize
             if (appSize < DEFAULT_MIN_TEXT_SIZE) {

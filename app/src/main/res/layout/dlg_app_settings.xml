@@ -41,12 +41,10 @@
                     android:id="@+id/menuColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/color_for_this_entry"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -57,12 +55,10 @@
                     android:id="@+id/menuRename"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/rename"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -73,12 +69,10 @@
                     android:id="@+id/menuFreezeSize"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/freeze_size"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -89,12 +83,10 @@
                     android:id="@+id/menuAppInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/app_info"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -105,12 +97,10 @@
                     android:id="@+id/menuResetColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/reset_color"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -121,12 +111,10 @@
                     android:id="@+id/menuHide"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/hide"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -137,12 +125,10 @@
                     android:id="@+id/menuResetToDefault"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/reset_to_default"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
                 <View
                     android:layout_width="match_parent"
@@ -153,12 +139,10 @@
                     android:id="@+id/menuUninstall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/actionBarItemBackground"
                     android:paddingHorizontal="@dimen/margin_padding_medium"
                     android:paddingVertical="@dimen/margin_padding_small"
                     android:text="@string/uninstall"
-                    android:textSize="@dimen/txt_medium"
-                    tools:ignore="UnusedAttribute" />
+                    android:textSize="@dimen/txt_medium" />
 
             </LinearLayout>
         </ScrollView>

@@ -18,6 +18,7 @@ package com.launcher
 //TODO policy
 //TODO lock app
 //TODO intro
+//TODO ripple
 
 //done
 //package name

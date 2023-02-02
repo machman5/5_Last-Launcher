@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Window
 import android.widget.TextView
+import com.R
 import com.databinding.DlgColorSizeBinding
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.maxAppSize
@@ -24,7 +25,8 @@ class ColorSizeDialog     // boolean change=false;
     private val textView: TextView,
     private var appSize: Int
 ) : Dialog(
-    context
+    context,
+    R.style.DialogSlideUpAnim
 ) {
     private lateinit var binding: DlgColorSizeBinding
     private val handler = Handler(Looper.getMainLooper())

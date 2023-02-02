@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import com.BuildConfig
@@ -20,10 +19,7 @@ import com.launcher.dialogs.launcher.alignment.AlignmentDialog
 import com.launcher.dialogs.launcher.font.FontDialog
 import com.launcher.dialogs.launcher.sort.SortDialog
 import com.launcher.dialogs.launcher.theme.ThemeSelectorDialog
-import com.launcher.ext.chooseLauncher
-import com.launcher.ext.moreApp
-import com.launcher.ext.rateApp
-import com.launcher.ext.shareApp
+import com.launcher.ext.*
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
 import com.launcher.utils.DbUtils.appSortReverseOrder
@@ -47,7 +43,7 @@ class GlobalSettingsDialog(
 ) : Dialog(
     mContext,
     R.style.DialogSlideUpAnim,
-), View.OnClickListener {
+) {
     private lateinit var binding: DlgGlobalSettingsBinding
 
     @SuppressLint("SetTextI18n")
@@ -61,99 +57,75 @@ class GlobalSettingsDialog(
 
         binding.tvVersion.text = "Version ${BuildConfig.VERSION_NAME}"
 
-        binding.tvDefaultLauncher.setOnClickListener(this)
-        binding.settingsThemes.setOnClickListener(this)
-        binding.settingsFreezeSize.setOnClickListener(this)
-        binding.settingsFonts.setOnClickListener(this)
-        binding.settingsResetToDefaults.setOnClickListener(this)
-        binding.settingsBackup.setOnClickListener(this)
-        binding.settingsRestore.setOnClickListener(this)
-        binding.settingsAlignment.setOnClickListener(this)
-        binding.settingsPadding.setOnClickListener(this)
-        binding.settingsColorSize.setOnClickListener(this)
-        binding.settingsSortAppBy.setOnClickListener(this)
-        binding.settingsSortAppReverse.setOnClickListener(this)
-        binding.settingsRestartLauncher.setOnClickListener(this)
-        binding.settingsColorSniffer.setOnClickListener(this)
+        binding.tvDefaultLauncher.click {
+            launcherActivity.chooseLauncher(FakeLauncherActivity::class.java)
+        }
+        binding.settingsThemes.click {
+            showThemeDialog()
+        }
+        binding.settingsFreezeSize.click {
+            freezeAppsSize()
+        }
+        binding.settingsFonts.click {
+            fontSelection()
+        }
+        binding.settingsResetToDefaults.click {
+            defaultSettings()
+        }
+        binding.settingsBackup.click {
+            backup()
+        }
+        binding.settingsRestore.click {
+            restore()
+        }
+        binding.settingsAlignment.click {
+            setFlowLayoutAlignment()
+        }
+        binding.settingsPadding.click {
+            launcherActivity.setPadding()
+            cancel()
+        }
+        binding.settingsColorSize.click {
+            showColorAndSizeDialog()
+        }
+        binding.settingsSortAppBy.click {
+            sortApps()
+        }
+        binding.settingsSortAppReverse.click {
+            sortAppsReverseOrder()
+        }
+        binding.settingsRestartLauncher.click {
+            launcherActivity.recreate()
+        }
+        binding.settingsColorSniffer.click {
+            randomColor()
+        }
         if (isRandomColor) {
             binding.settingsColorSniffer.setText(R.string.fixed_colors)
         } else {
             binding.settingsColorSniffer.setText(R.string.random_colors)
         }
-        binding.settingsFrozenApps.setOnClickListener(this)
-        binding.settingsHiddenApps.setOnClickListener(this)
-        binding.tvRateApp.setOnClickListener(this)
-        binding.tvMoreApp.setOnClickListener(this)
-        binding.tvShareApp.setOnClickListener(this)
+        binding.settingsFrozenApps.click {
+            frozenApps()
+        }
+        binding.settingsHiddenApps.click {
+            hiddenApps()
+        }
+        binding.tvRateApp.click {
+            launcherActivity.rateApp(launcherActivity.packageName)
+        }
+        binding.tvMoreApp.click {
+            launcherActivity.moreApp()
+        }
+        binding.tvShareApp.click {
+            launcherActivity.shareApp()
+        }
 
         //reflect the DB value
         if (isSizeFrozen) {
             binding.settingsFreezeSize.setText(R.string.unfreeze_app_size)
         } else {
             binding.settingsFreezeSize.setText(R.string.freeze_apps_size)
-        }
-    }
-
-    override fun onClick(view: View) {
-        when (view) {
-            binding.tvDefaultLauncher -> {
-                launcherActivity.chooseLauncher(FakeLauncherActivity::class.java)
-            }
-            binding.settingsFonts -> {
-                fontSelection()
-            }
-            binding.settingsThemes -> {
-                showThemeDialog()
-            }
-            binding.settingsColorSniffer -> {
-                randomColor()
-            }
-            binding.settingsSortAppBy -> {
-                sortApps()
-            }
-            binding.settingsSortAppReverse -> {
-                sortAppsReverseOrder()
-            }
-            binding.settingsColorSize -> {
-                showColorAndSizeDialog()
-            }
-            binding.settingsFreezeSize -> {
-                freezeAppsSize()
-            }
-            binding.settingsHiddenApps -> {
-                hiddenApps()
-            }
-            binding.settingsFrozenApps -> {
-                frozenApps()
-            }
-            binding.settingsBackup -> {
-                backup()
-            }
-            binding.settingsRestore -> {
-                restore()
-            }
-            binding.settingsResetToDefaults -> {
-                defaultSettings()
-            }
-            binding.settingsAlignment -> {
-                setFlowLayoutAlignment()
-            }
-            binding.settingsPadding -> {
-                launcherActivity.setPadding()
-                cancel()
-            }
-            binding.settingsRestartLauncher -> {
-                launcherActivity.recreate()
-            }
-            binding.tvRateApp -> {
-                launcherActivity.rateApp(launcherActivity.packageName)
-            }
-            binding.tvMoreApp -> {
-                launcherActivity.moreApp()
-            }
-            binding.tvShareApp -> {
-                launcherActivity.shareApp()
-            }
         }
     }
 

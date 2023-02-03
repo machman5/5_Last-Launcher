@@ -24,11 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="gone"
         app:cardCornerRadius="@dimen/round_medium"
         app:cardElevation="@dimen/margin_padding_small"
-        app:cardUseCompatPadding="true"
-        tools:visibility="visible">
+        app:cardUseCompatPadding="true">
 
         <EditText
             android:id="@+id/search_box"

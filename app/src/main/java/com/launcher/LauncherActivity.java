@@ -17,7 +17,6 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -28,9 +27,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +40,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,7 +50,6 @@ import androidx.cardview.widget.CardView;
 import com.BuildConfig;
 import com.R;
 import com.launcher.dialogs.PolicyDialog;
-import com.launcher.dialogs.YesNoDialog;
 import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
 import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
@@ -81,7 +81,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-import java.util.Map;
 
 public class LauncherActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
@@ -128,8 +127,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     //endregion
 
     private static void showSearchResult(ArrayList<Apps> filteredApps) {
-        if (!searching) return;
-
         mHomeLayout.removeAllViews();
         for (Apps apps : filteredApps) {
             mHomeLayout.addView(apps.getTextView(), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -197,14 +194,14 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
     private void setSearchBoxListeners() {
         mSearchBox.addTextChangedListener(mTextWatcher);
-        mSearchBox.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                cvSearch.setVisibility(View.GONE);
-                imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                return true;
-            }
-            return false;
-        });
+//        mSearchBox.setOnEditorActionListener((v, actionId, event) -> {
+//            if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                cvSearch.setVisibility(View.GONE);
+//                imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+//                return true;
+//            }
+//            return false;
+//        });
     }
 
     /**
@@ -433,7 +430,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
                 if (searching) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                    cvSearch.setVisibility(View.GONE);
                 }
 
                 if (appTextView.isShortcut()) {
@@ -470,7 +466,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     protected void onResume() {
         super.onResume();
         if (searching) {
-            cvSearch.setVisibility(View.GONE);
             searching = false;
             imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
             mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), DbUtils.getPaddingBottom());
@@ -651,8 +646,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public void onBackPressed() {
-        cvSearch.setVisibility(View.GONE);
-
         if (searching) {
             //check this line
             imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
@@ -961,24 +954,25 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         sortApps(DbUtils.getSortsTypes());
     }
 
+    private final Handler handlerOnSwipe = new Handler(Looper.myLooper());
+
     @Override
     public void onSwipe(Gestures.Direction direction) {
-        if (direction == Gestures.Direction.SWIPE_RIGHT) {
-            if (!searching) {
-                searching = true;
-                mSearchBox.setText("");
-                cvSearch.setVisibility(View.VISIBLE);
-                mSearchBox.requestFocus();
-                imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
+        handlerOnSwipe.removeCallbacksAndMessages(null);
+        handlerOnSwipe.postDelayed(() -> {
+            if (direction == Gestures.Direction.SWIPE_RIGHT || direction == Gestures.Direction.SWIPE_LEFT) {
+                if (searching) {
+                    searching = false;
+                    mSearchBox.clearFocus();
+                    imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+                    onResume();
+                } else {
+                    searching = true;
+                    mSearchBox.requestFocus();
+                    imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
+                }
             }
-        } else if (direction == Gestures.Direction.SWIPE_LEFT) {
-            if (searching) {
-                cvSearch.setVisibility(View.GONE);
-                mSearchBox.clearFocus();
-                imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                onResume();
-            }
-        }
+        }, 100);
     }
 
     @Override
@@ -999,8 +993,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         protected ArrayList<Apps> doInBackground(CharSequence... charSequences) {
             ArrayList<Apps> filteredApps = new ArrayList<>();
             synchronized (mAppsList) {
+                CharSequence s = charSequences[0];
                 for (Apps app : mAppsList) {
-                    CharSequence s = charSequences[0];
                     if (s.length() == 0) {
                         filteredApps.add(app);
                     } else if (Utils.simpleFuzzySearch(s, app.getAppName())) {

@@ -28,48 +28,49 @@
         app:cardElevation="@dimen/margin_padding_small"
         app:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/w_56"
+            android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_setting_global"
-                android:layout_width="@dimen/w_45"
-                android:layout_height="@dimen/w_45"
-                android:layout_marginStart="@dimen/margin_padding_small"
+                android:layout_width="@dimen/w_56"
+                android:layout_height="@dimen/w_56"
+                android:layout_gravity="center|start"
                 android:background="@color/transparent"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/margin_padding_small"
+                android:padding="@dimen/margin_padding_medium"
                 android:src="@drawable/baseline_settings_suggest_black_48" />
 
             <EditText
                 android:id="@+id/search_box"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/w_56"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/w_56"
+                android:layout_marginEnd="@dimen/w_56"
                 android:autofillHints=""
                 android:background="@color/transparent"
                 android:foregroundGravity="center"
+                android:gravity="center"
                 android:hint="@string/search"
                 android:imeOptions="actionDone|actionSend"
                 android:inputType="textPersonName"
                 android:padding="@dimen/margin_padding_small"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/txt_medium" />
+        </FrameLayout>
 
-            <ImageView
-                android:layout_width="@dimen/w_45"
-                android:layout_height="@dimen/w_45"
-                android:layout_marginEnd="@dimen/margin_padding_small"
-                android:background="@color/transparent"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/margin_padding_small"
-                android:src="@drawable/baseline_search_black_48" />
-        </LinearLayout>
-
+        <ImageView
+            android:layout_width="@dimen/w_56"
+            android:layout_height="@dimen/w_56"
+            android:layout_gravity="center|end"
+            android:background="@color/transparent"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/margin_padding_medium"
+            android:src="@drawable/baseline_search_black_48" />
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

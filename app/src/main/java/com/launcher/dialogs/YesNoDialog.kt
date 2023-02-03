@@ -31,6 +31,9 @@ class YesNoDialog(
         binding = DlgYesNoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvClose.click {
+            dismiss()
+        }
         binding.tvTitle.text = title
         binding.tvMsg.text = msg
         binding.tvYes.text = yes

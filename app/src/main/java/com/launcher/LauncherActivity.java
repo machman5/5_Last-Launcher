@@ -7,6 +7,7 @@ import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static com.launcher.ext.ActivityKt.chooseLauncher;
 import static com.launcher.ext.ActivityKt.isDefaultLauncher;
 import static com.launcher.ext.ContextKt.openBrowserPolicy;
+import static com.launcher.ext.ViewKt.click;
 import static com.launcher.ext.ViewKt.getHeightOfView;
 import static com.launcher.ext.ViewKt.playAnim;
 import static com.launcher.utils.SpUtilsKt.KEY_READ_POLICY;
@@ -33,7 +34,6 @@ import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +44,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -173,6 +174,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
         //our search box
         mSearchBox = findViewById(R.id.search_box);
+        ImageView ivSettingGlobal = findViewById(R.id.iv_setting_global);
+        click(ivSettingGlobal, this::showGlobalSettingsDialog);
         cvSearch = findViewById(R.id.cv_search);
         setSearchBoxListeners();
 
@@ -541,18 +544,21 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
                 window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             }
         } else if (view instanceof FlowLayout) {
-            // show launcher setting
-            dialogs = new GlobalSettingsDialog(this, this);
-            dialogs.show();
-
-            Window window = dialogs.getWindow();
-            if (window != null) {
-                window.setGravity(Gravity.BOTTOM);
-                window.setBackgroundDrawableResource(android.R.color.transparent);
-                window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            }
+            showGlobalSettingsDialog();
         }
         return true;
+    }
+
+    private void showGlobalSettingsDialog() {
+        dialogs = new GlobalSettingsDialog(this, this);
+        dialogs.show();
+
+        Window window = dialogs.getWindow();
+        if (window != null) {
+            window.setGravity(Gravity.BOTTOM);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        }
     }
 
     //  add a new app: generally called after reset

@@ -658,18 +658,18 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public void onBackPressed() {
-        if (searching) {
-            //check this line
-            imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-
-            searching = false;
-            if (mSearchTask != null) {
-                mSearchTask.cancel(true);
-                mSearchTask = null;
-            }
-            mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), getPaddingBottomBaseOnSearchView());
-            sortApps(DbUtils.getSortsTypes());
-        }
+        toggleViewSearch();
+//        if (searching) {
+//            imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+//
+//            searching = false;
+//            if (mSearchTask != null) {
+//                mSearchTask.cancel(true);
+//                mSearchTask = null;
+//            }
+//            mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), getPaddingBottomBaseOnSearchView());
+//            sortApps(DbUtils.getSortsTypes());
+//        }
     }
 
     // register the receiver
@@ -973,18 +973,22 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         handlerOnSwipe.removeCallbacksAndMessages(null);
         handlerOnSwipe.postDelayed(() -> {
             if (direction == Gestures.Direction.SWIPE_RIGHT || direction == Gestures.Direction.SWIPE_LEFT) {
-                if (searching) {
-                    searching = false;
-                    mSearchBox.clearFocus();
-                    imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                    onResume();
-                } else {
-                    searching = true;
-                    mSearchBox.requestFocus();
-                    imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
-                }
+                toggleViewSearch();
             }
         }, 100);
+    }
+
+    private void toggleViewSearch() {
+        if (searching) {
+            searching = false;
+            mSearchBox.clearFocus();
+            imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+            onResume();
+        } else {
+            searching = true;
+            mSearchBox.requestFocus();
+            imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 
     @Override

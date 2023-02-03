@@ -973,6 +973,14 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         if (direction == Gestures.Direction.SWIPE_RIGHT || direction == Gestures.Direction.SWIPE_LEFT) {
             handlerOnSwipe.removeCallbacksAndMessages(null);
             handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
+        } else if (direction == Gestures.Direction.SWIPE_UP) {
+            if (cvSearch.getVisibility() != View.GONE) {
+                cvSearch.setVisibility(View.GONE);
+            }
+        } else if (direction == Gestures.Direction.SWIPE_DOWN) {
+            if (cvSearch.getVisibility() != View.VISIBLE) {
+                cvSearch.setVisibility(View.VISIBLE);
+            }
         }
     }
 

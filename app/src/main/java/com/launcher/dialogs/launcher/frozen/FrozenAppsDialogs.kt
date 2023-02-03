@@ -11,13 +11,13 @@ import com.databinding.DlgFrozenAppsBinding
 import com.databinding.DlgHiddenAppsBinding
 import com.launcher.adapters.UniversalAdapter
 import com.launcher.dialogs.launcher.hidden.RemoveDialog
+import com.launcher.ext.click
 import com.launcher.model.Apps
 
 class FrozenAppsDialogs(
     mContext: Context, private val mAppsList: List<Apps>
 ) : Dialog(
-    mContext,
-    R.style.DialogSlideUpAnim
+    mContext, R.style.DialogSlideUpAnim
 ) {
     private lateinit var binding: DlgFrozenAppsBinding
     private var frozenApps = ArrayList<Apps>()
@@ -30,6 +30,10 @@ class FrozenAppsDialogs(
 
         binding = DlgFrozenAppsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.tvClose.click {
+            dismiss()
+        }
 
         adapter = UniversalAdapter(context, frozenApps)
         binding.lvHiddenApp.adapter = adapter
@@ -48,8 +52,7 @@ class FrozenAppsDialogs(
     private fun confirmationAndRemove(
         apps: Apps
     ) {
-        val dialogs = RemoveDialog(
-            mContext = context,
+        val dialogs = RemoveDialog(mContext = context,
             title = context.getString(R.string.warning),
             msg = apps.getAppName(),
             onClickRemove = {
@@ -59,12 +62,13 @@ class FrozenAppsDialogs(
                 if (frozenApps.isEmpty()) {
                     dismiss()
                 }
-            }, onClickRun = {
+            },
+            onClickRun = {
                 if (!apps.isShortcut) {
                     dismiss()
                     apps.activityName?.let { name ->
-                        val strings = name.split("/".toRegex()).dropLastWhile { it.isEmpty() }
-                            .toTypedArray()
+                        val strings =
+                            name.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                         val intent = Intent(Intent.ACTION_MAIN, null)
                         intent.setClassName(strings[0], strings[1])
                         intent.component = ComponentName(strings[0], strings[1])

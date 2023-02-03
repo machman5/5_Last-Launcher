@@ -183,7 +183,6 @@ class AppSettingsDialog(
     }
 
     private fun uninstallApp(activityName: String) {
-        //TODO deprecated
         val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
         intent.data =
             Uri.parse("package:" + activityName.split("/".toRegex()).dropLastWhile { it.isEmpty() }

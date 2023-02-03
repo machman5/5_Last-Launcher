@@ -40,6 +40,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -194,14 +195,14 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
     private void setSearchBoxListeners() {
         mSearchBox.addTextChangedListener(mTextWatcher);
-//        mSearchBox.setOnEditorActionListener((v, actionId, event) -> {
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                cvSearch.setVisibility(View.GONE);
-//                imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-//                return true;
-//            }
-//            return false;
-//        });
+        mSearchBox.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                mSearchBox.setText("");
+                imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+                return true;
+            }
+            return false;
+        });
     }
 
     /**

@@ -12,6 +12,7 @@ import android.view.Window
 import com.R
 import com.databinding.DlgHiddenAppsBinding
 import com.launcher.adapters.UniversalAdapter
+import com.launcher.ext.click
 import com.launcher.model.Apps
 
 class HiddenAppsDialogs(
@@ -32,6 +33,10 @@ class HiddenAppsDialogs(
 
         binding = DlgHiddenAppsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.tvClose.click {
+            dismiss()
+        }
 
         adapter = UniversalAdapter(context, hiddenApps)
         binding.lvHiddenApp.adapter = adapter

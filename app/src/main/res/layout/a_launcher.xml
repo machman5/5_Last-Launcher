@@ -65,6 +65,7 @@
         </FrameLayout>
 
         <ImageView
+            android:id="@+id/iv_icon_search"
             android:layout_width="@dimen/w_56"
             android:layout_height="@dimen/w_56"
             android:layout_gravity="center|end"

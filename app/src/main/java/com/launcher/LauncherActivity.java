@@ -970,12 +970,10 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public void onSwipe(Gestures.Direction direction) {
-        handlerOnSwipe.removeCallbacksAndMessages(null);
-        handlerOnSwipe.postDelayed(() -> {
-            if (direction == Gestures.Direction.SWIPE_RIGHT || direction == Gestures.Direction.SWIPE_LEFT) {
-                toggleViewSearch();
-            }
-        }, 100);
+        if (direction == Gestures.Direction.SWIPE_RIGHT || direction == Gestures.Direction.SWIPE_LEFT) {
+            handlerOnSwipe.removeCallbacksAndMessages(null);
+            handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
+        }
     }
 
     private void toggleViewSearch() {

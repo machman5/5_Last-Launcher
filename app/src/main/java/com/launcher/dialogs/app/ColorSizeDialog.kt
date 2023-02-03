@@ -43,6 +43,9 @@ class ColorSizeDialog     // boolean change=false;
 
         window?.setBackgroundDrawableResource(android.R.color.transparent)
 
+        binding.tvClose.click {
+            dismiss()
+        }
         binding.colorSlider1.setMaxPosition(100)
         binding.colorSlider1.isShowAlphaBar = true
         binding.colorSlider1.setBarHeight(8f)

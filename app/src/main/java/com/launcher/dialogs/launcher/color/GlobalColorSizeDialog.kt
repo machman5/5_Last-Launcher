@@ -58,6 +58,9 @@ class GlobalColorSizeDialog(
             binding.colorSlider1.color = colorDefault
         }
 
+        binding.tvClose.click {
+            dismiss()
+        }
         // set the color and save this to database
         binding.colorSlider1.setOnColorChangeListener(object : OnColorChangeListener {
             override fun onColorChangeListener(

@@ -51,6 +51,10 @@ class PaddingDialog(
         binding = DlgPaddingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvClose.click {
+            dismiss()
+        }
+
         binding.btnLeftMinus.setOnLongClickListener(this)
         binding.btnLeftMinus.click {
             //decrease the value as minus button is pressed

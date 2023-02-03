@@ -27,6 +27,9 @@ class AlignmentDialog(
         binding = DlgGlobalAlignmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvClose.click {
+            dismiss()
+        }
         binding.menuCenter.click {
             launcherActivity.setFlowLayoutAlignment(Gravity.CENTER or Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL)
             dismiss()

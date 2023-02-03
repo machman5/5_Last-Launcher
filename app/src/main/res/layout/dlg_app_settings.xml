@@ -31,6 +31,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvClose"
                 android:layout_width="@dimen/w_45"
                 android:layout_height="@dimen/w_45"
                 android:gravity="center"

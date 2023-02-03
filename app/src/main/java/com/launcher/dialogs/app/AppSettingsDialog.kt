@@ -65,6 +65,9 @@ class AppSettingsDialog(
             binding.vAppInfo.visibility = View.GONE
         }
 
+        binding.tvClose.click {
+            dismiss()
+        }
         binding.menuColor.click {
             changeColorSize(activityName, view)
         }

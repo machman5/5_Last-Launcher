@@ -97,9 +97,10 @@ fun View.click(
 fun View.playAnim(
     runnableAnimEnd: Runnable? = null,
     maxScale: Float = 1.5f,
+    duration: Long = 100L,
 ) {
     val anim = ValueAnimator.ofFloat(1f, maxScale)
-    anim.duration = 100
+    anim.duration = duration
     anim.addUpdateListener { animation ->
         this.scaleX = animation.animatedValue as Float
         this.scaleY = animation.animatedValue as Float

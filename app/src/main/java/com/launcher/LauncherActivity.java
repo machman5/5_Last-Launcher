@@ -417,9 +417,11 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     //TODO: new animated field for this (test randomly)
     private AppTextView getCustomView() {
         AppTextView textView = new AppTextView(this);
+        textView.setBackgroundColor(Color.TRANSPARENT);
         textView.setOnClickListener(this);
         textView.setOnLongClickListener(this);
-        textView.setPadding(10, 0, 4, -2);
+//        textView.setPadding(10, 0, 4, -2);
+        textView.setPadding(16, 0, 16, 0);
         textView.setTypeface(mTypeface);
         return textView;
     }
@@ -465,7 +467,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
                         e.printStackTrace();
                     }
                 }
-            }, 1.5f);
+            }, 10f, 200);
         }
     }
 

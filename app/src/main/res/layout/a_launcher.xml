@@ -28,21 +28,38 @@
         app:cardElevation="@dimen/margin_padding_small"
         app:cardUseCompatPadding="true">
 
-        <EditText
-            android:id="@+id/search_box"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:background="@color/transparent"
-            android:drawableStart="@drawable/baseline_search_black_48"
-            android:drawablePadding="@dimen/margin_padding_small"
-            android:foregroundGravity="center"
-            android:hint="@string/search"
-            android:imeOptions="actionDone|actionSend"
-            android:inputType="textPersonName"
-            android:padding="@dimen/margin_padding_small"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/txt_medium" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/w_45"
+                android:layout_height="@dimen/w_45"
+                android:layout_marginStart="@dimen/margin_padding_small"
+                android:background="@color/transparent"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/margin_padding_small"
+                android:src="@drawable/baseline_search_black_48" />
+
+            <EditText
+                android:id="@+id/search_box"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:autofillHints=""
+                android:background="@color/transparent"
+                android:foregroundGravity="center"
+                android:hint="@string/search"
+                android:imeOptions="actionDone|actionSend"
+                android:inputType="textPersonName"
+                android:padding="@dimen/margin_padding_small"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/txt_medium" />
+        </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

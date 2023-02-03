@@ -88,19 +88,28 @@ fun View.click(
     runnable: Runnable? = null
 ) {
     this.setOnClickListener {
-        val anim = ValueAnimator.ofFloat(1f, 1.5f)
-        anim.duration = 100
-        anim.addUpdateListener { animation ->
-            this.scaleX = animation.animatedValue as Float
-            this.scaleY = animation.animatedValue as Float
-        }
-        anim.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                runnable?.run()
-            }
+        this.playAnim({
+            runnable?.run()
         })
-        anim.repeatCount = 1
-        anim.repeatMode = ValueAnimator.REVERSE
-        anim.start()
     }
+}
+
+fun View.playAnim(
+    runnableAnimEnd: Runnable? = null,
+    maxScale: Float = 1.5f,
+) {
+    val anim = ValueAnimator.ofFloat(1f, maxScale)
+    anim.duration = 100
+    anim.addUpdateListener { animation ->
+        this.scaleX = animation.animatedValue as Float
+        this.scaleY = animation.animatedValue as Float
+    }
+    anim.addListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator) {
+            runnableAnimEnd?.run()
+        }
+    })
+    anim.repeatCount = 1
+    anim.repeatMode = ValueAnimator.REVERSE
+    anim.start()
 }

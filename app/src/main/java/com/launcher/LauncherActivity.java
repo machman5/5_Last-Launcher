@@ -7,6 +7,7 @@ import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static com.launcher.ext.ActivityKt.chooseLauncher;
 import static com.launcher.ext.ActivityKt.isDefaultLauncher;
 import static com.launcher.ext.ContextKt.openBrowserPolicy;
+import static com.launcher.ext.ViewKt.playAnim;
 import static com.launcher.utils.SpUtilsKt.KEY_READ_POLICY;
 
 import android.annotation.TargetApi;
@@ -82,9 +83,7 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
-public class LauncherActivity extends Activity implements View.OnClickListener,
-        View.OnLongClickListener,
-        Gestures.OnSwipeListener {
+public class LauncherActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
     //region Field declarations
     public static List<Apps> mAppsList;
@@ -356,19 +355,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 updateTime = 0;
             }
             // save all and add this is to app list
-            mAppsList.add(new Apps(
-                    packageName,
-                    false,
-                    activity,
-                    appName,
-                    getCustomView(),
-                    color,
-                    textSize,
-                    hide,
-                    freeze,
-                    openingCounts,
-                    updateTime
-            ));
+            mAppsList.add(new Apps(packageName, false, activity, appName, getCustomView(), color, textSize, hide, freeze, openingCounts, updateTime));
 
         }
 
@@ -411,17 +398,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
             // add this shortcut to list
             // currently shortcut hide is disabled
-            mAppsList.add(new Apps(null,
-                    true,
-                    uri, sName,
-                    getCustomView(),
-                    sColor,
-                    sSize,
-                    false,
-                    sFreeze,
-                    sOpeningCount,
-                    0
-            ));
+            mAppsList.add(new Apps(null, true, uri, sName, getCustomView(), sColor, sSize, false, sFreeze, sOpeningCount, 0));
         }
 
         // now sort the app list
@@ -452,43 +429,43 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if (view instanceof AppTextView) {
+            playAnim(view, () -> {
+                String activity = (String) view.getTag();
+                AppTextView appTextView = (AppTextView) view;
 
-            // get the activity
-            String activity = (String) view.getTag();
-            AppTextView appTextView = (AppTextView) view;
+                if (searching) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+                    cvSearch.setVisibility(View.GONE);
+                }
 
-            if (searching) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                cvSearch.setVisibility(View.GONE);
-            }
-
-            if (appTextView.isShortcut()) {
-                try {
-                    Intent intent = Intent.parseUri(appTextView.getUri(), 0);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                if (appTextView.isShortcut()) {
+                    try {
+                        Intent intent = Intent.parseUri(appTextView.getUri(), 0);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
 //                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    appOpened(activity);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                //Notes to me:if view store package and component name then this could reduce this splits
-                String[] strings = activity.split("/");
-                try {
-                    final Intent intent = new Intent(Intent.ACTION_MAIN, null);
-                    intent.setClassName(strings[0], strings[1]);
-                    intent.setComponent(new ComponentName(strings[0], strings[1]));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                        appOpened(activity);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    //Notes to me:if view store package and component name then this could reduce this splits
+                    String[] strings = activity.split("/");
+                    try {
+                        final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+                        intent.setClassName(strings[0], strings[1]);
+                        intent.setComponent(new ComponentName(strings[0], strings[1]));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
 //                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                    // tell the our db that app is opened
-                    appOpened(activity);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        // tell the our db that app is opened
+                        appOpened(activity);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
+            }, 1.5f);
         }
     }
 
@@ -512,21 +489,18 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                 chooseLauncher(this, FakeLauncherActivity.class);
             }
         } else {
-            PolicyDialog dialogs = new PolicyDialog(
-                    this,
-                    new PolicyDialog.OnClick() {
-                        @Override
-                        public void onYes() {
-                            SpUtils.Companion.getInstance().putBoolean(KEY_READ_POLICY, true);
-                            openBrowserPolicy(LauncherActivity.this);
-                        }
+            PolicyDialog dialogs = new PolicyDialog(this, new PolicyDialog.OnClick() {
+                @Override
+                public void onYes() {
+                    SpUtils.Companion.getInstance().putBoolean(KEY_READ_POLICY, true);
+                    openBrowserPolicy(LauncherActivity.this);
+                }
 
-                        @Override
-                        public void onNo() {
-                            SpUtils.Companion.getInstance().putBoolean(KEY_READ_POLICY, false);
-                        }
-                    }
-            );
+                @Override
+                public void onNo() {
+                    SpUtils.Companion.getInstance().putBoolean(KEY_READ_POLICY, false);
+                }
+            });
             dialogs.setCancelable(false);
             dialogs.setCanceledOnTouchOutside(false);
             dialogs.show();
@@ -534,10 +508,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             if (window != null) {
                 window.setGravity(Gravity.CENTER);
                 window.setBackgroundDrawableResource(android.R.color.transparent);
-                window.setLayout(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                );
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             }
         }
     }
@@ -562,12 +533,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
     public boolean onLongClick(View view) {
         if (view instanceof AppTextView) {
             // show app setting
-            dialogs = new AppSettingsDialog(
-                    this,
-                    this,
-                    (String) view.getTag(),
-                    (AppTextView) view
-            );
+            dialogs = new AppSettingsDialog(this, this, (String) view.getTag(), (AppTextView) view);
             dialogs.show();
 
             Window window = dialogs.getWindow();
@@ -615,8 +581,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
                     //mAppsList.add(newApp);
                     iterator.add(newApp);
-                    if (sortNeeded)
-                        sortApps(DbUtils.getSortsTypes());
+                    if (sortNeeded) sortApps(DbUtils.getSortsTypes());
                     break;
                 }
             }
@@ -827,8 +792,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     ContentResolver cr1 = getContentResolver();
 
                     File fontFile = new File(getFilesDir(), "font.ttf");
-                    try (InputStream inputFontStream = cr1.openInputStream(uri1);
-                         OutputStream out = new FileOutputStream(fontFile)) {
+                    try (InputStream inputFontStream = cr1.openInputStream(uri1); OutputStream out = new FileOutputStream(fontFile)) {
                         byte[] buf = new byte[1024];
                         int len;
                         while ((len = inputFontStream.read(buf)) > 0) {
@@ -940,10 +904,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             if (window != null) {
                 window.setGravity(Gravity.BOTTOM);
                 window.setBackgroundDrawableResource(android.R.color.transparent);
-                window.setLayout(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         } else {
             Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT).show();
@@ -960,10 +921,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
             if (window != null) {
                 window.setGravity(Gravity.BOTTOM);
                 window.setBackgroundDrawableResource(android.R.color.transparent);
-                window.setLayout(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         } else {
             Toast.makeText(this, "No apps to show", Toast.LENGTH_SHORT).show();
@@ -1000,18 +958,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
     private void addShortcut(String uri, String appName) {
         if (mAppsList == null) return;
-        mAppsList.add(new Apps(null,
-                true,
-                uri,
-                appName,
-                getCustomView(),
-                DbUtils.NULL_TEXT_COLOR,
-                Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS,
-                false,
-                false,
-                0,
-                (int) System.currentTimeMillis() / 1000
-        ));
+        mAppsList.add(new Apps(null, true, uri, appName, getCustomView(), DbUtils.NULL_TEXT_COLOR, Constants.DEFAULT_TEXT_SIZE_NORMAL_APPS, false, false, 0, (int) System.currentTimeMillis() / 1000));
         shortcutUtils.addShortcut(new Shortcut(appName, uri));
         // Log.d(TAG, "addShortcut: shortcut name==" + appName);
         sortApps(DbUtils.getSortsTypes());
@@ -1066,8 +1013,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                         if ("zh".equals(mLocale.getLanguage())) {// In case of Chinese, PinYin Search is supported.
                             isMatch = PinYinSearchUtils.pinYinSimpleFuzzySearch(charSequences[0], app.getAppName());
                         }
-                        if (isMatch)
-                            filteredApps.add(app);
+                        if (isMatch) filteredApps.add(app);
                     }
                 }
             }
@@ -1090,10 +1036,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
                     if (textView.getParent() != null) {
                         ((ViewGroup) textView.getParent()).removeView(textView);
                     }
-                    mHomeLayout.addView(
-                            textView,
-                            new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-                    );
+                    mHomeLayout.addView(textView, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
                 }
             }
         }
@@ -1112,10 +1055,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener,
 
             synchronized (mAppsList) {
                 //sort the apps alphabetically
-                Collections.sort(mAppsList, (a, b) -> String.CASE_INSENSITIVE_ORDER.compare(
-                        a.getAppName(),
-                        b.getAppName()
-                ));
+                Collections.sort(mAppsList, (a, b) -> String.CASE_INSENSITIVE_ORDER.compare(a.getAppName(), b.getAppName()));
 
                 switch (type) {
                     case Constants.SORT_BY_SIZE://descending

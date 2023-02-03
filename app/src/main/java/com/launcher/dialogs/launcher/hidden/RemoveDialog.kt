@@ -34,6 +34,9 @@ class RemoveDialog(
         binding = DlgAppRemoveBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvClose.click {
+            dismiss()
+        }
         title?.let {
             binding.tvTitle.text = it
             binding.tvTitle.visibility = View.VISIBLE

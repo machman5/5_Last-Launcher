@@ -22,17 +22,18 @@
         android:id="@+id/cv_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="bottom|end"
+        android:animateLayoutChanges="true"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/round_large"
         app:cardElevation="@dimen/margin_padding_small"
         app:cardUseCompatPadding="true">
 
         <FrameLayout
+            android:id="@+id/fl_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:visibility="visible">
+            android:background="@color/transparent">
 
             <ImageView
                 android:id="@+id/iv_setting_global"

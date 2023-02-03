@@ -44,6 +44,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -102,6 +103,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     //multi dialogs
     private Dialog dialogs;
     //search box
+    private FrameLayout flSearch;
     private EditText mSearchBox;
     private CardView cvSearch;
 
@@ -172,7 +174,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        //our search box
+        flSearch = findViewById(R.id.fl_search);
         mSearchBox = findViewById(R.id.search_box);
         ImageView ivSettingGlobal = findViewById(R.id.iv_setting_global);
         click(ivSettingGlobal, this::showGlobalSettingsDialog);
@@ -974,9 +976,15 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
             handlerOnSwipe.removeCallbacksAndMessages(null);
             handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
         } else if (direction == Gestures.Direction.SWIPE_UP) {
-
+            if (flSearch.getVisibility() != View.GONE) {
+                flSearch.setVisibility(View.GONE);
+            }
+            cvSearch.getLayoutParams().width = LayoutParams.WRAP_CONTENT;
         } else if (direction == Gestures.Direction.SWIPE_DOWN) {
-
+            if (flSearch.getVisibility() != View.VISIBLE) {
+                flSearch.setVisibility(View.VISIBLE);
+            }
+            cvSearch.getLayoutParams().width = LayoutParams.MATCH_PARENT;
         }
     }
 

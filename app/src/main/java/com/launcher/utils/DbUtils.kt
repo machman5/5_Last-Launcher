@@ -77,8 +77,7 @@ object DbUtils {
 
     @JvmStatic
     fun putAppSize(
-        activityName: String,
-        size: Int
+        activityName: String, size: Int
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_size"
@@ -87,8 +86,7 @@ object DbUtils {
 
     @JvmStatic
     fun putAppColor(
-        activityName: String,
-        color: Int
+        activityName: String, color: Int
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_color"
@@ -97,8 +95,7 @@ object DbUtils {
 
     @Suppress("unused")
     fun putAppColorImmediately(
-        activityName: String,
-        color: Int
+        activityName: String, color: Int
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_color"
@@ -107,8 +104,7 @@ object DbUtils {
 
     @JvmStatic
     fun getAppOriginalName(
-        activityName: String,
-        defaultValue: String
+        activityName: String, defaultValue: String
     ): String {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_app_original_name"
@@ -117,8 +113,7 @@ object DbUtils {
 
     @JvmStatic
     fun getAppName(
-        activityName: String,
-        defaultValue: String
+        activityName: String, defaultValue: String
     ): String {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_app_name"
@@ -141,8 +136,7 @@ object DbUtils {
 
     @JvmStatic
     fun hideApp(
-        activityName: String,
-        value: Boolean
+        activityName: String, value: Boolean
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_hide"
@@ -151,8 +145,7 @@ object DbUtils {
 
     @JvmStatic
     fun freezeAppSize(
-        activityName: String,
-        value: Boolean
+        activityName: String, value: Boolean
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_freeze"
@@ -254,6 +247,7 @@ object DbUtils {
     val isSizeFrozen: Boolean
         get() = SpUtils.instance.getBoolean(LAUNCHER_FREEZE_SIZE, false)
 
+    @Suppress("unused")
     @JvmStatic
     val isExternalSourceColor: Boolean
         get() = SpUtils.instance.getBoolean(APPS_COLOR_FROM_EXTERNAL_SOURCE, false)
@@ -263,6 +257,7 @@ object DbUtils {
         SpUtils.instance.putBoolean(APPS_COLOR_FROM_EXTERNAL_SOURCE, b)
     }
 
+    @Suppress("unused")
     @JvmStatic
     fun getAppColorExternalSource(activityName: String): Int {
         var sActivityName = activityName
@@ -272,8 +267,7 @@ object DbUtils {
 
     @JvmStatic
     fun putAppColorExternalSource(
-        activityName: String,
-        color: Int
+        activityName: String, color: Int
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_external_color"
@@ -282,8 +276,10 @@ object DbUtils {
 
     @JvmStatic
     var flowLayoutAlignment: Int
-        get() = SpUtils.instance
-            .getInt(FLOW_LAYOUT_ALIGNMENT, Gravity.CENTER or Gravity.CENTER_VERTICAL)
+        get() = SpUtils.instance.getInt(
+            FLOW_LAYOUT_ALIGNMENT,
+            Gravity.CENTER or Gravity.CENTER_VERTICAL
+        )
         set(gravity) {
             SpUtils.instance.putInt(FLOW_LAYOUT_ALIGNMENT, gravity)
         }
@@ -302,7 +298,6 @@ object DbUtils {
             SpUtils.instance.putInt(MIN_APP_SIZE, size)
         }
 
-    ///////
     @JvmStatic
     var paddingLeft: Int
         get() = SpUtils.instance.getInt(PADDING_LEFT, 0)
@@ -326,15 +321,16 @@ object DbUtils {
 
     @JvmStatic
     var paddingBottom: Int
-        get() = SpUtils.instance.getInt(PADDING_BOTTOM, 0)
+        get() {
+            return SpUtils.instance.getInt(PADDING_BOTTOM, 0)
+        }
         set(padding) {
             SpUtils.instance.putInt(PADDING_BOTTOM, padding)
         }
 
     @Suppress("unused")
     fun setGroupPrefix(
-        activityName: String,
-        prefix: String?
+        activityName: String, prefix: String?
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_group_prefix"
@@ -343,8 +339,7 @@ object DbUtils {
 
     @JvmStatic
     fun setCategories(
-        activityName: String,
-        categories: String?
+        activityName: String, categories: String?
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_categories"
@@ -353,8 +348,7 @@ object DbUtils {
 
     @JvmStatic
     fun setOpeningCounts(
-        activityName: String,
-        count: Int
+        activityName: String, count: Int
     ) {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_opening_counts"

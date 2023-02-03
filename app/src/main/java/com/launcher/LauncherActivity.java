@@ -7,6 +7,7 @@ import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static com.launcher.ext.ActivityKt.chooseLauncher;
 import static com.launcher.ext.ActivityKt.isDefaultLauncher;
 import static com.launcher.ext.ContextKt.openBrowserPolicy;
+import static com.launcher.ext.ViewKt.getHeightOfView;
 import static com.launcher.ext.ViewKt.playAnim;
 import static com.launcher.utils.SpUtilsKt.KEY_READ_POLICY;
 
@@ -179,7 +180,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         mHomeLayout.setGravity(DbUtils.getFlowLayoutAlignment());
 
         //set padding ..
-        mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), DbUtils.getPaddingBottom());
+        mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), getPaddingBottomBaseOnSearchView());
 
         detector = new Gestures(this, this);
 
@@ -191,6 +192,10 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         registerForReceivers();
 
         mLocale = this.getResources().getConfiguration().locale;
+    }
+
+    private int getPaddingBottomBaseOnSearchView() {
+        return DbUtils.getPaddingBottom() + getHeightOfView(cvSearch);
     }
 
     private void setSearchBoxListeners() {
@@ -469,7 +474,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         if (searching) {
             searching = false;
             imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-            mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), DbUtils.getPaddingBottom());
+            mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), getPaddingBottomBaseOnSearchView());
             sortApps(DbUtils.getSortsTypes());
         }
         checkReadPolicy();
@@ -656,7 +661,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
                 mSearchTask.cancel(true);
                 mSearchTask = null;
             }
-            mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), DbUtils.getPaddingBottom());
+            mHomeLayout.setPadding(DbUtils.getPaddingLeft(), DbUtils.getPaddingTop(), DbUtils.getPaddingRight(), getPaddingBottomBaseOnSearchView());
             sortApps(DbUtils.getSortsTypes());
         }
     }

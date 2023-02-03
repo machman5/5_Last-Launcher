@@ -117,13 +117,11 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            //do here search
             mSearchTask.execute(charSequence);
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-            // do everything
         }
     };
     private static SearchTask mSearchTask;
@@ -133,7 +131,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         if (!searching) return;
 
         mHomeLayout.removeAllViews();
-//        mHomeLayout.setPadding(0, 150, 0, 0);
         for (Apps apps : filteredApps) {
             mHomeLayout.addView(apps.getTextView(), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         }
@@ -178,7 +175,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         //our search box
         mSearchBox = findViewById(R.id.search_box);
         cvSearch = findViewById(R.id.cv_search);
-        //setup listeners on mSearchBox
         setSearchBoxListeners();
 
         //set alignment default is center|center_vertical
@@ -205,7 +201,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 cvSearch.setVisibility(View.GONE);
                 imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                //do something on clicking enter
                 return true;
             }
             return false;
@@ -262,7 +257,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(startupIntent, 0);
 
-        // check whether our app list is already initialized if yes then clear this(when new app or shortcut installed)
+        // check whether our app list is already initialized if yes then clear this (when new app or shortcut installed)
         if (mAppsList != null) {
             mAppsList.clear();
             mHomeLayout.removeAllViews();
@@ -1005,15 +1000,16 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
             ArrayList<Apps> filteredApps = new ArrayList<>();
             synchronized (mAppsList) {
                 for (Apps app : mAppsList) {
-                    if (charSequences[0].length() == 0) {
+                    CharSequence s = charSequences[0];
+                    if (s.length() == 0) {
                         filteredApps.add(app);
-                    } else if (Utils.simpleFuzzySearch(charSequences[0], app.getAppName())) {
+                    } else if (Utils.simpleFuzzySearch(s, app.getAppName())) {
                         filteredApps.add(app);
                     } else {
                         // Support for searching non-ascii languages Apps using ascii characters.
                         boolean isMatch = false;
                         if ("zh".equals(mLocale.getLanguage())) {// In case of Chinese, PinYin Search is supported.
-                            isMatch = PinYinSearchUtils.pinYinSimpleFuzzySearch(charSequences[0], app.getAppName());
+                            isMatch = PinYinSearchUtils.pinYinSimpleFuzzySearch(s, app.getAppName());
                         }
                         if (isMatch) filteredApps.add(app);
                     }

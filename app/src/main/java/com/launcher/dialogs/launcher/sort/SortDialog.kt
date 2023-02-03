@@ -26,6 +26,9 @@ class SortDialog(
         binding = DlgAppSortBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvClose.click {
+            dismiss()
+        }
         binding.menuSortByName.click {
             launcherActivity.sortApps(Constants.SORT_BY_NAME)
             dismiss()

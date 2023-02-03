@@ -27,6 +27,9 @@ class ThemeSelectorDialog internal constructor(
         binding = DlgThemeSelectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvClose.click {
+            dismiss()
+        }
         binding.t1.click {
             setTheme(R.style.AppTheme)
         }

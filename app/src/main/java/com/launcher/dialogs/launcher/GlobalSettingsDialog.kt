@@ -57,7 +57,10 @@ class GlobalSettingsDialog(
 
         binding.tvVersion.text = "Version ${BuildConfig.VERSION_NAME}"
 
-        binding.tvPolicy.click{
+        binding.tvClose.click {
+            dismiss()
+        }
+        binding.tvPolicy.click {
             launcherActivity.openBrowserPolicy()
         }
         binding.tvDefaultLauncher.click {

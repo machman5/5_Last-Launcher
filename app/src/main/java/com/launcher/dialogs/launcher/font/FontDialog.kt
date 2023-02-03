@@ -33,6 +33,9 @@ class FontDialog(
         binding = DlgAppFontBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvClose.click {
+            dismiss()
+        }
         binding.menuChooseFonts.click {
             setFonts()
         }

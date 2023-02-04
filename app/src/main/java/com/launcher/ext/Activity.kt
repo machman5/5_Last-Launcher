@@ -8,10 +8,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Point
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
+import android.util.TypedValue
 import android.view.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import com.R
+import com.launcher.itf.OnKeyboardVisibilityListener
 
 fun Context.isDefaultLauncher(): Boolean {
     val intent = Intent(Intent.ACTION_MAIN)
@@ -323,4 +327,30 @@ fun Activity.showDefaultControls(
         uiOptions = uiOptions and View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY.inv()
     }
     decorView.systemUiVisibility = uiOptions
+}
+
+fun Activity.setKeyboardVisibilityListener(onKeyboardVisibilityListener: OnKeyboardVisibilityListener) {
+    val parentView = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0)
+    parentView.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+        private var alreadyOpen = false
+        private val defaultKeyboardHeightDP = 100
+        private val EstimatedKeyboardDP =
+            defaultKeyboardHeightDP + if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) 48 else 0
+        private val rect = Rect()
+        override fun onGlobalLayout() {
+            val estimatedKeyboardHeight = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                EstimatedKeyboardDP.toFloat(),
+                parentView.resources.displayMetrics
+            ).toInt()
+            parentView.getWindowVisibleDisplayFrame(rect)
+            val heightDiff = parentView.rootView.height - (rect.bottom - rect.top)
+            val isShown = heightDiff >= estimatedKeyboardHeight
+            if (isShown == alreadyOpen) {
+                return
+            }
+            alreadyOpen = isShown
+            onKeyboardVisibilityListener.onVisibilityChanged(isShown)
+        }
+    })
 }

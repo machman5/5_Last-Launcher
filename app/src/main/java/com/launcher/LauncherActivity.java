@@ -6,6 +6,7 @@ import static android.content.Intent.ACTION_PACKAGE_REMOVED;
 import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static com.launcher.ext.ActivityKt.chooseLauncher;
 import static com.launcher.ext.ActivityKt.isDefaultLauncher;
+import static com.launcher.ext.ActivityKt.setKeyboardVisibilityListener;
 import static com.launcher.ext.ContextKt.openBrowserPolicy;
 import static com.launcher.ext.ViewKt.click;
 import static com.launcher.ext.ViewKt.getHeightOfView;
@@ -227,7 +228,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         registerForReceivers();
 
         mLocale = this.getResources().getConfiguration().locale;
-        setKeyboardVisibilityListener(visible -> isKeyboardShowing = visible);
+        setKeyboardVisibilityListener(this, visible -> isKeyboardShowing = visible);
     }
 
     private int getPaddingBottomBaseOnSearchView() {
@@ -1065,30 +1066,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     }
 
     private Locale mLocale;
-
-    private void setKeyboardVisibilityListener(final OnKeyboardVisibilityListener onKeyboardVisibilityListener) {
-        final View parentView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
-        parentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            private boolean alreadyOpen;
-            private final int defaultKeyboardHeightDP = 100;
-            private final int EstimatedKeyboardDP = defaultKeyboardHeightDP + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 48 : 0);
-            private final Rect rect = new Rect();
-
-            @Override
-            public void onGlobalLayout() {
-                int estimatedKeyboardHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, EstimatedKeyboardDP, parentView.getResources().getDisplayMetrics());
-                parentView.getWindowVisibleDisplayFrame(rect);
-                int heightDiff = parentView.getRootView().getHeight() - (rect.bottom - rect.top);
-                boolean isShown = heightDiff >= estimatedKeyboardHeight;
-                if (isShown == alreadyOpen) {
-                    return;
-                }
-                alreadyOpen = isShown;
-                onKeyboardVisibilityListener.onVisibilityChanged(isShown);
-            }
-        });
-    }
 
     class SearchTask extends AsyncTask<CharSequence, Void, ArrayList<Apps>> {
         @Override

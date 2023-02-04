@@ -441,7 +441,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         textView.setOnClickListener(this);
         textView.setOnLongClickListener(this);
 //        textView.setPadding(10, 0, 4, -2);
-        textView.setPadding(16, 0, 16, 0);
+        textView.setPadding(16, 8, 16, 8);
         textView.setTypeface(mTypeface);
         return textView;
     }

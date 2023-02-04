@@ -98,9 +98,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     // home layout
     private FlowLayout mHomeLayout;
     // when search bar appears this will be true and show search result
-    private static boolean searching = false;
+    private boolean searching = false;
     //TODO: save this to db
-    private static int recentlyUsedCounter = 0;
+    private int recentlyUsedCounter = 0;
     // broadcast receiver
     private BroadcastReceiver broadcastReceiverAppInstall;
     private BroadcastReceiver broadcastReceiverShortcutInstall;

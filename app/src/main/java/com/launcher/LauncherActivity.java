@@ -96,7 +96,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     //region Field declarations
     public static List<Apps> mAppsList;
     // home layout
-    private static FlowLayout mHomeLayout;
+    private FlowLayout mHomeLayout;
     // when search bar appears this will be true and show search result
     private static boolean searching = false;
     //TODO: save this to db
@@ -136,7 +136,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     private static SearchTask mSearchTask;
     //endregion
 
-    private static void showSearchResult(ArrayList<Apps> filteredApps) {
+    private void showSearchResult(ArrayList<Apps> filteredApps) {
         mHomeLayout.removeAllViews();
         for (Apps apps : filteredApps) {
             mHomeLayout.addView(apps.getTextView(), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -1061,7 +1061,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         });
     }
 
-    static class SearchTask extends AsyncTask<CharSequence, Void, ArrayList<Apps>> {
+    class SearchTask extends AsyncTask<CharSequence, Void, ArrayList<Apps>> {
         @Override
         protected void onPostExecute(ArrayList<Apps> filteredApps) {
             super.onPostExecute(filteredApps);
@@ -1092,7 +1092,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    static class SortTask extends AsyncTask<Integer, Void, Void> {
+    class SortTask extends AsyncTask<Integer, Void, Void> {
 
         @Override
         protected void onPostExecute(Void aVoid) {

@@ -140,6 +140,12 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         for (Apps apps : filteredApps) {
             mHomeLayout.addView(apps.getTextView(), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         }
+        if (filteredApps.isEmpty()) {
+
+        } else if (filteredApps.size() == 1) {
+            //khi search chi co ra 1 ket qua thi lap tuc launching luon
+            mHomeLayout.getChildAt(0).performClick();
+        }
     }
 
     @Override

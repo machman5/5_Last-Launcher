@@ -117,7 +117,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     private Gestures detector;
     public ShortcutUtils shortcutUtils;
 
-    private static final TextWatcher mTextWatcher = new TextWatcher() {
+    private final TextWatcher mTextWatcher = new TextWatcher() {
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -211,7 +211,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         registerForReceivers();
 
         mLocale = this.getResources().getConfiguration().locale;
-        setKeyboardVisibilityListener(visible -> Log.d("loitpp", "setKeyboardVisibilityListener visible " + visible));
+        setKeyboardVisibilityListener(visible ->
+                Log.d("loitpp", "setKeyboardVisibilityListener visible " + visible)
+        );
     }
 
     private int getPaddingBottomBaseOnSearchView() {

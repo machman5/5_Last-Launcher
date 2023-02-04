@@ -110,6 +110,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     private FrameLayout flSearch;
     private EditText mSearchBox;
     private CardView cvSearch;
+    private TextView tvNoData;
 
     private InputMethodManager imm;
     // gesture detector
@@ -141,10 +142,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
             mHomeLayout.addView(apps.getTextView(), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         }
         if (filteredApps.isEmpty()) {
-
+            tvNoData.setVisibility(View.VISIBLE);
         } else if (filteredApps.size() == 1) {
+            tvNoData.setVisibility(View.GONE);
             //khi search chi co ra 1 ket qua thi lap tuc launching luon
             mHomeLayout.getChildAt(0).performClick();
+        } else {
+            tvNoData.setVisibility(View.GONE);
         }
     }
 
@@ -180,15 +184,16 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         setFont();
 
         mHomeLayout = findViewById(R.id.home_layout);
-        mHomeLayout.setOnLongClickListener(this);
-
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
+        cvSearch = findViewById(R.id.cv_search);
+        tvNoData = findViewById(R.id.tvNoData);
         flSearch = findViewById(R.id.fl_search);
         mSearchBox = findViewById(R.id.search_box);
         ImageView ivSettingGlobal = findViewById(R.id.iv_setting_global);
-        click(ivSettingGlobal, this::showGlobalSettingsDialog);
         ImageView ivIconSearch = findViewById(R.id.iv_icon_search);
+
+        mHomeLayout.setOnLongClickListener(this);
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        click(ivSettingGlobal, this::showGlobalSettingsDialog);
         click(ivIconSearch, () -> {
             if (isKeyboardShowing) {
                 if (isCvSearchMatchParent()) {
@@ -204,7 +209,6 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
                 }
             }
         });
-        cvSearch = findViewById(R.id.cv_search);
         setSearchBoxListeners();
 
         //set alignment default is center|center_vertical

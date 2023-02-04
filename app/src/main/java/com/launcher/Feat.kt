@@ -15,6 +15,7 @@ package com.launcher
 //TODO lock app
 //TODO intro
 //TODO swipe to do action
+//TODO setting enable/disable auto launching khi search chi ra 1 phan tu
 
 //done
 //package name

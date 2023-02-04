@@ -24,6 +24,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -34,11 +35,14 @@ import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -60,6 +64,7 @@ import com.launcher.dialogs.launcher.color.GlobalColorSizeDialog;
 import com.launcher.dialogs.launcher.frozen.FrozenAppsDialogs;
 import com.launcher.dialogs.launcher.hidden.HiddenAppsDialogs;
 import com.launcher.dialogs.launcher.padding.PaddingDialog;
+import com.launcher.itf.OnKeyboardVisibilityListener;
 import com.launcher.model.Apps;
 import com.launcher.model.Shortcut;
 import com.launcher.utils.Constants;
@@ -184,6 +189,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
                 setCvSearchWrapContent();
             } else {
                 setCvSearchMatchParent();
+//                toggleViewSearch();
             }
         });
         cvSearch = findViewById(R.id.cv_search);
@@ -205,6 +211,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         registerForReceivers();
 
         mLocale = this.getResources().getConfiguration().locale;
+        setKeyboardVisibilityListener(visible -> Log.d("loitpp", "setKeyboardVisibilityListener visible " + visible));
     }
 
     private int getPaddingBottomBaseOnSearchView() {
@@ -1027,6 +1034,30 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
     }
 
     private static Locale mLocale;
+
+    private void setKeyboardVisibilityListener(final OnKeyboardVisibilityListener onKeyboardVisibilityListener) {
+        final View parentView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+        parentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            private boolean alreadyOpen;
+            private final int defaultKeyboardHeightDP = 100;
+            private final int EstimatedKeyboardDP = defaultKeyboardHeightDP + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 48 : 0);
+            private final Rect rect = new Rect();
+
+            @Override
+            public void onGlobalLayout() {
+                int estimatedKeyboardHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, EstimatedKeyboardDP, parentView.getResources().getDisplayMetrics());
+                parentView.getWindowVisibleDisplayFrame(rect);
+                int heightDiff = parentView.getRootView().getHeight() - (rect.bottom - rect.top);
+                boolean isShown = heightDiff >= estimatedKeyboardHeight;
+                if (isShown == alreadyOpen) {
+                    return;
+                }
+                alreadyOpen = isShown;
+                onKeyboardVisibilityListener.onVisibilityChanged(isShown);
+            }
+        });
+    }
 
     static class SearchTask extends AsyncTask<CharSequence, Void, ArrayList<Apps>> {
         @Override

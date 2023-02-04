@@ -93,7 +93,6 @@ import java.util.Locale;
 
 public class LauncherActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
-    //region Field declarations
     public static List<Apps> mAppsList;
     // home layout
     private FlowLayout mHomeLayout;
@@ -134,7 +133,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         }
     };
     private SearchTask mSearchTask;
-    //endregion
+    private boolean isKeyboardShowing = false;
 
     private void showSearchResult(ArrayList<Apps> filteredApps) {
         mHomeLayout.removeAllViews();
@@ -185,11 +184,18 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         click(ivSettingGlobal, this::showGlobalSettingsDialog);
         ImageView ivIconSearch = findViewById(R.id.iv_icon_search);
         click(ivIconSearch, () -> {
-            if (isCvSearchMatchParent()) {
-                setCvSearchWrapContent();
+            if (isKeyboardShowing) {
+                if (isCvSearchMatchParent()) {
+                    setCvSearchWrapContent();
+                }
+                hideSearch();
             } else {
-                setCvSearchMatchParent();
-//                toggleViewSearch();
+                if (isCvSearchMatchParent()) {
+                    setCvSearchWrapContent();
+                } else {
+                    setCvSearchMatchParent();
+                    showSearch();
+                }
             }
         });
         cvSearch = findViewById(R.id.cv_search);
@@ -211,9 +217,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         registerForReceivers();
 
         mLocale = this.getResources().getConfiguration().locale;
-        setKeyboardVisibilityListener(visible ->
-                Log.d("loitpp", "setKeyboardVisibilityListener visible " + visible)
-        );
+        setKeyboardVisibilityListener(visible -> isKeyboardShowing = visible);
     }
 
     private int getPaddingBottomBaseOnSearchView() {
@@ -224,8 +228,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         mSearchBox.addTextChangedListener(mTextWatcher);
         mSearchBox.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                mSearchBox.setText("");
-                imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+                hideSearch();
                 return true;
             }
             return false;
@@ -487,6 +490,9 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
                     }
                 }
             }, 10f, 200);
+        }
+        if (isKeyboardShowing) {
+            hideSearch();
         }
     }
 
@@ -1017,16 +1023,25 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         cvSearch.getLayoutParams().width = LayoutParams.WRAP_CONTENT;
     }
 
+    private void showSearch() {
+        searching = true;
+        mSearchBox.requestFocus();
+        imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    private void hideSearch() {
+        searching = false;
+        mSearchBox.setText("");
+        mSearchBox.clearFocus();
+        imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+        onResume();
+    }
+
     private void toggleViewSearch() {
         if (searching) {
-            searching = false;
-            mSearchBox.clearFocus();
-            imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-            onResume();
+            hideSearch();
         } else {
-            searching = true;
-            mSearchBox.requestFocus();
-            imm.showSoftInput(mSearchBox, InputMethodManager.SHOW_IMPLICIT);
+            showSearch();
         }
     }
 

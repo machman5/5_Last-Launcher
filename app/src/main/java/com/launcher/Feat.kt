@@ -14,6 +14,7 @@ package com.launcher
 //TODO double tap to lock
 //TODO lock app
 //TODO intro
+//TODO swipe to do action
 
 //done
 //package name

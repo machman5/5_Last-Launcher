@@ -999,9 +999,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
             handlerOnSwipe.removeCallbacksAndMessages(null);
             handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
         } else if (direction == Gestures.Direction.SWIPE_UP) {
-            setCvSearchWrapContent();
+            if (!isKeyboardShowing) {
+                setCvSearchWrapContent();
+            }
         } else if (direction == Gestures.Direction.SWIPE_DOWN) {
-            setCvSearchMatchParent();
+            if (!isKeyboardShowing) {
+                setCvSearchMatchParent();
+            }
         }
     }
 

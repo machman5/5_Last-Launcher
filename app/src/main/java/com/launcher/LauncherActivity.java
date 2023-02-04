@@ -133,7 +133,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         public void afterTextChanged(Editable editable) {
         }
     };
-    private static SearchTask mSearchTask;
+    private SearchTask mSearchTask;
     //endregion
 
     private void showSearchResult(ArrayList<Apps> filteredApps) {
@@ -1035,7 +1035,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
     }
 
-    private static Locale mLocale;
+    private Locale mLocale;
 
     private void setKeyboardVisibilityListener(final OnKeyboardVisibilityListener onKeyboardVisibilityListener) {
         final View parentView = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);

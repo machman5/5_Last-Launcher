@@ -6,6 +6,7 @@ import android.net.Uri
 
 const val URL_POLICY_NOTION =
     "https://loitp.notion.site/loitp/Privacy-Policy-319b1cd8783942fa8923d2a3c9bce60f/"
+//const val URL_POLICY_NOTION = "https://roy93group.page.link/term_privacy_and_policy"
 
 /*
          * send email support
@@ -28,8 +29,11 @@ fun Context?.openUrlInBrowser(
     if (this == null || url.isNullOrEmpty()) {
         return
     }
-    val defaultBrowser =
-        Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_BROWSER)
-    defaultBrowser.data = Uri.parse(url)
-    this.startActivity(defaultBrowser)
+    try {
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }

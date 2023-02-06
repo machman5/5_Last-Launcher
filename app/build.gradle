@@ -8,8 +8,8 @@ android {
         applicationId "com.roy93group.quicklauncher"
         minSdkVersion 17
         targetSdkVersion 33
-        versionCode 20230205
-        versionName "2023.02.05"
+        versionCode 20230206
+        versionName "2023.02.06"
     }
     signingConfigs {
         release {

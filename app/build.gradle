@@ -21,20 +21,19 @@ android {
     }
     buildTypes {
         debug {
-            def workingBranch = getGitWorkingBranch()
-            def normalizedWorkingBranch = workingBranch.replaceFirst("^[^A-Za-z]+", "").replaceAll("[^0-9A-Za-z]+", "")
-            if (normalizedWorkingBranch.isEmpty() || workingBranch == "master") {
-                applicationIdSuffix ".debug"
-                resValue "string", "app_name", "Quick Launcher Dev"
-            } else {
-                archivesBaseName = 'Quick_Launcher_' + normalizedWorkingBranch
-                applicationIdSuffix ".debug." + normalizedWorkingBranch
-                resValue "string", "app_name", "Quick Launcher-" + workingBranch
-            }
-
+//            def workingBranch = getGitWorkingBranch()
+//            def normalizedWorkingBranch = workingBranch.replaceFirst("^[^A-Za-z]+", "").replaceAll("[^0-9A-Za-z]+", "")
+//            if (normalizedWorkingBranch.isEmpty() || workingBranch == "master") {
+//                applicationIdSuffix ".debug"
+//                resValue "string", "app_name", "Quick Launcher Dev"
+//            } else {
+//                archivesBaseName = 'Quick_Launcher_' + normalizedWorkingBranch
+//                applicationIdSuffix ".debug." + normalizedWorkingBranch
+//                resValue "string", "app_name", "Quick Launcher-" + workingBranch
+//            }
             debuggable true
             jniDebuggable true
-            versionNameSuffix "-debug"
+//            versionNameSuffix "-debug"
             minifyEnabled false
             shrinkResources false
         }
@@ -44,7 +43,7 @@ android {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
-            resValue "string", "app_name", "Quick Launcher"
+//            resValue "string", "app_name", "Quick Launcher"
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

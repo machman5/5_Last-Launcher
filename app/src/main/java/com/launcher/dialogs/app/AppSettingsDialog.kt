@@ -17,6 +17,7 @@ import com.databinding.DlgAppSettingsBinding
 import com.launcher.LauncherActivity
 import com.launcher.ext.click
 import com.launcher.ext.rateApp
+import com.launcher.model.Apps
 import com.launcher.model.Shortcut
 import com.launcher.utils.Constants
 import com.launcher.utils.DbUtils
@@ -115,15 +116,7 @@ class AppSettingsDialog(
                 }
             }
             click {
-                apps.packageName?.let {
-                    val isAppLock = DbUtils.isAppLock(it)
-                    if (isAppLock) {
-                        DbUtils.setAppLock(packageName = it, value = false)
-                    } else {
-                        DbUtils.setAppLock(packageName = it, value = true)
-                    }
-                    dismiss()
-                }
+                toggleLockApp(apps)
             }
         }
     }
@@ -233,5 +226,17 @@ class AppSettingsDialog(
         val sortNeeded = sortsTypes == Constants.SORT_BY_COLOR
         launcherActivity.addAppAfterReset(activityName, sortNeeded)
         dismiss()
+    }
+
+    private fun toggleLockApp(apps: Apps) {
+//        apps.packageName?.let {
+//            val isAppLock = DbUtils.isAppLock(it)
+//            if (isAppLock) {
+//                DbUtils.setAppLock(packageName = it, value = false)
+//            } else {
+//                DbUtils.setAppLock(packageName = it, value = true)
+//            }
+//            dismiss()
+//        }
     }
 }

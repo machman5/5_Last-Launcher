@@ -694,7 +694,8 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 
     @Override
     public void onBackPressed() {
-        toggleViewSearch();
+//        toggleViewSearch();
+
 //        if (searching) {
 //            imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
 //
@@ -1002,13 +1003,13 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
         sortApps(DbUtils.getSortsTypes());
     }
 
-    private final Handler handlerOnSwipe = new Handler(Looper.myLooper());
+//    private final Handler handlerOnSwipe = new Handler(Looper.myLooper());
 
     @Override
     public void onSwipe(Gestures.Direction direction) {
         if (direction == Gestures.Direction.SWIPE_RIGHT || direction == Gestures.Direction.SWIPE_LEFT) {
-            handlerOnSwipe.removeCallbacksAndMessages(null);
-            handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
+//            handlerOnSwipe.removeCallbacksAndMessages(null);
+//            handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
         } else if (direction == Gestures.Direction.SWIPE_UP) {
             if (!isKeyboardShowing) {
                 setCvSearchWrapContent();

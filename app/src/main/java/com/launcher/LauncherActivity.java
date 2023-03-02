@@ -49,6 +49,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.BuildConfig;
@@ -86,7 +87,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 
-public class LauncherActivity extends Activity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
+public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
     public static List<Apps> mAppsList;
     // home layout

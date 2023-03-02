@@ -3,17 +3,25 @@ package com.launcher.dialogs.app
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import com.R
 import com.databinding.DlgAppSettingsBinding
+import com.github.pwittchen.rxbiometric.library.RxBiometric
+import com.github.pwittchen.rxbiometric.library.throwable.AuthenticationError
+import com.github.pwittchen.rxbiometric.library.throwable.AuthenticationFail
+import com.github.pwittchen.rxbiometric.library.throwable.BiometricNotSupported
+import com.github.pwittchen.rxbiometric.library.validation.RxPreconditions
 import com.launcher.LauncherActivity
 import com.launcher.ext.click
 import com.launcher.ext.rateApp
@@ -29,6 +37,10 @@ import com.launcher.utils.DbUtils.removeColor
 import com.launcher.utils.DbUtils.removeSize
 import com.launcher.utils.DbUtils.sortsTypes
 import com.launcher.views.textview.AppTextView
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 
 /**
  * this the launcher setting Dialog
@@ -238,5 +250,39 @@ class AppSettingsDialog(
 //            }
 //            dismiss()
 //        }
+        disposable = RxPreconditions.hasBiometricSupport(context).flatMapCompletable {
+            if (!it) Completable.error(BiometricNotSupported())
+            else RxBiometric.title("title").description("description")
+                .negativeButtonText("cancel").negativeButtonListener { _, _ ->
+                    Log.d("loitp", "cancel")
+                }.executor(ActivityCompat.getMainExecutor(context)).build()
+                .authenticate(launcherActivity)
+        }.observeOn(AndroidSchedulers.mainThread()).subscribeBy(onComplete = {
+            Log.d("loitp", "authenticated")
+        }, onError = {
+            when (it) {
+                is AuthenticationError -> {
+                    Log.d("loitp", "error: ${it.errorCode} ${it.errorMessage}")
+                }
+                is AuthenticationFail -> {
+                    Log.d("loitp", "fail")
+                }
+                else -> {
+                    Log.d("loitp", "other error")
+                }
+            }
+        })
+
+    }
+
+    private var disposable: Disposable? = null
+
+    override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
+        super.setOnDismissListener(listener)
+        disposable?.apply {
+            if (!this.isDisposed) {
+                this.dispose()
+            }
+        }
     }
 }

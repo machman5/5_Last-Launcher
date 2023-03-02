@@ -1,6 +1,6 @@
 package com.launcher
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Created by Loitp on 01,February,2023
@@ -9,4 +9,4 @@ import android.app.Activity
  * +840766040293
  * freuss47@gmail.com
  */
-class FakeLauncherActivity : Activity()
+class FakeLauncherActivity : AppCompatActivity()

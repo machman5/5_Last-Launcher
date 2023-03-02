@@ -91,7 +91,7 @@ dependencies {
     api 'com.google.firebase:firebase-crashlytics-ktx'
     api 'com.google.firebase:firebase-config-ktx'
 //    https://github.com/pwittchen/RxBiometric
-//    api 'com.github.pwittchen:rxbiometric:0.1.0'
+    api 'com.github.pwittchen:rxbiometric:0.1.0'
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }

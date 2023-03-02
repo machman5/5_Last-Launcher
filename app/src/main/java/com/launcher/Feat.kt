@@ -17,6 +17,7 @@ package com.launcher
 //TODO swipe to do action
 //TODO setting enable/disable auto launching khi search chi ra 1 phan tu
 //TODO send feedback to dev
+//TODO onSwipe gesture
 
 //done
 //package name

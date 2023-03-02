@@ -170,16 +170,16 @@ val screenWidth: Int
 val screenHeight: Int
     get() = Resources.getSystem().displayMetrics.heightPixels
 
-fun Context.getStatusBarHeight(): Int {
-    var result = 0
-    val resourceId = this.resources.getIdentifier(
-        "status_bar_height", "dimen", "android"
-    )
-    if (resourceId > 0) {
-        result = this.resources.getDimensionPixelSize(resourceId)
-    }
-    return result
-}
+//fun Context.getStatusBarHeight(): Int {
+//    var result = 0
+//    val resourceId = this.resources.getIdentifier(
+//        "status_bar_height", "dimen", "android"
+//    )
+//    if (resourceId > 0) {
+//        result = this.resources.getDimensionPixelSize(resourceId)
+//    }
+//    return result
+//}
 
 fun Context.getScreenHeightIncludeNavigationBar(): Int {
     val windowManager = this.getSystemService(Context.WINDOW_SERVICE) as WindowManager

@@ -104,6 +104,28 @@ class AppSettingsDialog(
         binding.menuResetColor.click {
             resetAppColor(activityName)
         }
+        binding.menuLockOrUnlock.apply {
+            val apps = launcherActivity.getApp(activityName)
+            apps.packageName?.let {
+                val isAppLock = DbUtils.isAppLock(it)
+                text = if (isAppLock) {
+                    context.getString(R.string.unlock)
+                } else {
+                    context.getString(R.string.lock)
+                }
+            }
+            click {
+                apps.packageName?.let {
+                    val isAppLock = DbUtils.isAppLock(it)
+                    if (isAppLock) {
+                        DbUtils.setAppLock(packageName = it, value = false)
+                    } else {
+                        DbUtils.setAppLock(packageName = it, value = true)
+                    }
+                    dismiss()
+                }
+            }
+        }
     }
 
     private fun changeColorSize(activityName: String, view: TextView) {
@@ -174,8 +196,7 @@ class AppSettingsDialog(
         if (view.uri != null) {
             launcherActivity.shortcutUtils.removeShortcut(
                 Shortcut(
-                    name = view.text.toString(),
-                    uris = view.uri!!
+                    name = view.text.toString(), uris = view.uri!!
                 )
             )
         }

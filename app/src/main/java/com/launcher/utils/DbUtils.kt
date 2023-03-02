@@ -160,6 +160,19 @@ object DbUtils {
     }
 
     @JvmStatic
+    fun isAppLock(packageName: String): Boolean {
+        return SpUtils.instance.getBoolean(packageName, false)
+    }
+
+    @JvmStatic
+    fun setAppLock(
+        packageName: String,
+        value: Boolean
+    ) {
+        SpUtils.instance.putBoolean(packageName, value)
+    }
+
+    @JvmStatic
     fun isAppHidden(activityName: String): Boolean {
         var sActivityName = activityName
         sActivityName = sActivityName.replace("\\.".toRegex(), "_") + "_hide"
@@ -277,8 +290,7 @@ object DbUtils {
     @JvmStatic
     var flowLayoutAlignment: Int
         get() = SpUtils.instance.getInt(
-            FLOW_LAYOUT_ALIGNMENT,
-            Gravity.CENTER or Gravity.CENTER_VERTICAL
+            FLOW_LAYOUT_ALIGNMENT, Gravity.CENTER or Gravity.CENTER_VERTICAL
         )
         set(gravity) {
             SpUtils.instance.putInt(FLOW_LAYOUT_ALIGNMENT, gravity)

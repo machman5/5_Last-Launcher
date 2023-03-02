@@ -11,6 +11,7 @@ import static com.launcher.ext.ContextKt.openBrowserPolicy;
 import static com.launcher.ext.ViewKt.click;
 import static com.launcher.ext.ViewKt.getHeightOfView;
 import static com.launcher.ext.ViewKt.playAnim;
+import static com.launcher.ext.ViewKt.testCrash;
 import static com.launcher.utils.SpUtilsKt.KEY_READ_POLICY;
 
 import android.annotation.TargetApi;
@@ -1005,6 +1006,7 @@ public class LauncherActivity extends Activity implements View.OnClickListener, 
 //            handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
         } else if (direction == Gestures.Direction.SWIPE_LEFT) {
             //do sth
+            testCrash();
         } else if (direction == Gestures.Direction.SWIPE_UP) {
             if (!isKeyboardShowing) {
                 setCvSearchWrapContent();

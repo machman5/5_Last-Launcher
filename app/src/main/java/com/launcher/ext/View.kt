@@ -10,6 +10,9 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import java.text.DateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 fun View?.setMargins(
@@ -113,4 +116,10 @@ fun View.playAnim(
     anim.repeatCount = 1
     anim.repeatMode = ValueAnimator.REVERSE
     anim.start()
+}
+
+fun testCrash() {
+    throw RuntimeException(
+        "FIREBASE CRASHLYTICS TEST::" + DateFormat.getDateTimeInstance().format(Date())
+    )
 }

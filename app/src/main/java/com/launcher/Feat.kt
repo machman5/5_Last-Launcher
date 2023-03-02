@@ -8,7 +8,8 @@ package com.launcher
  * freuss47@gmail.com
  */
 
-//TODO firebase
+//https://console.firebase.google.com/u/0/project/quick-launcher-98df2/overview
+
 //TODO vibrate when menu item action
 //TODO customize toast
 //TODO double tap to lock
@@ -30,3 +31,4 @@ package com.launcher
 //setting launch store by pkg name
 //efx scroll like ios bouncy
 //policy
+//firebase

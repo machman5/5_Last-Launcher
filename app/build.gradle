@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.roy93group.quicklauncher"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 33
         versionCode 20230103
         versionName "2023.01.03"
@@ -83,6 +85,11 @@ dependencies {
 //    implementation 'com.github.rtugeek:colorseekbar:2.0.3'
     api 'androidx.cardview:cardview:1.0.0'
     api 'com.github.valkriaine:Bouncy:2.3'
+
+    api platform('com.google.firebase:firebase-bom:31.0.2')
+    api 'com.google.firebase:firebase-analytics-ktx'
+    api 'com.google.firebase:firebase-crashlytics-ktx'
+    api 'com.google.firebase:firebase-config-ktx'
 }
 
 //static String getGitWorkingBranch() {

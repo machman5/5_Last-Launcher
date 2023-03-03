@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -255,6 +256,7 @@ class AppSettingsDialog(
                 }.executor(ActivityCompat.getMainExecutor(context)).build()
                 .authenticate(launcherActivity)
         }.observeOn(AndroidSchedulers.mainThread()).subscribeBy(onComplete = {
+//            Log.d("loitpp", "onComplete")
             apps.packageName?.let {
                 if (isAppLock) {
                     DbUtils.setAppLock(packageName = it, value = false)
@@ -264,7 +266,8 @@ class AppSettingsDialog(
                 dismiss()
             }
         }, onError = {
-            it.printStackTrace()
+//            Log.e("loitpp", "onError $it")
+            toggleLockApp(apps, isAppLock)
 //            when (it) {
 //                is AuthenticationError -> {
 //                    Log.d("loitp", "error: ${it.errorCode} ${it.errorMessage}")

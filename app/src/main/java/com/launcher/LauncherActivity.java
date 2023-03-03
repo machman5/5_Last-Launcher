@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -173,9 +174,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.a_launcher);
 
         // set the status bar color as per theme
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            setNavigationAndStatusBarColor(theme);
-        }
+        setNavigationAndStatusBarColor(theme);
         // set the fonts
         setFont();
 
@@ -248,7 +247,6 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
      * theme current theme applied to launcher
      */
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     private void setNavigationAndStatusBarColor(int theme) {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -464,6 +462,15 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
                 String activity = (String) view.getTag();
                 AppTextView appTextView = (AppTextView) view;
 
+                Apps apps = getApp(activity);
+                String packageName = apps.getPackageName();
+                if (packageName == null) {
+                    return;
+                }
+                boolean isAppLock = DbUtils.isAppLock(packageName);
+                Log.e("loitpp", "activity " + activity);
+                Log.e("loitpp", "isAppLock " + isAppLock);
+
                 if (searching) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
@@ -474,7 +481,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
                         Intent intent = Intent.parseUri(appTextView.getUri(), 0);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
-//                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         appOpened(activity);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1051,13 +1058,13 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         onResume();
     }
 
-    private void toggleViewSearch() {
-        if (searching) {
-            hideSearch();
-        } else {
-            showSearch();
-        }
-    }
+//    private void toggleViewSearch() {
+//        if (searching) {
+//            hideSearch();
+//        } else {
+//            showSearch();
+//        }
+//    }
 
     @Override
     public void onDoubleTap() {

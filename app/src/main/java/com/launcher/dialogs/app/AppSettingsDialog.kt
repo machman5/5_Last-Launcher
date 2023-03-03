@@ -7,11 +7,18 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.TextView
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.R
 import com.databinding.DlgAppSettingsBinding
 import com.launcher.LauncherActivity
@@ -106,6 +113,9 @@ class AppSettingsDialog(
             resetAppColor(activityName)
         }
         binding.menuLockOrUnlock.apply {
+            val biometricManager = BiometricManager.from(context)
+            isVisible = biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS
+
             val apps = launcherActivity.getApp(activityName)
             apps.packageName?.let { name ->
                 val isAppLock = DbUtils.isAppLock(name)
@@ -235,15 +245,46 @@ class AppSettingsDialog(
             "Lock ${apps.getAppName()}?"
         }
 
-//        apps.packageName?.let {
-//            if (isAppLock) {
-//                DbUtils.setAppLock(packageName = it, value = false)
-//            } else {
-//                DbUtils.setAppLock(packageName = it, value = true)
-//            }
-//            dismiss()
-//        }
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(context.getString(R.string.verify_your_identity))
+            .setSubtitle(description)
+            .setDescription(description)
+            .setNegativeButtonText(context.getString(R.string.cancel))
+            .build()
+        instanceOfBiometricPrompt(apps = apps, isAppLock = isAppLock).authenticate(promptInfo)
 
+    }
 
+    private fun instanceOfBiometricPrompt(
+        apps: Apps,
+        isAppLock: Boolean
+    ): BiometricPrompt {
+        val executor = ContextCompat.getMainExecutor(context)
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                Log.d("loitpp", "onAuthenticationError $errorCode :: $errString")
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                Log.d("loitpp", "onAuthenticationFailed")
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                Log.d("loitpp", "onAuthenticationSucceeded Authentication was successful")
+
+                apps.packageName?.let {
+                    if (isAppLock) {
+                        DbUtils.setAppLock(packageName = it, value = false)
+                    } else {
+                        DbUtils.setAppLock(packageName = it, value = true)
+                    }
+                    dismiss()
+                }
+            }
+        }
+        return BiometricPrompt(launcherActivity, executor, callback)
     }
 }

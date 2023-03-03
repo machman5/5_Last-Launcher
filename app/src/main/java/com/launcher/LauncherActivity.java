@@ -14,7 +14,7 @@ import static com.launcher.ext.ViewKt.playAnim;
 import static com.launcher.ext.ViewKt.testCrash;
 import static com.launcher.utils.SpUtilsKt.KEY_READ_POLICY;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -52,9 +52,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 
 import com.BuildConfig;
 import com.R;
+import com.github.pwittchen.rxbiometric.library.RxBiometric;
+import com.github.pwittchen.rxbiometric.library.throwable.BiometricNotSupported;
+import com.github.pwittchen.rxbiometric.library.validation.RxPreconditions;
 import com.launcher.dialogs.PolicyDialog;
 import com.launcher.dialogs.app.AppSettingsDialog;
 import com.launcher.dialogs.launcher.GlobalSettingsDialog;
@@ -87,6 +91,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
+
+import io.reactivex.Completable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
@@ -132,6 +141,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
     };
     private SearchTask mSearchTask;
     private boolean isKeyboardShowing = false;
+    private Disposable disposable = null;
 
     private void showSearchResult(ArrayList<Apps> filteredApps) {
         mHomeLayout.removeAllViews();
@@ -455,6 +465,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
 
     // app text is clicked
     // so launch the app
+    @SuppressLint("CheckResult")
     @Override
     public void onClick(View view) {
         if (view instanceof AppTextView) {
@@ -473,11 +484,32 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
 
                 if (isAppLock) {
                     //unlock with biometric
+
+                    disposable = RxPreconditions.hasBiometricSupport(this)
+                            .flatMapCompletable(aBoolean -> {
+                                if (!aBoolean) Completable.error(new BiometricNotSupported());
+                                return RxBiometric.title(this.getString(R.string.verify_your_identity))
+                                        .description("Unlock " + apps.getAppName())
+                                        .negativeButtonText(this.getString(R.string.cancel))
+                                        .negativeButtonListener((dialogInterface, i) ->
+                                                Log.d("loitp", "cancel")
+                                        )
+                                        .executor(ActivityCompat.getMainExecutor(LauncherActivity.this))
+                                        .build()
+                                        .authenticate(LauncherActivity.this);
+                            }).subscribe(() -> {
+                                Log.e("loitpp", "aaaaaa");
+                                launchApp(activity, appTextView);
+                            }, throwable -> {
+                                Log.e("loitpp", "throwable " + throwable);
+                            });
+
                 } else {
                     launchApp(activity, appTextView);
                 }
             }, 10f, 200);
         }
+
         if (isKeyboardShowing) {
             hideSearch();
         }
@@ -802,6 +834,11 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         broadcastReceiverAppInstall = null;
         broadcastReceiverShortcutInstall = null;
         shortcutUtils.close();
+        if (disposable != null) {
+            if (!disposable.isDisposed()) {
+                disposable.dispose();
+            }
+        }
     }
 
     @Override

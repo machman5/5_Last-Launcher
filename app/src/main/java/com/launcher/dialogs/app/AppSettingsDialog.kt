@@ -8,7 +8,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -252,7 +251,7 @@ class AppSettingsDialog(
                 .description(description)
                 .negativeButtonText(context.getString(R.string.cancel))
                 .negativeButtonListener { _, _ ->
-                    Log.d("loitp", "cancel")
+//                    Log.d("loitp", "cancel")
                 }.executor(ActivityCompat.getMainExecutor(context)).build()
                 .authenticate(launcherActivity)
         }.observeOn(AndroidSchedulers.mainThread()).subscribeBy(onComplete = {

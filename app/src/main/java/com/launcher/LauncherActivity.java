@@ -93,9 +93,11 @@ import java.util.ListIterator;
 import java.util.Locale;
 
 import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
@@ -497,7 +499,10 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
                                         .executor(ActivityCompat.getMainExecutor(LauncherActivity.this))
                                         .build()
                                         .authenticate(LauncherActivity.this);
-                            }).subscribe(() -> {
+                            })
+//                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(() -> {
                                 Log.e("loitpp", "aaaaaa");
                                 launchApp(activity, appTextView);
                             }, throwable -> {

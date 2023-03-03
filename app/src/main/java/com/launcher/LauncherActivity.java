@@ -471,41 +471,49 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
                 Log.e("loitpp", "activity " + activity);
                 Log.e("loitpp", "isAppLock " + isAppLock);
 
-                if (searching) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
-                }
-
-                if (appTextView.isShortcut()) {
-                    try {
-                        Intent intent = Intent.parseUri(appTextView.getUri(), 0);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-//                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                        appOpened(activity);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (isAppLock) {
+                    //unlock with biometric
                 } else {
-                    //Notes to me:if view store package and component name then this could reduce this splits
-                    String[] strings = activity.split("/");
-                    try {
-                        final Intent intent = new Intent(Intent.ACTION_MAIN, null);
-                        intent.setClassName(strings[0], strings[1]);
-                        intent.setComponent(new ComponentName(strings[0], strings[1]));
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-//                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                        // tell the our db that app is opened
-                        appOpened(activity);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    launchApp(activity, appTextView);
                 }
             }, 10f, 200);
         }
         if (isKeyboardShowing) {
             hideSearch();
+        }
+    }
+
+    private void launchApp(String activity, AppTextView appTextView) {
+        if (searching) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mSearchBox.getWindowToken(), 0);
+        }
+
+        if (appTextView.isShortcut()) {
+            try {
+                Intent intent = Intent.parseUri(appTextView.getUri(), 0);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+//                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                appOpened(activity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            //Notes to me:if view store package and component name then this could reduce this splits
+            String[] strings = activity.split("/");
+            try {
+                final Intent intent = new Intent(Intent.ACTION_MAIN, null);
+                intent.setClassName(strings[0], strings[1]);
+                intent.setComponent(new ComponentName(strings[0], strings[1]));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+//                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                // tell the our db that app is opened
+                appOpened(activity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

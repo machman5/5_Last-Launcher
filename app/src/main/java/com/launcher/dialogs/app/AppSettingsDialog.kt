@@ -18,8 +18,6 @@ import androidx.core.app.ActivityCompat
 import com.R
 import com.databinding.DlgAppSettingsBinding
 import com.github.pwittchen.rxbiometric.library.RxBiometric
-import com.github.pwittchen.rxbiometric.library.throwable.AuthenticationError
-import com.github.pwittchen.rxbiometric.library.throwable.AuthenticationFail
 import com.github.pwittchen.rxbiometric.library.throwable.BiometricNotSupported
 import com.github.pwittchen.rxbiometric.library.validation.RxPreconditions
 import com.launcher.LauncherActivity
@@ -52,6 +50,7 @@ class AppSettingsDialog(
     val view: AppTextView,
 ) : Dialog(mContext, R.style.DialogSlideUpAnim) {
     private lateinit var binding: DlgAppSettingsBinding
+    private var disposable: Disposable? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,16 +118,16 @@ class AppSettingsDialog(
         }
         binding.menuLockOrUnlock.apply {
             val apps = launcherActivity.getApp(activityName)
-            apps.packageName?.let {
-                val isAppLock = DbUtils.isAppLock(it)
+            apps.packageName?.let { name ->
+                val isAppLock = DbUtils.isAppLock(name)
                 text = if (isAppLock) {
                     context.getString(R.string.unlock)
                 } else {
                     context.getString(R.string.lock)
                 }
-            }
-            click {
-                toggleLockApp(apps)
+                click {
+                    toggleLockApp(apps, isAppLock)
+                }
             }
         }
     }
@@ -240,42 +239,47 @@ class AppSettingsDialog(
         dismiss()
     }
 
-    private fun toggleLockApp(apps: Apps) {
-//        apps.packageName?.let {
-//            val isAppLock = DbUtils.isAppLock(it)
-//            if (isAppLock) {
-//                DbUtils.setAppLock(packageName = it, value = false)
-//            } else {
-//                DbUtils.setAppLock(packageName = it, value = true)
-//            }
-//            dismiss()
-//        }
+    private fun toggleLockApp(apps: Apps, isAppLock: Boolean) {
+        val description = if (isAppLock) {
+            "Unlock ${apps.getAppName()}?"
+        } else {
+            "Lock ${apps.getAppName()}?"
+        }
+
         disposable = RxPreconditions.hasBiometricSupport(context).flatMapCompletable {
             if (!it) Completable.error(BiometricNotSupported())
-            else RxBiometric.title("title").description("description")
-                .negativeButtonText("cancel").negativeButtonListener { _, _ ->
+            else RxBiometric.title(context.getString(R.string.verify_your_identity))
+                .description(description)
+                .negativeButtonText(context.getString(R.string.cancel))
+                .negativeButtonListener { _, _ ->
                     Log.d("loitp", "cancel")
                 }.executor(ActivityCompat.getMainExecutor(context)).build()
                 .authenticate(launcherActivity)
         }.observeOn(AndroidSchedulers.mainThread()).subscribeBy(onComplete = {
-            Log.d("loitp", "authenticated")
-        }, onError = {
-            when (it) {
-                is AuthenticationError -> {
-                    Log.d("loitp", "error: ${it.errorCode} ${it.errorMessage}")
+            apps.packageName?.let {
+                if (isAppLock) {
+                    DbUtils.setAppLock(packageName = it, value = false)
+                } else {
+                    DbUtils.setAppLock(packageName = it, value = true)
                 }
-                is AuthenticationFail -> {
-                    Log.d("loitp", "fail")
-                }
-                else -> {
-                    Log.d("loitp", "other error")
-                }
+                dismiss()
             }
+        }, onError = {
+            it.printStackTrace()
+//            when (it) {
+//                is AuthenticationError -> {
+//                    Log.d("loitp", "error: ${it.errorCode} ${it.errorMessage}")
+//                }
+//                is AuthenticationFail -> {
+//                    Log.d("loitp", "fail")
+//                }
+//                else -> {
+//                    Log.d("loitp", "other error")
+//                }
+//            }
         })
 
     }
-
-    private var disposable: Disposable? = null
 
     override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
         super.setOnDismissListener(listener)

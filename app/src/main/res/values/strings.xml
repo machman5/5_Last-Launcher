@@ -97,4 +97,6 @@
     <string name="no_data">(T_T)\nNo data</string>
     <string name="lock">Lock</string>
     <string name="unlock">Unlock</string>
+    <string name="cancel">Cancel</string>
+    <string name="verify_your_identity">Verify your identity</string>
 </resources>

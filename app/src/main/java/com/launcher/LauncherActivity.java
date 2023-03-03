@@ -44,14 +44,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.BuildConfig;
 import com.R;
@@ -87,6 +91,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
+import java.util.concurrent.Executor;
 
 public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
@@ -474,7 +479,13 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
 
                 if (isAppLock) {
                     //unlock with biometric
-                    //TODO
+                    BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                            .setTitle(getString(R.string.verify_your_identity))
+//                            .setSubtitle("Unlock " + apps.getAppName())
+                            .setDescription("Unlock " + apps.getAppName())
+                            .setNegativeButtonText(getString(R.string.cancel))
+                            .build();
+                    instanceOfBiometricPrompt(activity, appTextView).authenticate(promptInfo);
                 } else {
                     launchApp(activity, appTextView);
                 }
@@ -484,6 +495,28 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         if (isKeyboardShowing) {
             hideSearch();
         }
+    }
+
+    private BiometricPrompt instanceOfBiometricPrompt(String activity, AppTextView appTextView) {
+        Executor executor = ContextCompat.getMainExecutor(this);
+        BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                launchApp(activity, appTextView);
+            }
+        };
+        return new BiometricPrompt(this, executor, callback);
     }
 
     private void launchApp(String activity, AppTextView appTextView) {

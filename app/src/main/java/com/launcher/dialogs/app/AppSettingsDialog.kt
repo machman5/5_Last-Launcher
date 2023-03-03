@@ -247,7 +247,7 @@ class AppSettingsDialog(
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle(context.getString(R.string.verify_your_identity))
-            .setSubtitle(description)
+//            .setSubtitle(description)
             .setDescription(description)
             .setNegativeButtonText(context.getString(R.string.cancel))
             .build()

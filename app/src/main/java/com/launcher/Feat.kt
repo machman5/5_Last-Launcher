@@ -13,7 +13,6 @@ package com.launcher
 //TODO vibrate when menu item action
 //TODO customize toast
 //TODO double tap to lock
-//TODO lock app
 //TODO intro
 //TODO swipe to do action
 //TODO setting enable/disable auto launching khi search chi ra 1 phan tu
@@ -32,3 +31,5 @@ package com.launcher
 //efx scroll like ios bouncy
 //policy
 //firebase
+//lock app
+

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "657564403618",
+    "project_id": "quick-launcher-98df2",
+    "storage_bucket": "quick-launcher-98df2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657564403618:android:2933de98fc24a9caf054fb",
+        "android_client_info": {
+          "package_name": "com.roy93group.quicklauncher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657564403618-t8qmso7iufmlvp4uck3adasukha1gt5u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzqNefdMGGhCaBwGGKMyFKP-MzMwdam1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657564403618-t8qmso7iufmlvp4uck3adasukha1gt5u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

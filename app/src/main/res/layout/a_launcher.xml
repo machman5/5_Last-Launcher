@@ -40,7 +40,7 @@
         android:layout_gravity="bottom|end"
         android:animateLayoutChanges="true"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/round_large"
+        app:cardCornerRadius="@dimen/round_medium"
         app:cardElevation="@dimen/margin_padding_small"
         app:cardUseCompatPadding="true">
 

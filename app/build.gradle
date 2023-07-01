@@ -10,8 +10,8 @@ android {
         applicationId "com.roy93group.quicklauncher"
         minSdkVersion 19
         targetSdkVersion 33
-        versionCode 20230301
-        versionName "2023.03.01"
+        versionCode 20230701
+        versionName "2023.07.01"
     }
     signingConfigs {
         release {
@@ -82,7 +82,7 @@ dependencies {
     implementation 'com.github.promeg:tinypinyin:2.0.3'
 //    testImplementation 'junit:junit:4.13.2'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
-    api 'org.jetbrains.kotlin:kotlin-stdlib:1.8.10'
+    api 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
 //    implementation 'com.github.rtugeek:colorseekbar:2.0.3'
     api 'androidx.cardview:cardview:1.0.0'
     api 'com.github.valkriaine:Bouncy:2.3'

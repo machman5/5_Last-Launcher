@@ -56,6 +56,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.BuildConfig;
 import com.R;
@@ -93,7 +94,8 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 
-public class LauncherActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
+//use AppCompatActivity will crash IllegalStateException: You need to use a Theme.AppCompat theme (or descendant) with this activity
+public class LauncherActivity extends FragmentActivity implements View.OnClickListener, View.OnLongClickListener, Gestures.OnSwipeListener {
 
     public static List<Apps> mAppsList;
     // home layout

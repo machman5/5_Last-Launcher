@@ -1058,7 +1058,6 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
 //            handlerOnSwipe.postDelayed(this::toggleViewSearch, 100);
         } else if (direction == Gestures.Direction.SWIPE_LEFT) {
             //do sth
-            testCrash();
         } else if (direction == Gestures.Direction.SWIPE_UP) {
             if (!isKeyboardShowing) {
                 setCvSearchWrapContent();

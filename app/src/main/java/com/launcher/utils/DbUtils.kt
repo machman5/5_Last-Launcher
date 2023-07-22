@@ -203,7 +203,7 @@ object DbUtils {
     @JvmStatic
     var theme: Int
         get() {
-            when (SpUtils.instance.getInt(LAUNCHER_THEME, 2)) {
+            when (SpUtils.instance.getInt(LAUNCHER_THEME, 1)) {
                 1 -> return R.style.Wallpaper
                 2 -> return R.style.AppTheme
                 3 -> return R.style.White

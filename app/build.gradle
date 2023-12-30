@@ -77,16 +77,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'androidx.appcompat:appcompat:1.7.0-alpha02'
+    api 'androidx.appcompat:appcompat:1.7.0-alpha03'
 //    implementation project(':flowlayout:layouts')
     implementation 'com.github.promeg:tinypinyin:2.0.3'
 //    testImplementation 'junit:junit:4.13.2'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
-    api 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
+    api 'org.jetbrains.kotlin:kotlin-stdlib:1.9.20'
 //    implementation 'com.github.rtugeek:colorseekbar:2.0.3'
     api 'androidx.cardview:cardview:1.0.0'
     api 'com.github.valkriaine:Bouncy:2.3'
-
     api platform('com.google.firebase:firebase-bom:31.0.2')
     api 'com.google.firebase:firebase-analytics-ktx'
     api 'com.google.firebase:firebase-crashlytics-ktx'
